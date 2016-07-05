@@ -1,5 +1,5 @@
 ﻿<style>
-.ui-widget-header 
+.ui-widget-header
 {
 	background:none;
 	background-color:#DD4814;
@@ -20,7 +20,7 @@
 <br>
 <br>
 <form id="catFinder" name="catFinder">
-<?php 
+<?php
 		if(empty($inventantario_array))
 			echo '0 resultados';
 		else
@@ -28,34 +28,34 @@
 		{
 			if(!empty($row_array))
 			{
-			?> 
+			?>
 			<div class="celda_marco" id="celda_marco_<?php echo $row_array['id_inventario'];?>" >
 				<div class="shadow_marco <?php if( !empty($row_array['promocion']) ) {?> promocion_container<?php }?>" id="shadow_marco_<?php echo $row_array['id_inventario'];?>">
-					
+
 						<div class="tittle_marco" ><?php echo $row_array['npc']; ?>
 						</div>
-						<?php 
-							if( !empty($row_array['promocion']) ) 
-							{	
+						<?php
+							if( !empty($row_array['promocion']) )
+							{
 						?>
 							<div class="promocion_div tooltip_class" title="<?php echo title_promocion($row_array['promocion']);?>">
 								<div class="promocion_button promocion_class">
 								</div>
 							</div>
-						<?php 
+						<?php
 							}
 						?>
 						<?php
-						
+
 							if(file_exists('images/inventario/tiny_size/'.$row_array['npc'].'.jpg'))
 								$backgoundImage=$row_array['npc'];
 							else
 								$backgoundImage=$row_array['marca_refaccion'];
 						?>
 						<div id="contenedor_imagen_marco_<?php echo $row_array['id_inventario'];?>" class="contenedor_imagen_marco tooltip_class" title="Maximizar imagen" onclick="mostrarOriginal('<?php echo $backgoundImage;?>');">
-						
+
 							<div id="imagen_marco_<?php echo $row_array['id_inventario'];?>" class="imagen_marco">
-							<?php	
+							<?php
 									$backgoundImageStyle= '<style>#imagen_marco_'.$row_array['id_inventario'].'{background-image: url("'.base_url().'images/inventario/tiny_size/';
 									$backgoundImageStyle.=$backgoundImage;
 									$backgoundImageStyle.='.jpg'.'");}</style>';
@@ -65,18 +65,30 @@
 						</div>
 					<div class="contenedor_info">
 						<table class="table table-striped table-bordered table-hover">
-							<tr >
-								<td class="custom_td"><label class="concepto_field">TIPO:</label>
-								</td>
-								<td class="custom_td"><label class="concepto_value"><?php echo $row_array['marca_componente']; ?></label>
-								</td>
-							</tr>
-							<tr >
-								<td class="custom_td"><label class="concepto_field">COMPONENTE:</label>
-								</td>
-								<td class="custom_td"><label class="concepto_value"><?php echo $row_array['componente']; ?></label>
-								</td>
-							</tr>
+							<?php if(!empty($row_array['marca_componente']))
+							{
+							?>
+								<tr >
+									<td class="custom_td"><label class="concepto_field">TIPO:</label>
+									</td>
+									<td class="custom_td"><label class="concepto_value"><?php echo $row_array['marca_componente']; ?></label>
+									</td>
+								</tr>
+							<?php
+							}
+							?>
+							<?php if(!empty($row_array['componente']))
+							{
+							?>
+								<tr >
+									<td class="custom_td"><label class="concepto_field">COMPONENTE:</label>
+									</td>
+									<td class="custom_td"><label class="concepto_value"><?php echo $row_array['componente']; ?></label>
+									</td>
+								</tr>
+							<?php
+							}
+							?>
 							<?php if(!empty($row_array['marca']))
 							{
 							?>
@@ -86,10 +98,10 @@
 									<td class="custom_td"><label class="concepto_value"><?php echo $row_array['marca']; ?></label>
 									</td>
 								</tr>
-							<?php 
+							<?php
 							}
 							?>
-							
+
 							<?php if(!empty($row_array['precio']))
 							{
 							?>
@@ -99,7 +111,7 @@
 								<td class="custom_td">$<label class="concepto_value precio_producto" id="producto_precio_<?php echo $row_array['id_inventario'];?>" ><?php echo round($row_array['precio'],2); ?></label>
 								</td>
 							</tr>
-							<?php 
+							<?php
 							}
 							?>
 						</table>
@@ -111,7 +123,7 @@
 						<div class="icon- bno-button  tooltip_class" id="abrir_dialog" title="Abrir en ventana emergente" onclick="abrir_dialogo('<?php echo $row_array['id_inventario'];?>');">
 						&#xe75a
 						</div>
-						<?php 
+						<?php
 							if( $this->centinela->is_logged_in())
 							{
 						?>
@@ -136,10 +148,10 @@
 					</div>
 				</div>
 				<div class="expanded hidden_class" id="expanded_<?php echo $row_array['id_inventario'];?>">
-					
+
 				</div>
 			</div>
-			
+
 			<?php
 			}
 		}
@@ -176,9 +188,9 @@ $(document).ready(function()
 		show: "blind",
 		hide: "explode",
 		title:"Vista completa",
-		buttons: 
+		buttons:
 		{
-			"Cerrar": function() 
+			"Cerrar": function()
 			{
 				$( this ).dialog( "close" );
 			}
@@ -187,11 +199,11 @@ $(document).ready(function()
 		 $( '.tooltip_class' ).tooltip(
 		 {
 			tooltipClass: "custom-tooltip-styling",
-			position: 
+			position:
 			{
 				my: "center bottom-20",
 				at: "center top",
-				using: function( position, feedback ) 
+				using: function( position, feedback )
 				{
 					$( this ).css( position );
 					$( "<div>" )
@@ -201,27 +213,27 @@ $(document).ready(function()
 					.appendTo( this );
 				}
 			}
-		});	
-		
-	<?php 
+		});
+
+	<?php
 		if(!empty($inventantario_array))
 		{
 			foreach($inventantario_array AS $producto)
-			{	
+			{
 				if(!empty($producto['promocion']))
 				{
-	?>	
+	?>
 				calcularPrecio(JSON.parse('<?php echo json_encode($producto);?>'));
-	<?php 		
+	<?php
 				}
 			}
 		}
-	?>		
-		
+	?>
+
 });
 
 function calcularPrecio(producto)
-{	
+{
 	if(producto!='')
 	{
 		switch(producto.promocion.nombre_tabla_promocion)
@@ -234,22 +246,22 @@ function calcularPrecio(producto)
 }
 
 function abrir_dialogo(id_producto)
-{	
+{
 	$.ajax(
 	{
 		url : '<?php echo site_url();?>/inventario/dialogInformacionProducto/' + id_producto + '/TRUE',
 		type: 'POST',
 		success : function(html)
-		{		
+		{
 				dialogo.dialog('option', 'title', 'My New title');
 				dialogo.html(html);
 				dialogo.dialog( "open" );
-		}           
-	});	
+		}
+	});
 }
 
 function expandir(id_producto)
-{	
+{
 	$('#shadow_marco_'+id_producto).addClass('hidden_class');
 	$('#celda_marco_'+id_producto).addClass('expanded_celda_marco');
 	$('#expanded_'+id_producto).html('<img style="width:120px; height:120px;" src="<?php echo base_url();?>images/loading.gif" >');
@@ -260,14 +272,14 @@ function expandir(id_producto)
 		url : '<?php echo site_url();?>/inventario/informacionProducto/' + id_producto,
 		type: 'POST',
 		success : function(html)
-		{		
+		{
 				$('#expanded_'+id_producto).html(html);
 				 $('html, body').animate(
 				 {
 					scrollTop: $('#expanded_'+id_producto).offset().top
 				  }, 1000);
-		}           
-	});	
+		}
+	});
 }
 
 
@@ -281,8 +293,8 @@ function reducir(id_producto)
 	$('html, body').animate(
 	{
 		scrollTop: $('#shadow_marco_'+id_producto).offset().top
-	}, 1000);	
-}	
+	}, 1000);
+}
 
 function mostrarOriginal(npc)
 {
@@ -294,19 +306,19 @@ function mostrarOriginal(npc)
 	dialogo.dialog('option', 'title', 'Imagen Maximizada ');
 	dialogo.html(htmlDiv);
 	dialogo.dialog( "open" );
-}	
+}
 function abrir_dialogo(id_producto)
-{	
+{
 	$.ajax(
 	{
 		url : '<?php echo site_url();?>/inventario/dialogInformacionProducto/' + id_producto + '/TRUE',
 		type: 'POST',
 		success : function(html)
-		{		
+		{
 				dialogo.html(html);
 				dialogo.dialog( "open" );
-		}           
-	});	
+		}
+	});
 }
 
 function paginar(numero_pagina)
@@ -318,7 +330,7 @@ function paginar(numero_pagina)
 			success : function(html)
 			{
 				$('#form_container').html(html);
-			}           
+			}
 		});
 }
 
@@ -328,8 +340,8 @@ function marcar_ultimo(elemento)
 	$(elemento).addClass('last_selected');
 }
 
-	<?php 
-		if( $this->centinela->is_logged_in() ) 
+	<?php
+		if( $this->centinela->is_logged_in() )
 		{
 	?>
 	function agregar_carrito(id_producto)
@@ -339,17 +351,17 @@ function marcar_ultimo(elemento)
 			url : '<?php echo site_url();?>/carrito/add_carrito/' + id_producto,
 			type: 'POST',
 			success : function(html)
-			{		
+			{
 					if(html=='correcto')
 						alert('Producto agregado al carrito');
 					if(html=='already')
 						alert('Este producto ya estaba en el carrito');
 					if(html=='error')
 						alert('Producto invalido');
-			}           
-		});	
+			}
+		});
 	}
-	<?php 
+	<?php
 		}
 	?>
 </script>

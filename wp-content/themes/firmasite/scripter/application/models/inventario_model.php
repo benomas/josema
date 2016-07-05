@@ -1,17 +1,17 @@
-<?php 
-if ( ! defined('BASEPATH')) 
+<?php
+if ( ! defined('BASEPATH'))
 	exit('No direct script access allowed');
-	
-class Inventario_model extends CI_Model 
+
+class Inventario_model extends CI_Model
 {
 	function __construct()
     {
         // Call the Model constructor
         parent::__construct();
 		$this->load->library('Filtro');
-		
+
     }
-	
+
 	function getUserData($user_id)
 	{
 		$query = $this->db->query("	SELECT first_name,last_name
@@ -30,8 +30,8 @@ class Inventario_model extends CI_Model
 			$filtro = new Filtro();
 			$busqueda = $filtro->getValue('busqueda');
 			if(!empty($busqueda))
-				$WHERE="	WHERE	CONCAT(	
-											IFNULL(tc.nombre,' '), 
+				$WHERE="	WHERE	CONCAT(
+											IFNULL(tc.nombre,' '),
 											' ',
 											IFNULL(m.nombre,' '),
 											' ',
@@ -43,17 +43,17 @@ class Inventario_model extends CI_Model
 											' ',
 											IFNULL(o.nombre,' '),
 											' ',
-											IFNULL(i.npc,' '), 
+											IFNULL(i.npc,' '),
 											' ',
-											IFNULL(		
-														(	
+											IFNULL(
+														(
 															SELECT	GROUP_CONCAT(ir.codigo SEPARATOR ', ')
 															FROM	ci_inventario_referencia AS ir
-															WHERE	ir.id_inventario=i.id_inventario						
+															WHERE	ir.id_inventario=i.id_inventario
 														),
 														' '
 													)
-											)LIKE '%".$busqueda."%' 
+											)LIKE '%".$busqueda."%'
 						";
 			else
 				$WHERE="";
@@ -75,49 +75,49 @@ class Inventario_model extends CI_Model
 								mr.nombre AS marca_refaccion,
 								i.descripcion,
 								o.nombre AS origen,
-								ipv.monto AS precio,
-								(	
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto/100) * (100-pv.descuento) ,ipv.monto))AS precio,
+								(
 									SELECT	GROUP_CONCAT(ir.codigo SEPARATOR ', ')
 									FROM	ci_inventario_referencia AS ir
-									WHERE	ir.id_inventario=i.id_inventario						
+									WHERE	ir.id_inventario=i.id_inventario
 								) AS referencias
 						FROM ci_inventario AS i
 						LEFT JOIN	ci_tipo_componente 			AS	tc 	ON	tc.id_tipo_componente=i.id_tipo_componente
 						LEFT JOIN	ci_marca 					AS	m 	ON	m.id_marca=i.id_marca
 						LEFT JOIN	ci_marcacomponente 			AS 	mc 	ON	mc.id_marcacomponente=i.id_marcacomponente
 						LEFT JOIN	ci_marcarefaccion 			AS 	mr 	ON	mr.id_marcarefaccion=i.id_marcarefaccion
-						LEFT JOIN	ci_origen 					AS 	o 	ON	o.id_origen=i.id_origen 
+						LEFT JOIN	ci_origen 					AS 	o 	ON	o.id_origen=i.id_origen
 						LEFT JOIN   usuario 					AS 	u 	ON 	u.id_usuario='".$id_usuario."'
 						LEFT JOIN	ci_precio_venta 			AS 	pv 	ON 	pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=i.id_inventario AND ipv.id_precio_venta = pv.id_precio_venta
+						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=i.id_inventario /*AND ipv.id_precio_venta = pv.id_precio_venta*/
 						LEFT JOIN	ci_promocion				AS	p	ON	p.id_inventario=i.id_inventario AND
 																			IF(NOT ISNULL(p.fecha_inicio),IF(NOW() > p.fecha_inicio,1,0),1)	AND
-																			IF(NOT ISNULL(p.fecha_fin),IF(NOW() < p.fecha_fin,1,0),1)	
-																			
-					".$WHERE;
+																			IF(NOT ISNULL(p.fecha_fin),IF(NOW() < p.fecha_fin,1,0),1)
+
+					".$WHERE; //debugg($consulta);
 	if($contar)
 		return $this->db->query($consulta)->num_rows();
 	if($limite )
 		$consulta.=' LIMIT '.$posicion.' ,'.$limite.' ';
-		
+
 	/*
 		promociones
-	*/	
+	*/
 		$inventario=$this->db->query($consulta)->result_array();
 		foreach($inventario AS $indice=>$producto)
 		{
-			
+
 			$promocion = $this->getPromocion($producto['id_inventario']);
 			if($promocion)
 				$inventario[$indice]['promocion']=$promocion;
 		}
 	return $inventario;
 	}
-	
+
 	function getPromocion($id_inventario)
 	{
 		$promocion = NULL;
-		$consulta1=	"	
+		$consulta1=	"
 							SELECT	promo.id_promocion,
 									promo.nombre,
 									promo.descripcion,
@@ -128,7 +128,7 @@ class Inventario_model extends CI_Model
 							FROM	ci_promocion AS promo
 							JOIN	ci_tipo_promocion AS t_promo ON t_promo.id_tipo_promocion=promo.id_tipo_promocion
 							WHERE	promo.id_inventario='".$id_inventario."'	AND
-									promo.activo='1'	AND 
+									promo.activo='1'	AND
 									IF( NOT ISNULL(promo.fecha_inicio), now() > promo.fecha_inicio, 1)	AND
 									IF( NOT ISNULL(promo.fecha_fin), now() < promo.fecha_fin, 1)
 						";
@@ -136,8 +136,8 @@ class Inventario_model extends CI_Model
 		if($resultado1)
 		{
 			$consulta2	=	"
-								SELECT	*	
-								FROM	".$resultado1[0]['nombre_tabla_promocion']."	
+								SELECT	*
+								FROM	".$resultado1[0]['nombre_tabla_promocion']."
 								WHERE	id_promocion='".$resultado1[0]['id_promocion']."'
 							";
 			$resultado2=$this->db->query($consulta2)->result_array();
@@ -148,7 +148,7 @@ class Inventario_model extends CI_Model
 		}
 		return $promocion;
 	}
-	
+
 	function getProduct($id_producto)
 	{
 		$id_usuario=0;
@@ -179,7 +179,7 @@ class Inventario_model extends CI_Model
 			$resultado = (object) array_merge( (array)$resultado, array( 'promocion' => $promocion ) );
 		return $resultado;
 	}
-	
+
 	function getProductByNpc($npc)
 	{
 		$id_usuario=0;
@@ -204,8 +204,8 @@ class Inventario_model extends CI_Model
 						LEFT JOIN	ci_inventario_precio_venta AS ipv ON ipv.id_inventario=i.id_inventario AND ipv.id_precio_venta = pv.id_precio_venta
 						WHERE	i.npc='".$npc."'
 					";
-		
-		
+
+
 		$resultado=$this->db->query($consulta)->row();
 		if($resultado)
 		{
@@ -215,7 +215,7 @@ class Inventario_model extends CI_Model
 			$resultado = (object) array_merge( (array)$resultado, array( 'promocion' => $promocion ) );
 		return $resultado;
 	}
-	
+
 	function getReferencias($id_producto)
 	{
 		$consulta=	"	SELECT	r.nombre,
@@ -226,13 +226,13 @@ class Inventario_model extends CI_Model
 					";
 		return $this->db->query($consulta)->result_array();
 	}
-	
+
 	function cat_injektion()
 	{
 		$WHERE =' WHERE 1 ';
 		$searh=$this->input->post('grid_searsh');
 		if(!empty($searh))
-			$WHERE= $WHERE." AND 
+			$WHERE= $WHERE." AND
 							CONCAT(	IFNULL(ci.codigo,' '),' ',
 									IFNULL(ci.ref1,' '),' ',
 									IFNULL(ci.ref2,' '),' ',
@@ -254,6 +254,200 @@ class Inventario_model extends CI_Model
 								ci.precio3
 						FROM	cat_injektion AS ci '.$WHERE;
 		return $this->db->query($consulta)->result_array();
+	}
+
+	function tipoScript($scriptImportacion)
+	{
+		$query ="
+					SELECT 	cm.*,
+							ctm.nombre AS tipo_mecanismo
+					FROM	cat_mecanismo AS cm
+					JOIN 	cat_tipo_mecanismo AS ctm ON ctm.id=cm.cat_tipo_mecanismo_id
+					WHERE	cm.nombre = '{$scriptImportacion}'
+				";
+		return $this->db->query($query)->result_array();
+	}
+
+	function cargaDependenciasScript($pasoImportacion)
+	{
+		$query ="
+					SELECT 	it.columna_base_de_datos,
+							it.columna_cvs,
+							ctc.nombre AS tipo_campo,
+							cc.nombre  AS catalogo
+					FROM	cat_mecanismo AS cm
+					JOIN	importacion_template AS it ON it.cat_mecanismo_id=cm.id
+					JOIN	cat_tipo_campo AS ctc ON ctc.id=it.cat_tipo_campo_id
+					JOIN	cat_catalogo AS cc ON cc.id=it.cat_catalogo_id
+					WHERE	cm.nombre = '{$pasoImportacion}'
+				";
+
+		return $this->db->query($query)->result_array();
+	}
+
+	function cargaTemplateConfiguracion($pasoImportacion)
+	{
+		$query ="
+					SELECT 	it.columna_base_de_datos,
+							it.columna_cvs,
+							it.columna_referencia,
+							ctc.nombre AS tipo_campo,
+							cc.nombre  AS catalogo
+					FROM	cat_mecanismo AS cm
+					JOIN	importacion_template AS it ON it.cat_mecanismo_id=cm.id
+					JOIN	cat_tipo_campo AS ctc ON ctc.id=it.cat_tipo_campo_id
+					JOIN	cat_catalogo AS cc ON cc.id=it.cat_catalogo_id
+					WHERE	cm.nombre = '{$pasoImportacion}'
+				";
+		return $this->db->query($query)->result_array();
+	}
+
+	function generaConsultasImportacion($ImportacionTabla,$importArray,$tipoScript)
+	{
+		$consultasImportacion ='';
+		foreach ($importArray as $position => $value)
+		{
+			if($position>0)
+			{
+				$consultasImportacion=$consultasImportacion.$this->generaConsultaImportacion($value,$ImportacionTabla,$tipoScript[0]['nombre']);
+			}
+		}
+		return $consultasImportacion;
+	}
+
+	function generaConsultaImportacion($row,$ImportacionTabla,$tablaObjetivo)
+	{
+		$consulta = ' INSERT INTO "`{$tablaObjetivo}`" ';
+		$estructuraInsert=' ( ';
+		$valoresInsert=' VALUES( ';
+		$almenosUno=false;
+		foreach ($ImportacionTabla as $key => $value)
+		{
+			if(isset($value['position']))
+			{
+				switch($value['tipo_campo'])
+				{
+					case 'texto'	:
+										if(	isset($row[$value['position']]) && $row[$value['position']]!=='' && $row[$value['position']]!==NULL )
+										{
+											if($almenosUno)
+											{
+												$estructuraInsert 	= $estructuraInsert.',';
+												$valoresInsert 		= $valoresInsert.',';
+											}
+											$estructuraInsert 	= $estructuraInsert.' `'.$value['columna_base_de_datos'].'` ';
+											$valoresInsert 		= $valoresInsert.' "'.mysql_real_escape_string($row[$value['position']]).'" ';
+
+											$almenosUno = true;
+										}
+										break;
+					case 'catalogo'	:
+										if(	isset($row[$value['position']]) && $row[$value['position']]!=='' && $row[$value['position']]!==NULL )
+										{
+											$catalogoId = $this->obtenerIdCatalogo($value['catalogo'],$value['columna_referencia'],$row[$value['position']]);
+
+											if($catalogoId>0)
+											{
+												if($almenosUno)
+												{
+													$estructuraInsert 	= $estructuraInsert.',';
+													$valoresInsert 		= $valoresInsert.',';
+												}
+												$estructuraInsert 	= $estructuraInsert.' `'.$value['columna_base_de_datos'].'` ';
+												$valoresInsert 		= $valoresInsert.' "'.$catalogoId.'" ';
+
+												$almenosUno = true;
+											}
+										}
+										else
+										{
+											$catalogoId = $this->obtenerIdCatalogo($value['catalogo'],$value['columna_referencia'],'UNDEFINED');
+
+											if($catalogoId>0)
+											{
+												if($almenosUno)
+												{
+													$estructuraInsert 	= $estructuraInsert.',';
+													$valoresInsert 		= $valoresInsert.',';
+												}
+												$estructuraInsert 	= $estructuraInsert.' `'.$value['columna_base_de_datos'].'` ';
+												$valoresInsert 		= $valoresInsert.' "'.$catalogoId.'" ';
+
+												$almenosUno = true;
+											}
+										}
+
+										break;
+					default 		:	break;
+				}
+			}
+		}
+		if($almenosUno)
+			return ' INSERT INTO producto '.$estructuraInsert.' ) '.$valoresInsert.' ); <br>';
+		return '';
+	}
+
+	function obtenerIdCatalogo($catalogo,$columna_referencia,$valor)
+	{
+		if( mb_detect_encoding($valor) ==='UTF-8')
+			$valor=utf8_encode($valor);
+
+		$consulta= 	'
+						SELECT 	id
+						FROM	'.$catalogo.'
+						WHERE	`'.$columna_referencia.'`="'.$valor.'"
+
+					';
+		try
+		{
+			$result = 	$this->db->query($consulta);
+			if($result->num_rows()>0)
+				return $result->row()->id;
+		}
+		catch (Exception $e)
+		{
+		}
+
+		return -1;
+	}
+
+
+	function obtenerIdProducto($npc)
+	{
+		if( mb_detect_encoding($npc) ==='UTF-8')
+			$nombre=utf8_encode($npc);
+
+		$consulta= 	'
+						SELECT 	id
+						FROM	producto
+						WHERE	npc="'.$npc.'"
+
+					';
+		try
+		{
+			$result = 	$this->db->query($consulta);
+			if($result->num_rows()>0)
+				return $result->row()->id;
+		}
+		catch (Exception $e)
+		{
+		}
+
+		return -1;
+	}
+
+	function cargaCatalogo($catalogo,$cargaUndefined='false', $cargaInactivos='false')
+	{
+		$where = ' 1 ';
+		if(!$cargaUndefined)
+			$where = $where. ' AND cat.nombre!="UNDEFINED" ';
+		if(!$cargaInactivos)
+			$where = $where. ' AND cat.activo=="1" ';
+		$query ='
+					SELECT 	cat.*
+					FROM	'.$catalogo.'	as cat
+				';
+		return $this->db->query($query)->result_array();
 	}
 }
 ?>
