@@ -84,10 +84,10 @@
 								<td class="custom_td"><label class="concepto_value"><?php echo $row_array['marca']; ?></label>
 								</td>
 							</tr>
-							<tr <?php if(empty($row_array['id_inventario'])) echo 'style="visibility: hidden;"'; ?> >
-								<td class="custom_td"><label class="concepto_field">Precio:</label>
+							<tr <?php if(empty($row_array['precio'])) echo 'style="visibility: hidden;"'; ?> >
+								<td class="custom_td"><label class="concepto_field"><?php if(empty($row_array['precio'])) echo 'Precio:'; ?></label>
 								</td>
-								<td class="custom_td">$<label class="concepto_value precio_producto" id="producto_precio_<?php echo $row_array['id_inventario'];?>" ><?php echo round($row_array['precio'],2); ?></label>
+								<td class="custom_td">$<label class="concepto_value precio_producto" id="producto_precio_<?php if(empty($row_array['precio'])) echo $row_array['precio'];?>" ><?php echo round($row_array['precio'],2); ?></label>
 								</td>
 							</tr>
 						</table>
