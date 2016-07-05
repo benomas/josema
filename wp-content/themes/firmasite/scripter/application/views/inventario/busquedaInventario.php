@@ -64,56 +64,32 @@
 							</div>
 						</div>
 					<div class="contenedor_info">
-						<table class="table table-striped table-bordered table-hover">
-							<?php if(!empty($row_array['marca_componente']))
-							{
-							?>
-								<tr >
-									<td class="custom_td"><label class="concepto_field">TIPO:</label>
-									</td>
-									<td class="custom_td"><label class="concepto_value"><?php echo $row_array['marca_componente']; ?></label>
-									</td>
-								</tr>
-							<?php
-							}
-							?>
-							<?php if(!empty($row_array['componente']))
-							{
-							?>
-								<tr >
-									<td class="custom_td"><label class="concepto_field">COMPONENTE:</label>
-									</td>
-									<td class="custom_td"><label class="concepto_value"><?php echo $row_array['componente']; ?></label>
-									</td>
-								</tr>
-							<?php
-							}
-							?>
-							<?php if(!empty($row_array['marca']))
-							{
-							?>
-								<tr >
-									<td class="custom_td"><label class="concepto_field">VEHICULO:</label>
-									</td>
-									<td class="custom_td"><label class="concepto_value"><?php echo $row_array['marca']; ?></label>
-									</td>
-								</tr>
-							<?php
-							}
-							?>
+						<table class="table table-striped table-bordered table-hover" style="border:none; border-collapse:unset;">
 
-							<?php if(!empty($row_array['precio']))
-							{
-							?>
-							<tr >
+							<tr <?php if(empty($row_array['marca_componente'])) echo 'style="visibility: hidden;"'; ?> >
+								<td class="custom_td"><label class="concepto_field">TIPO:</label>
+								</td>
+								<td class="custom_td"><label class="concepto_value"><?php echo $row_array['marca_componente']; ?></label>
+								</td>
+							</tr>
+							<tr <?php if(empty($row_array['componente'])) echo 'style="visibility: hidden;"'; ?> >
+								<td class="custom_td"><label class="concepto_field">COMPONENTE:</label>
+								</td>
+								<td class="custom_td"><label class="concepto_value"><?php echo $row_array['componente']; ?></label>
+								</td>
+							</tr>
+							<tr <?php if(empty($row_array['marca'])) echo 'style="visibility: hidden;"'; ?> >
+								<td class="custom_td"><label class="concepto_field">VEHICULO:</label>
+								</td>
+								<td class="custom_td"><label class="concepto_value"><?php echo $row_array['marca']; ?></label>
+								</td>
+							</tr>
+							<tr <?php if(empty($row_array['id_inventario'])) echo 'style="visibility: hidden;"'; ?> >
 								<td class="custom_td"><label class="concepto_field">Precio:</label>
 								</td>
 								<td class="custom_td">$<label class="concepto_value precio_producto" id="producto_precio_<?php echo $row_array['id_inventario'];?>" ><?php echo round($row_array['precio'],2); ?></label>
 								</td>
 							</tr>
-							<?php
-							}
-							?>
 						</table>
 					</div>
 					<div class="bno-accions acciones">
