@@ -7,25 +7,26 @@ class Carrito extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Catalogos_model');
 		$this->load->model('Inventario_model');
-		
+
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
 
-		if(! $this->centinela->is_logged_in() ) 
+		if(! $this->centinela->is_logged_in() )
 		{
 			redirect('/seguridad/login','location');
 		}
 		$this->load->library('carro');
    }
-   
+
 	public function index()
 	{
-		
+
 	}
-	
+
 	public function vistaCarrito()
 	{
 		$productos= $this->carro->getProductos();
+
 		if(!empty($productos))
 		{
 			foreach($productos AS $producto)
@@ -33,12 +34,12 @@ class Carrito extends CI_Controller {
 				$data['productos'][]=$this->Inventario_model->getProduct($producto);
 			}
 		}
-		if(empty($data))
+		if(!isset($data))
 			$data[]=array();
 		$data['show_carrito']=FALSE;
 		$this->load->view('carrito/productos',$data);
 	}
-	
+
 	function add_carrito($id_producto)
 	{
 		$producto = $this->Inventario_model->getProduct($id_producto);
@@ -47,7 +48,7 @@ class Carrito extends CI_Controller {
 			echo 'error';
 			return false;
 		}
-		
+
 		$result=$this->carro->addProduct($id_producto);
 		if($result==1)
 			echo 'error';
@@ -57,8 +58,8 @@ class Carrito extends CI_Controller {
 			echo 'already';
 		return true;
 	}
-	
-	
+
+
 	function informacionProducto($id_producto)
 	{
 		$data['show_carrito']=FALSE;
@@ -66,13 +67,13 @@ class Carrito extends CI_Controller {
 		$data['referencias'] = $this->Inventario_model->getReferencias($id_producto);
 		$this->load->view('inventario/informacionProducto',$data);
 	}
-	
+
 	function remove_carrito($id_producto)
 	{
 		$result=$this->carro->remove($id_producto);
 		$this->vistaCarrito();
 	}
-		
+
 	function vaciar_carrito()
 	{
 		$this->carro->reset();

@@ -161,7 +161,7 @@ class Inventario_model extends CI_Model
 								mr.nombre AS marca_refaccion,
 								i.descripcion,
 								o.nombre AS origen,
-								ipv.monto AS precio
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto/100) * (100-pv.descuento) ,ipv.monto))AS precio
 						FROM ci_inventario AS i
 						LEFT JOIN	ci_tipo_componente AS tc ON tc.id_tipo_componente=i.id_tipo_componente
 						LEFT JOIN	ci_marca AS m ON m.id_marca=i.id_marca
@@ -170,7 +170,7 @@ class Inventario_model extends CI_Model
 						LEFT JOIN	ci_origen AS o ON o.id_origen=i.id_origen
 						LEFT JOIN   usuario AS u ON u.id_usuario='".$id_usuario."'
 						LEFT JOIN	ci_precio_venta AS pv ON pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta AS ipv ON ipv.id_inventario=i.id_inventario AND ipv.id_precio_venta = pv.id_precio_venta
+						LEFT JOIN	ci_inventario_precio_venta AS ipv ON ipv.id_inventario=i.id_inventario/* AND ipv.id_precio_venta = pv.id_precio_venta*/
 						WHERE	i.id_inventario='".$id_producto."'
 					";
 		$promocion=$this->getPromocion($id_producto);
@@ -192,7 +192,7 @@ class Inventario_model extends CI_Model
 								mr.nombre AS marca_refaccion,
 								i.descripcion,
 								o.nombre AS origen,
-								ipv.monto AS precio
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto/100) * (100-pv.descuento) ,ipv.monto))AS precio
 						FROM ci_inventario AS i
 						LEFT JOIN	ci_tipo_componente AS tc ON tc.id_tipo_componente=i.id_tipo_componente
 						LEFT JOIN	ci_marca AS m ON m.id_marca=i.id_marca
@@ -201,7 +201,7 @@ class Inventario_model extends CI_Model
 						LEFT JOIN	ci_origen AS o ON o.id_origen=i.id_origen
 						LEFT JOIN   usuario AS u ON u.id_usuario='".$id_usuario."'
 						LEFT JOIN	ci_precio_venta AS pv ON pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta AS ipv ON ipv.id_inventario=i.id_inventario AND ipv.id_precio_venta = pv.id_precio_venta
+						LEFT JOIN	ci_inventario_precio_venta AS ipv ON ipv.id_inventario=i.id_inventario/* AND ipv.id_precio_venta = pv.id_precio_venta*/
 						WHERE	i.npc='".$npc."'
 					";
 

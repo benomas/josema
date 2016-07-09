@@ -1,9 +1,9 @@
 
-	<?php 
+	<?php
 		if(!empty($productos))
 		{
-	?>	
-		<table class="table table-responsive table-hover">	
+	?>
+		<table class="table table-responsive table-hover">
 					<tr class="success">
 						<td colspan="2">
 						</td>
@@ -41,7 +41,7 @@
 			<?php
 					foreach($productos AS $producto)
 					{
-				?>	
+				?>
 					<tr <?php if(!empty($producto->promocion)){?> class="promocion_container tooltip_class_accion" title="<?php echo title_promocion($producto->promocion);?>"<?php }?>>
 						<td><?php echo $producto->npc; ?>
 						</td>
@@ -67,7 +67,7 @@
 							</div>
 						</td>
 					</tr>
-				<?php	
+				<?php
 					}
 			?>
 		</table>
@@ -97,9 +97,9 @@ $(document).ready(function()
 		show: "blind",
 		hide: "explode",
 		title:"Vista completa",
-		buttons: 
+		buttons:
 		{
-			"Cerrar": function() 
+			"Cerrar": function()
 			{
 				$( this ).dialog( "close" );
 			}
@@ -121,26 +121,26 @@ $(document).ready(function()
 			}
 			}
 	});
-	
-	<?php 
+
+	<?php
 		if(!empty($productos))
 		{
 			foreach($productos AS $producto)
-			{	
+			{
 				if(!empty($producto->promocion))
 				{
-	?>	
+	?>
 				calcularPrecio(JSON.parse('<?php echo json_encode($producto);?>'));
-	<?php 		
+	<?php
 				}
 			}
 		}
-	?>	
+	?>
 });
 
 
 function calcularPrecio(producto)
-{	
+{
 	if(producto!='')
 	{
 		switch(producto.promocion.nombre_tabla_promocion)
@@ -153,17 +153,17 @@ function calcularPrecio(producto)
 }
 
 function abrir_dialogo(id_producto)
-{	
+{
 	$.ajax(
 	{
 		url : '<?php echo site_url();?>/inventario/dialogInformacionProducto/' + id_producto,
 		type: 'POST',
 		success : function(html)
-		{		
+		{
 				dialogo.html(html);
 				dialogo.dialog( "open" );
-		}           
-	});	
+		}
+	});
 }
 
 function generar_pedido()
@@ -178,10 +178,10 @@ function remover_carrito(id_producto)
 		url : '<?php echo site_url();?>/carrito/remove_carrito/' + id_producto,
 		type: 'POST',
 		success : function(html)
-		{		
+		{
 				$('#form_container').html(html);
-		}           
-	});	
+		}
+	});
 }
 
 function vaciar_carrito()
@@ -192,14 +192,14 @@ function vaciar_carrito()
 		url : '<?php echo site_url();?>/carrito/vaciar_carrito/',
 		type: 'POST',
 		success : function(html)
-		{		
+		{
 				$('#form_container').html(html);
-		}           
-	});	
+		}
+	});
 }
 
 function expandir(id_producto)
-{	
+{
 	$('.celda_marco').addClass('expanded_celda_marco');
 	$('.celda_marco').removeClass('hidden_class');
 	$('.celda_marco').show('fast');
@@ -208,14 +208,14 @@ function expandir(id_producto)
 		url : '<?php echo site_url();?>/carrito/informacionProducto/' + id_producto,
 		type: 'POST',
 		success : function(html)
-		{		
+		{
 				$('.celda_marco').html(html);
 				$('html, body').animate(
 				{
 					scrollTop: $('.celda_marco').offset().top
 				}, 1000);
-		}           
-	});	
+		}
+	});
 }
 
 function mostrarOriginal(npc)
@@ -228,7 +228,7 @@ function mostrarOriginal(npc)
 	dialogo.dialog('option', 'title', 'Imagen Maximizada ');
 	dialogo.html(htmlDiv);
 	dialogo.dialog( "open" );
-}	
+}
 
 function reducir(id_producto)
 {
@@ -236,5 +236,5 @@ function reducir(id_producto)
 	$('.celda_marco').addClass('hidden_class');
 	$('.celda_marco').removeClass('expanded_celda_marco');
 	$('.celda_marco').hide('fast');
-}	
+}
 </script>
