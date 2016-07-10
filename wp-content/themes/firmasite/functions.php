@@ -239,6 +239,15 @@ function load_ci_template()
 																																	)
 																							)
 																				);
+		case get_page_by_title( 'Linea electrica')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'linea_electrica'		=>	array	(	'nombre_campo'	=>'tc.nombre',
+																																		'condicion'		=>'=',
+																																		'exprecion'		=>'SISTEMA ELECTRICO'
+																																	)
+																							)
+																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');
 															break;
 		default:break;

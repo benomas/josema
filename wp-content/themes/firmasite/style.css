@@ -19,12 +19,12 @@ This theme is licensed under the GPL.
 I would be so happy if you dont remove designer link :)
 
 WARNING for editing this theme:
-We dont recommend edit files of this theme. 
-You can add custom css from Theme Customizer panel. 
+We dont recommend edit files of this theme.
+You can add custom css from Theme Customizer panel.
 For adding custom bootstrap styles or changing theme display system,
 We recommend you to use Child Theme:
 http://theme.firmasite.com/child-theme/
-http://codex.wordpress.org/Child_Themes  
+http://codex.wordpress.org/Child_Themes
 */
 
 /* Some Make-Up */
@@ -190,9 +190,9 @@ td.mceIframeContainer{padding:0!important}
 .contenedor_imagen_marco{text-align:center;margin-top:3px;margin-bottom:3px;cursor:pointer;}
 .imagen_marco
 {
-	height:120px; 
-	width:120px; 
-	margin:auto;  
+	height:120px;
+	width:120px;
+	margin:auto;
 	vertical-align: middle;
 	background-position: center center;
     background-repeat: no-repeat;
@@ -225,30 +225,30 @@ td.mceIframeContainer{padding:0!important}
 .contenedor_info{background-color:#FFFFFF;margin:2%;width:96%;}
 .imagen_middle
 {
-	height:250px; 
-	width:250px; 
-	margin:auto;  
+	height:250px;
+	width:250px;
+	margin:auto;
 	vertical-align: middle;
 	background-position: center center;
     background-repeat: no-repeat;
 	background-size:100%;
 }
-	
-	
+
+
 
 .contenedor_imagen_original{text-align:center;background-color:#FFFFFF;border-radius: 10px;border: 1px solid #AE3910;margin:2% 2%;width:96%;}
 .imagen_original
 {
 	/*background-image:url('scripter/images/inventario/original_size/INJETECH.jpg');*/
-	margin:auto;  
+	margin:auto;
 	vertical-align: middle;
 	background-position: center center;
     background-repeat: no-repeat;
 	height:600px;
 	background-size:100%;
 }
-		
-	
+
+
 .expand_button{background-image:url('scripter/images/template/expand.png');}
 .promocion_button{background-image:url('scripter/images/template/promocion.png');}
 .abrir_dialogo_button{background-image:url('scripter/images/template/abrir_dialogo.png');}
@@ -280,8 +280,8 @@ td.mceIframeContainer{padding:0!important}
 
 .promocion_div
 {
-	width:50px; 
-	height:50px; 
+	width:50px;
+	height:50px;
 	display:inline-block;
 	float:right;
 }
@@ -342,12 +342,12 @@ table .promocion_container
 	border:solid 1px #772953;
 	cursor:pointer;
 	border-radius: 2.5px;
-}	
+}
 
 .numero_pagina:hover
 {
 	background-color:#AE3910;
-}	
+}
 
 .current_numero_pagina
 {
@@ -381,10 +381,10 @@ table .promocion_container
 }
 
 .form-block
-{	
-	width:100%; 
+{
+	width:100%;
 	margin-left:auto;
-	margin-right:auto; 
+	margin-right:auto;
 	padding:10px;
 	border-radius:4px;
 	border-bottom:3px solid #DD4814;
@@ -393,4 +393,12 @@ table .promocion_container
 .titulo
 {
 	padding-left:10px;
+}
+
+.metaslider .caption-wrap {
+    background: #AE3910 none repeat scroll 0 0 !important;
+    border-radius: 0 0 10px 10px;
+    color: #FFFFFF !important;
+    font-weight: bold;
+    text-align: center;
 }
