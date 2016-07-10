@@ -186,16 +186,24 @@ function remover_carrito(id_producto)
 
 function vaciar_carrito()
 {
-	if(confirm("¿Seguro deceas vaciar el carrito?"))
-	$.ajax(
+	alertify.confirm("¿Seguro deceas vaciar el carrito?", function (e)
 	{
-		url : '<?php echo site_url();?>/carrito/vaciar_carrito/',
-		type: 'POST',
-		success : function(html)
-		{
-				$('#form_container').html(html);
-		}
+	    if (e)
+	    {
+	        $.ajax(
+			{
+				url : '<?php echo site_url();?>/carrito/vaciar_carrito/',
+				type: 'POST',
+				success : function(html)
+				{
+						$('#form_container').html(html);
+				}
+			});
+	    } else {
+	        // user clicked "cancel"
+	    }
 	});
+
 }
 
 function expandir(id_producto)

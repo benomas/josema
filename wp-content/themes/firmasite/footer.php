@@ -5,7 +5,7 @@
 global $firmasite_settings;
 ?>
 		</div><!--  .row -->
-        <?php do_action( 'after_content' ); ?>    
+        <?php do_action( 'after_content' ); ?>
 	</div><!-- #main .site-main -->
 
 	<?php //get_template_part( 'templates/footer', $firmasite_settings["footer-style"] ); ?>
@@ -15,7 +15,7 @@ global $firmasite_settings;
 
 </body>
 </html>
-	
+
 <script>
 function searsh_redirect()
 {
@@ -34,11 +34,11 @@ jQuery(document).ready(function()
 {
 	jQuery( '.tooltip_panel' ).tooltip(
 	{
-			position: 
+			position:
 			{
 				my: "center bottom-20",
 				at: "center top",
-				using: function( position, feedback ) 
+				using: function( position, feedback )
 				{
 					jQuery( this ).css( position );
 					jQuery( "<div>" )
@@ -49,9 +49,16 @@ jQuery(document).ready(function()
 				}
 			}
 	});
-	
-	
-	
-	
+
+	if(typeof alertify!=='undefined')
+	{
+		alertify.set({ labels:
+		{
+		    ok     : "Correcto",
+		    cancel : "Cancelar"
+		} });
+	}
+
+
 });
 </script>

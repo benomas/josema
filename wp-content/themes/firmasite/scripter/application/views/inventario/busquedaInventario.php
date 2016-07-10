@@ -329,11 +329,11 @@ function marcar_ultimo(elemento)
 			success : function(html)
 			{
 					if(html=='correcto')
-						alert('Producto agregado al carrito');
+						alertify.success('Producto agregado al carrito');
 					if(html=='already')
-						alert('Este producto ya estaba en el carrito');
+						alertify.error('Este producto ya estaba en el carrito');
 					if(html=='error')
-						alert('Producto invalido');
+						alertify.error('Producto invalido');
 			}
 		});
 	}

@@ -8,11 +8,16 @@ Template Name: ci_default
 // this one letting us translate page template names
 global $firmasite_settings;
 
-get_header(); 
+get_header();
  ?>
+ <script src="<?php echo get_rcodeigniter_url();?>js/alertify.min.js" type="text/javascript" style=""></script>
+<link  type="text/css" href="<?php echo get_rcodeigniter_url();?>/css/alertify/alertify.core.css" rel="stylesheet">
+<link  type="text/css" href="<?php echo get_rcodeigniter_url();?>/css/alertify/alertify.bootstrap.css" rel="stylesheet">
+
  <script src="<?php echo get_rcodeigniter_url();?>js/jquery-1.11.0.min.js" type="text/javascript" style=""></script>
  <script src="<?php echo get_rcodeigniter_url();?>js/jquery-ui-1.10.4.custom.min.js" type="text/javascript" style=""></script>
 <link id="dashicons-css" media="all" type="text/css" href="<?php echo get_rcodeigniter_url();?>/css/humanity/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+
 <br>
 		<div id="primary" class="content-area clearfix <?php echo $firmasite_settings["layout_primary_class"]; ?>">
 		<div class="panel panel-default">
@@ -24,7 +29,7 @@ get_header();
 					<?php } ?>
 				</h1>
 			</header>
-			<div id="form_container">	
+			<div id="form_container">
 				<div style="width:100%; text-align:center;">
 					<label > Cargando...</label>
 					<br>
