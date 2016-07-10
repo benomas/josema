@@ -152,13 +152,15 @@
         $gran_sub_total         =$total;
         $descuento_adicional    =0;
         $iva                    =0;
+
         if($total>1500)
         {
-            $gran_sub_total         = round($total*0.98,2);
-            $descuento_adicional    = round($total*0.02,2);
+            $descuento_adicional    = round($total*0.02, 2, PHP_ROUND_HALF_UP);
+            $total                  = round($total*0.98, 2, PHP_ROUND_HALF_UP);
         }
-        $iva    = $descuento_adicional = round($gran_sub_total*0.16,2);
-        $total  = $gran_sub_total + $iva;
+
+        $iva                        = round($total*0.16, 2, PHP_ROUND_HALF_UP);
+        $total                      = $total + $iva;
 	?>
     <tr>
         <td style="background-color:#F2DEDE;" colspan="3"><b>GRAN SUB TOTAL:</b>

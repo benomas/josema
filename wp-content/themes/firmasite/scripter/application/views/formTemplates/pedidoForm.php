@@ -323,7 +323,7 @@ function updateTotal()
 	else
 		total 				=total_antes_de_iva;
 
-	iva 	= Math.round(total_antes_de_iva*100*0.16)/100;
+	iva 	= Math.round(total*100*0.16)/100;
 	total   = total + iva;
 
 	var res 			= total_antes_de_iva.toString();

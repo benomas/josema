@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class FormSender extends CI_Controller 
+class FormSender extends CI_Controller
 {
 
 	public function __construct()
@@ -8,7 +8,7 @@ class FormSender extends CI_Controller
 		parent::__construct();
 		$this->load->model('Catalogos_model');
 		$this->load->model('Inventario_model');
-		
+
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
 		if(! $this->centinela->is_logged_in() ) {
@@ -21,10 +21,10 @@ class FormSender extends CI_Controller
 	 *
 	 * Maps to the following URL
 	 * 		http://example.com/index.php/welcome
-	 *	- or -  
+	 *	- or -
 	 * 		http://example.com/index.php/welcome/index
 	 *	- or -
-	 * Since this controller is set as the default controller in 
+	 * Since this controller is set as the default controller in
 	 * config/routes.php, it's displayed at http://example.com/
 	 *
 	 * So any other public methods not prefixed with an underscore will
@@ -35,9 +35,9 @@ class FormSender extends CI_Controller
 	{
 		$this->load->view('welcome_message');
 	}
-	
+
 	public function loadForm($traerCarrito=true)
-	{	
+	{
 		$data['filasDefault']='1';
 		$data['numeroFilas']='1';
 		$data[]=array();
@@ -57,19 +57,19 @@ class FormSender extends CI_Controller
 			{
 				$data['numeroFilas']=sizeof($productos);
 				$this->load->view('formTemplates/pedidoForm',$data);
-			}	
+			}
 			else
 				echo '	<div class="contenedor_info">
 							<label class="concepto_field" style="font-size:16px;">Debes añadir productos al carrito</label>
-						</div>'; 
-		
+						</div>';
+
 	}
-	
-	
+
+
 	public function sendPedido()
-	{	
+	{
 		if(!$this->almenosUna($_POST['numeroFilas']))
-		{		
+		{
 			echo '	<div class="contenedor_info">
 						<label class="concepto_field" style="font-size:16px;">Debes indicar almenos una cantidad</label>
 					</div>';
@@ -107,7 +107,7 @@ class FormSender extends CI_Controller
 		{
 			echo '	<div class="contenedor_info">
 						<label class="concepto_field" style="font-size:16px;">Pedido enviado</label>
-					</div>'; 
+					</div>';
 			$list=array();
 			$array_list=$this->Catalogos_model->getAdminMails();
 			foreach($array_list AS $element)
@@ -123,13 +123,13 @@ class FormSender extends CI_Controller
 			$this->email->send();
 			$this->carro->reset();
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 	function almenosUna($numeroProductos=0)
-	{	
+	{
 		for($i=1;$i<=$numeroProductos;$i++)
 		{
 			if(isset($_POST['Cantidad'.$i]))
@@ -141,7 +141,7 @@ class FormSender extends CI_Controller
 		}
 		return false;
 	}
-	
+
 	function is_session_started()
 	{
 		if ( php_sapi_name() !== 'cli' ) {
