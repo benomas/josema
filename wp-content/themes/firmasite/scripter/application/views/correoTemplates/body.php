@@ -30,14 +30,6 @@
 		<td ><?php if($info['envio']=='1')	echo 'Normal';  if($info['envio']=='2') echo 'Urgente';?>
 		</td>
 	</tr>
-	<tr >
-		<td style="background-color:#DFF0D8;"><b>Tipo de Negocio</b>
-		</td>
-		<td ><?php 	if(!empty($userData->tipo_cliente))
-						echo $userData->tipo_cliente;
-			?>
-		</td>
-	</tr>
 </table>
 <br>
 <table class="table table-bordered table-striped table-responsive table-hover" style="width:1000px; " >
