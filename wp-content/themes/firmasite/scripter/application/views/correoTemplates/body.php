@@ -51,7 +51,7 @@
 		<td style="background-color:#DFF0D8;"><b>SUBTOTAL</b>
 		</td>
 	</tr>
-	<?php 
+	<?php
 		if($info['numeroFilas']>0 && $info['numeroFilas'] < 100)
 		{
 			$total=0;
@@ -60,7 +60,7 @@
 				if(isset($info['Cantidad'.$i]))
 				if($info['Cantidad'.$i]>0)
 				{
-					
+
 					//calcular precio
 					$subtotal= $info['Cantidad'.$i] * round($info['row'.$i]->precio,2);
 					if(!empty($info['row'.$i]->promocion))
@@ -71,12 +71,12 @@
 							case 'ci_promocion_fija':
 														$subtotal=$cantidad * $info['row'.$i]->promocion['precio_oferta'];
 														break;
-							case 'ci_promocion_rango':	
+							case 'ci_promocion_rango':
 														$min=$info['row'.$i]->promocion['cantidad_min'];
 														$max=$info['row'.$i]->promocion['cantidad_max'];
 														$cantidad_precio_especial=0;
 														$cantidad_precio_normal=0;
-											
+
 														if($min && $max)
 														{
 															if($cantidad >= $min)
@@ -89,16 +89,16 @@
 																else
 																{
 																	$cantidad_precio_especial	= 	$max;
-																	$cantidad_precio_normal 	=	$cantidad - $max;	
+																	$cantidad_precio_normal 	=	$cantidad - $max;
 																}
 															}
 															else
 															{
 																$cantidad_precio_especial	= 	0;
-																$cantidad_precio_normal 	=	$cantidad;	
+																$cantidad_precio_normal 	=	$cantidad;
 															}
 														}
-											
+
 														if($min && !$max)
 														{
 															if( $cantidad >= $min )
@@ -109,11 +109,11 @@
 															else
 															{
 																$cantidad_precio_especial	= 	0;
-																$cantidad_precio_normal 	=	$cantidad;	
+																$cantidad_precio_normal 	=	$cantidad;
 															}
-															
+
 														}
-														
+
 														if(!$min && $max)
 														{
 															if( $cantidad <= $max )
@@ -124,13 +124,13 @@
 															else
 															{
 																$cantidad_precio_especial	= 	$max;
-																$cantidad_precio_normal 	=	$cantidad - $max;	
+																$cantidad_precio_normal 	=	$cantidad - $max;
 															}
 														}
 														if(!$min && !$max)
 														{
 															$cantidad_precio_especial	= 	$cantidad;
-															$cantidad_precio_normal 		=	0;	
+															$cantidad_precio_normal 		=	0;
 														}
 														$precio_normal = round($info['row'.$i]->precio,2);
 														$precio_especial = round($info['row'.$i]->promocion['precio_oferta'],2);
@@ -141,7 +141,7 @@
 							default:$subtotal= $info['Cantidad'.$i] * round($info['row'.$i]->precio,2); break;
 						}
 					}
-					$total+=$subtotal;//$info['Cantidad'.$i] * round($info['row'.$i]->precio,2);
+					$total+=$subtotal;
 			?>
 				<tr <?php if (!empty($info['row'.$i]->promocion)) { ?> class="promocion_container" <?php }?> >
 					<td ><?php echo $info['NPC'.$i];?>
@@ -157,9 +157,37 @@
 				}
 			}
 		}
+        $gran_sub_total         =$total;
+        $descuento_adicional    =0;
+        $iva                    =0;
+        if($total>1500)
+        {
+            $gran_sub_total         = round($total*0.98,2);
+            $descuento_adicional    = round($total*0.02,2);
+        }
+        $iva    = $descuento_adicional = round($gran_sub_total*0.16,2);
+        $total  = $gran_sub_total + $iva;
 	?>
+    <tr>
+        <td style="background-color:#F2DEDE;" colspan="3"><b>GRAN SUB TOTAL:</b>
+        </td>
+        <td style="background-color:#F2DEDE;"><b>$<?php echo $gran_sub_total;?></b>
+        </td>
+    </tr>
+    <tr>
+        <td style="background-color:#F2DEDE;" colspan="3"><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $1500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
+        </td>
+        <td style="background-color:#F2DEDE;"><b>$<?php echo $descuento_adicional;?></b>
+        </td>
+    </tr>
+    <tr>
+        <td style="background-color:#F2DEDE;" colspan="3"><b>IVA:</b>
+        </td>
+        <td style="background-color:#F2DEDE;"><b>$<?php echo $iva;?></b>
+        </td>
+    </tr>
 	<tr>
-		<td style="background-color:#F2DEDE;" colspan="3"><b>TOTAL</b>
+		<td style="background-color:#F2DEDE;" colspan="3"><b>GRAN TOTAL:</b>
 		</td>
 		<td style="background-color:#F2DEDE;"><b>$<?php echo $total;?></b>
 		</td>

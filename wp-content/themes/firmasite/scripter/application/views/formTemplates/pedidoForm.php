@@ -1,5 +1,5 @@
 <style>
-.ui-widget-header 
+.ui-widget-header
 {
 	background:none;
 	background-color:#DD4814;
@@ -41,14 +41,6 @@
 										" id='envio' class='test' "
 										);
 				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Tipo de Negocio
-			</td>
-			<td colspan="2">
-				<?php echo $userData->tipo_cliente;?>
 			</td>
 		</tr>
 	</table>
@@ -96,8 +88,10 @@
 									var jsonProducto<?php echo ($producto->id_inventario);?>=<?php echo json_encode(($producto));?>;
 								</script>
 							</div>
-							<input class="form-control numeric" id="cantidad<?php echo $i;?>" name="Cantidad<?php echo $i;?>" value="" 
-							size="6" type="text" onchange="updateSubtotal(this.value,jsonProducto<?php echo ($producto->id_inventario);?>,'<?php echo $i;?>');">
+							<input class="form-control numeric" id="cantidad<?php echo $i;?>" name="Cantidad<?php echo $i;?>" value=""
+							size="6" type="text" onchange="updateSubtotal(this.value,jsonProducto<?php echo ($producto->id_inventario);?>,'<?php echo $i;?>');"
+												 onkeyup="updateSubtotal(this.value,jsonProducto<?php echo ($producto->id_inventario);?>,'<?php echo $i;?>');"
+							>
 						</td>
 						<td>
 							<label class="moneda" >$</label><label class="subtotal" id="subtotal<?php echo $i;?>">0</label>
@@ -116,13 +110,52 @@
 							</div>
 						</td>
 					</tr>
-				<?php				
+				<?php
 					$i++;
 				}
-			
+
 		?>
 				<tr id="numeroFila<?php echo $i;?>">
-					<td colspan="2">TOTAL:
+					<td colspan="2" ><b>GRAN SUB TOTAL:</b>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+						<label class="moneda" >$</label><label id="gran_sub_total">0</label>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr id="numeroFila<?php echo $i;?>">
+					<td colspan="2" ><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $1500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+						<label class="moneda" >$</label><label id="descuento_adicional">0</label>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr id="numeroFila<?php echo $i;?>">
+					<td colspan="2"><b>IVA:</b>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+						<label class="moneda" >$</label><label id="iva">0</label>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr id="numeroFila<?php echo $i;?>">
+					<td colspan="2"><b>GRAN TOTAL:</b>
 					</td>
 					<td>
 					</td>
@@ -157,7 +190,7 @@
 </div>
 <script>
 $(document).ready(function()
-{	
+{
 	dialogo=$('#dialog_info');
 	dialogo.dialog(
 	{
@@ -168,9 +201,9 @@ $(document).ready(function()
 		show: "blind",
 		hide: "explode",
 		title:"Vista completa",
-		buttons: 
+		buttons:
 		{
-			"Cerrar": function() 
+			"Cerrar": function()
 			{
 				$( this ).dialog( "close" );
 			}
@@ -196,23 +229,23 @@ $(document).ready(function()
 			}
 	});
 	$(".numeric").numeric(",");
-	
-	
-	<?php 
+
+
+	<?php
 		if(!empty($productos))
 		{
 			foreach($productos AS $producto)
-			{	
+			{
 				if(!empty($producto->promocion))
 				{
-	?>		
+	?>
 				var jsonProducto = <?php echo json_encode($producto);?>;
 				calcularPrecio(jsonProducto);
-	<?php 		
+	<?php
 				}
 			}
 		}
-	?>	
+	?>
 });
 
 function removerFila(idTr)
@@ -237,7 +270,7 @@ function removerFila(idTr)
 }
 
 function calcularPrecio(producto)
-{	
+{
 	if(producto!='')
 	{
 		switch(producto.promocion.nombre_tabla_promocion)
@@ -250,34 +283,61 @@ function calcularPrecio(producto)
 }
 
 function abrir_dialogo(id_producto)
-{	
+{
 	$.ajax(
 	{
 		url : '<?php echo site_url();?>/inventario/dialogInformacionProducto/' + id_producto,
 		type: 'POST',
 		success : function(html)
-		{		
+		{
 				dialogo.html(html);
 				dialogo.dialog( "open" );
-		}           
-	});	
+		}
+	});
 }
 
 function updateTotal()
 {
 	num_elementos='<?php echo $i;?>';
 	total=0;
+
+	var total_antes_de_iva=0;
+	var descuento_adicional=0;
+	var iva=0;
+
 	for(i=1;i<num_elementos;i++)
-	{	
+	{
 		precio =	Number($('#subtotal'+i).text() );
 		if(isNumber(precio))
 		{
-			total = total + precio;
+			total_antes_de_iva = total_antes_de_iva + precio;
 		}
 	}
-	total = Math.round(total*100)/100;
-	var res = total.toString();
-	total=res.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
+
+	total_antes_de_iva = Math.round(total_antes_de_iva*100)/100;
+	if(total_antes_de_iva>1500)
+	{
+		descuento_adicional	= Math.round(total_antes_de_iva*100*0.02)/100;
+		total 				= Math.round(total_antes_de_iva*100*0.98)/100;
+	}
+	else
+		total 				=total_antes_de_iva;
+
+	iva 	= Math.round(total_antes_de_iva*100*0.16)/100;
+	total   = total + iva;
+
+	var res 			= total_antes_de_iva.toString();
+	total_antes_de_iva	= res.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
+	res 				= descuento_adicional.toString();
+	descuento_adicional	= res.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
+	res 				= iva.toString();
+	iva 				= res.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
+	res 				= total.toString();
+	total 				= res.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
+
+	$('#gran_sub_total').text(total_antes_de_iva);
+	$('#descuento_adicional').text(descuento_adicional);
+	$('#iva').text(iva);
 	$('#total').text(total);
 }
 
@@ -285,7 +345,7 @@ function updateSubtotal(cantidad,producto, elemento)
 {
 	var res;
 	if(isPositiveInteger(cantidad))
-	{	
+	{
 		$('#cantidad'+elemento).attr('value',cantidad);
 		if(producto)
 		{
@@ -296,12 +356,12 @@ function updateSubtotal(cantidad,producto, elemento)
 				case 'ci_promocion_fija':
 											res = Number(cantidad * Number($('#producto_precio_'+ producto.id_inventario ).text()));
 											break;
-				case 'ci_promocion_rango':	
+				case 'ci_promocion_rango':
 											min=producto.promocion.cantidad_min;
 											max=producto.promocion.cantidad_max;
 											cantidad_precio_especial=0;
 											cantidad_precio_normal=0;
-											
+
 											if(min && max)
 											{
 												if(cantidad >= min)
@@ -314,16 +374,16 @@ function updateSubtotal(cantidad,producto, elemento)
 													else
 													{
 														cantidad_precio_especial	= 	max;
-														cantidad_precio_normal 		=	cantidad - max;	
+														cantidad_precio_normal 		=	cantidad - max;
 													}
 												}
 												else
 												{
 													cantidad_precio_especial	= 	0;
-													cantidad_precio_normal 		=	cantidad;	
+													cantidad_precio_normal 		=	cantidad;
 												}
 											}
-											
+
 											if(min && !max)
 											{
 												if( cantidad >= min )
@@ -334,11 +394,11 @@ function updateSubtotal(cantidad,producto, elemento)
 												else
 												{
 													cantidad_precio_especial	= 	0;
-													cantidad_precio_normal 		=	cantidad;	
+													cantidad_precio_normal 		=	cantidad;
 												}
-												
+
 											}
-											
+
 											if(!min && max)
 											{
 												if( cantidad <= max )
@@ -349,27 +409,27 @@ function updateSubtotal(cantidad,producto, elemento)
 												else
 												{
 													cantidad_precio_especial	= 	max;
-													cantidad_precio_normal 		=	cantidad - max;	
+													cantidad_precio_normal 		=	cantidad - max;
 												}
 											}
 											if(!min && !max)
 											{
 												cantidad_precio_especial	= 	cantidad;
-												cantidad_precio_normal 		=	0;	
+												cantidad_precio_normal 		=	0;
 											}
 											precio_normal = Math.round(producto.precio * 100)/100;
 											precio_normal = precio_normal.toString();
 											precio_normal = precio_normal.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
-											
+
 											res_precio_normal = Number(cantidad_precio_normal * precio_normal);
-											
-											
+
+
 											precio_especial = Math.round(producto.promocion.precio_oferta * 100)/100;
 											precio_especial = precio_especial.toString();
 											precio_especial = precio_especial.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
-											
+
 											res_precio_especial = Number(cantidad_precio_especial * precio_especial);
-											
+
 											res = res_precio_normal + res_precio_especial;
 											break;
 				case 'ci_promocion_m_n':	Number(cantidad * Number($('#producto_precio_'+ producto.id_inventario ).text()));
@@ -408,7 +468,7 @@ $('#boton_enviar').click(function()
 		success : function(html)
 		{
 				$('#form_container').html(html);
-		}           
+		}
 	});
 });
 
@@ -420,7 +480,7 @@ $('#boton_limpiar').click(function()
 				success : function(html)
 				{
 					$('#form_container').html(html);
-				}           
+				}
 			});
 });
 
@@ -447,9 +507,9 @@ $('#quitar').click(function()
 	}
 	$('#marcadorCampos').html('Campos habilitados:' + $('#numeroFilas').val());
 });
-	
+
 function expandir(id_producto)
-{	
+{
 	$('.celda_marco').addClass('expanded_celda_marco');
 	$('.celda_marco').removeClass('hidden_class');
 	$('.celda_marco').show('fast');
@@ -458,14 +518,14 @@ function expandir(id_producto)
 		url : '<?php echo site_url();?>/carrito/informacionProducto/' + id_producto,
 		type: 'POST',
 		success : function(html)
-		{		
+		{
 				$('.celda_marco').html(html);
 				$('html, body').animate(
 				{
 					scrollTop: $('.celda_marco').offset().top
 				}, 1000);
-		}           
-	});	
+		}
+	});
 }
 
 
@@ -487,5 +547,5 @@ function reducir(id_producto)
 	$('.celda_marco').addClass('hidden_class');
 	$('.celda_marco').removeClass('expanded_celda_marco');
 	$('.celda_marco').hide('fast');
-}	
+}
 </script>
