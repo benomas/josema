@@ -1,4 +1,10 @@
 <?php
+
+if(!isset($_GET['token']) || $_GET['token']!=='4444333221' )
+	die();
+else
+	echo 'Redimiencionando imagenes...<br>';
+
 include('imagination.php');
 	$imgSizes	=	array	(	'original'		=>array(	'width'		=>'100%',
 															'height'	=>'100%',
@@ -32,7 +38,7 @@ include('imagination.php');
 $options=array('imgSizes'=>$imgSizes);
 $processImages= new Imagination($options);
 
+echo 'Cargamdo configuracion...<br>';
 $processImages->makeSubImagination();
-//$processImages->resetImgFiles();
-//$processImages->makeSubImagination();
+echo 'Proceso completado';
 ?>
