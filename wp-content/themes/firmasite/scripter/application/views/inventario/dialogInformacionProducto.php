@@ -5,7 +5,7 @@
 			if(file_exists('images/inventario/middle_size/'.$producto->npc.'.jpg'))
 				$backgoundImage=$producto->npc;
 			else
-				$backgoundImage=$producto->marca_refaccion;
+				$backgoundImage=$this->config->item('no_image');
 		?>
 		<div  class="contenedor_imagen_middle <?php if( !empty($producto->promocion) ) {?> promocion_container<?php }?> toottip_class_dialog" onclick="mostrarOriginal('<?php echo $backgoundImage;?>');" title="Maximizar imagen">
 			<div id="imagen_middle_<?php echo $producto->id_inventario;?>" class="imagen_middle">
