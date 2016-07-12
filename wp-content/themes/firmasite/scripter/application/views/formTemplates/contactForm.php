@@ -3,12 +3,17 @@
 	<table>
 		<tr>
 			<td class="td_clean">
-				Srta. Erika
+				Nancy Almazan Contreras
 			</td>
 		</tr>
 		<tr>
 			<td class="td_clean">
 				Telefono:01 444 8209597
+			</td>
+		</tr>
+		<tr>
+			<td class="td_clean">
+				Cel:01 444 1422514
 			</td>
 		</tr>
 	</table>
@@ -61,7 +66,7 @@
 		<table>
 			<tr>
 				<td class="td_clean">
-					Captcha:<iframe src="<?php echo site_url();?>/contactMail/printCaptcha" style="border:0; height:25px; width:100px;"></iframe> 
+					Captcha:<iframe src="<?php echo site_url();?>/contactMail/printCaptcha" style="border:0; height:25px; width:100px;"></iframe>
 				</td>
 			</tr>
 			<tr>
@@ -88,7 +93,7 @@
 <script>
 $(document).ready(function()
 {
-	
+
 });
 
 $('#boton_enviar').click(function()
@@ -102,7 +107,7 @@ $('#boton_enviar').click(function()
 		success : function(html)
 		{
 				$('#form_container').html(html);
-		}           
+		}
 	});
 });
 </script>

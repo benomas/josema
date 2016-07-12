@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class ContactMail extends CI_Controller 
+class ContactMail extends CI_Controller
 {
 
 	public function __construct()
@@ -9,38 +9,38 @@ class ContactMail extends CI_Controller
 		$this->load->helper("form");
 		$this->load->model('Catalogos_model');
 		$this->load->model('Inventario_model');
-		
+
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
 		$this->load->library('carro');
 		$this->load->library('controlform');
    }
-   
+
 	public function index()
 	{
 	}
-	
+
 	public function loadContactForm()
-	{	
+	{
 		$this->controlform->generarCaptcha('contact-form');
-		if($this->input->is_ajax_request() ) 
+		if($this->input->is_ajax_request() )
 			echo ( $this->load->view('formTemplates/contactForm', NULL,TRUE));
-		else 
+		else
 			$this->load->view('formTemplates/contactForm', NULL,$data);
-		
+
 	}
-	
+
 	function printCaptcha()
 	{
-		if($this->input->is_ajax_request() ) 
+		if($this->input->is_ajax_request() )
 			echo '<div class="table" >666</div>';
 		else
 			echo '<div class="table" >'.$this->controlform->consumirCaptcha('contact-form').'</div>';
 	}
-	
+
 	public function sendContactForm()
-	{	
-		
+	{
+
 		$this->form_validation->set_rules('nombre','Nombre','trim|required');
 		$this->form_validation->set_rules('telefono','Telefono','trim|required');
 		$this->form_validation->set_rules('correo','Correo','trim|required|valid_email');
@@ -58,10 +58,10 @@ class ContactMail extends CI_Controller
 			$data['correo']=$this->input->post('correo');
 			$data['asunto']=$this->input->post('asunto');
 			$this->controlform->destruirCaptcha('contact-form');
-			
+
 			$mensaje= $this->load->view('correoTemplates/contacto',$data,true);
 			$list=array();
-			$list[]='ventas_josema@hotmail.com';
+			$list[]='pedidos_josema@hotmail.com';
 			$this->email->from('josema@systamashii.com', 'JOSEMA');
 			$this->email->to($list);
 			$this->email->reply_to($data['correo'], 'Solicitud de contacto enviada desde Sistema JOSEMA');
@@ -71,7 +71,7 @@ class ContactMail extends CI_Controller
 			{
 				echo '	<div class="contenedor_info">
 							<label class="concepto_field" style="font-size:16px;">Solicitud de contacto enviada</label>
-						</div>'; 
+						</div>';
 				$list=array();
 				$array_list=$this->Catalogos_model->getAdminMails();
 				foreach($array_list AS $element)
@@ -87,17 +87,17 @@ class ContactMail extends CI_Controller
 				$this->carro->reset();
 			}
 		}
-		
+
 	}
-	
-	
+
+
 	function validaCaptcha($str)
-	{		
+	{
 		if($this->controlform->matchCaptcha('contact-form'))
 			return TRUE;
 		$this->form_validation->set_message('validaCaptcha', 'El <strong>%s</strong> es incorrecto');
 		return FALSE;
 	}
-	
+
 }
 ?>

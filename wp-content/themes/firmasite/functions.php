@@ -239,6 +239,8 @@ function load_ci_template()
 																																	)
 																							)
 																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
 		case get_page_by_title( 'Linea electrica')->ID:
 															$filtro->multiSet	(
 																					array	(

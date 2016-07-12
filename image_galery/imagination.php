@@ -45,9 +45,8 @@ class Imagination
 	{
 		if(empty($size))
 			$size=$this->defaultSize;
-		$scaned=scandir ( $this->imgSizes[$size]['path']);
+		$scaned=array_diff(scandir($this->imgSizes[$size]['path']), array('..', '.'));
 
-					//debugg($scaned);die();
 		foreach($scaned AS $value)
 		{
 			if(is_file($this->imgSizes[$size]['path'].$value))

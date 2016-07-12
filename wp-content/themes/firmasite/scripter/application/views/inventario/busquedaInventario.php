@@ -50,7 +50,7 @@
 							if(file_exists('images/inventario/tiny_size/'.$row_array['npc'].'.jpg'))
 								$backgoundImage=$row_array['npc'];
 							else
-								$backgoundImage=$row_array['marca_refaccion'];
+								$backgoundImage=$this->config->item('no_image');
 						?>
 						<div id="contenedor_imagen_marco_<?php echo $row_array['id_inventario'];?>" class="contenedor_imagen_marco tooltip_class" title="Maximizar imagen" onclick="mostrarOriginal('<?php echo $backgoundImage;?>');">
 
