@@ -75,7 +75,7 @@ class Inventario_model extends CI_Model
 								mr.nombre AS marca_refaccion,
 								i.descripcion,
 								o.nombre AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto/100) * (100-pv.descuento) ,ipv.monto))AS precio,
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto*pv.descuento) ,ipv.monto))AS precio,
 								(
 									SELECT	GROUP_CONCAT(ir.codigo SEPARATOR ', ')
 									FROM	ci_inventario_referencia AS ir
@@ -161,7 +161,7 @@ class Inventario_model extends CI_Model
 								mr.nombre AS marca_refaccion,
 								i.descripcion,
 								o.nombre AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto/100) * (100-pv.descuento) ,ipv.monto))AS precio
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto*pv.descuento) ,ipv.monto))AS precio
 						FROM ci_inventario AS i
 						LEFT JOIN	ci_tipo_componente AS tc ON tc.id_tipo_componente=i.id_tipo_componente
 						LEFT JOIN	ci_marca AS m ON m.id_marca=i.id_marca
@@ -192,7 +192,7 @@ class Inventario_model extends CI_Model
 								mr.nombre AS marca_refaccion,
 								i.descripcion,
 								o.nombre AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto/100) * (100-pv.descuento) ,ipv.monto))AS precio
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto*pv.descuento) ,ipv.monto))AS precio
 						FROM ci_inventario AS i
 						LEFT JOIN	ci_tipo_componente AS tc ON tc.id_tipo_componente=i.id_tipo_componente
 						LEFT JOIN	ci_marca AS m ON m.id_marca=i.id_marca
