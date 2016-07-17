@@ -8,7 +8,7 @@ Template Name: Pedido template
 // this one letting us translate page template names
 if(!codeigniter_is_login())
 	login_redirect();
-get_header(); 
+get_header();
  ?>
 <script src="<?php echo get_rcodeigniter_url();?>js/jquery-1.11.0.min.js" type="text/javascript" style=""></script>
 <script src="<?php echo get_rcodeigniter_url();?>js/jquery.numeric.js" type="text/javascript" style=""></script>
@@ -25,7 +25,7 @@ get_header();
 					<?php } ?>
 				</h1>
 			</header>
-			<div id="form_container">	
+			<div id="form_container">
 				<div style="width:100%; text-align:center;">
 					<label > Cargando...</label>
 					<br>
@@ -38,7 +38,7 @@ get_header();
 		<br>
 		<br>
 		<br>
-		<div style="font-size:10px;">Precios mas iva, precios y disponibilidad sugetos a cambio sin previo aviso</div>
+		<span class="leyenda-cambios">Precios más iva, precios y disponibilidad sujetos a cambio sin previo aviso</span>
 		</div>
 		</div><!-- #primary .content-area -->
 

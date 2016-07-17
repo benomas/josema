@@ -51,7 +51,7 @@
 		<td style="background-color:#DFF0D8;"><b>SUBTOTAL</b>
 		</td>
 	</tr>
-	<?php 
+	<?php
 		if($info['numeroFilas']>0 && $info['numeroFilas'] < 100)
 		{
 			$total=0;
@@ -60,7 +60,7 @@
 				if(isset($info['Cantidad'.$i]))
 				if($info['Cantidad'.$i]>0)
 				{
-					
+
 					//calcular precio
 					$subtotal= $info['Cantidad'.$i] * round($info['row'.$i]->precio,2);
 					if(!empty($info['row'.$i]->promocion))
@@ -71,12 +71,12 @@
 							case 'ci_promocion_fija':
 														$subtotal=$cantidad * $info['row'.$i]->promocion['precio_oferta'];
 														break;
-							case 'ci_promocion_rango':	
+							case 'ci_promocion_rango':
 														$min=$info['row'.$i]->promocion['cantidad_min'];
 														$max=$info['row'.$i]->promocion['cantidad_max'];
 														$cantidad_precio_especial=0;
 														$cantidad_precio_normal=0;
-											
+
 														if($min && $max)
 														{
 															if($cantidad >= $min)
@@ -89,16 +89,16 @@
 																else
 																{
 																	$cantidad_precio_especial	= 	$max;
-																	$cantidad_precio_normal 	=	$cantidad - $max;	
+																	$cantidad_precio_normal 	=	$cantidad - $max;
 																}
 															}
 															else
 															{
 																$cantidad_precio_especial	= 	0;
-																$cantidad_precio_normal 	=	$cantidad;	
+																$cantidad_precio_normal 	=	$cantidad;
 															}
 														}
-											
+
 														if($min && !$max)
 														{
 															if( $cantidad >= $min )
@@ -109,11 +109,11 @@
 															else
 															{
 																$cantidad_precio_especial	= 	0;
-																$cantidad_precio_normal 	=	$cantidad;	
+																$cantidad_precio_normal 	=	$cantidad;
 															}
-															
+
 														}
-														
+
 														if(!$min && $max)
 														{
 															if( $cantidad <= $max )
@@ -124,13 +124,13 @@
 															else
 															{
 																$cantidad_precio_especial	= 	$max;
-																$cantidad_precio_normal 	=	$cantidad - $max;	
+																$cantidad_precio_normal 	=	$cantidad - $max;
 															}
 														}
 														if(!$min && !$max)
 														{
 															$cantidad_precio_especial	= 	$cantidad;
-															$cantidad_precio_normal 		=	0;	
+															$cantidad_precio_normal 		=	0;
 														}
 														$precio_normal = round($info['row'.$i]->precio,2);
 														$precio_especial = round($info['row'.$i]->promocion['precio_oferta'],2);
@@ -180,5 +180,5 @@
 	<br>
 	<br>
 	<br>
-	<div style="font-size:10px;">Precios mas iva, precios y disponibilidad sugetos a cambio sin previo aviso</div>
+    <span class="leyenda-cambios">Precios más iva, precios y disponibilidad sujetos a cambio sin previo aviso</span>
 
