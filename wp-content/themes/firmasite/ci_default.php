@@ -42,7 +42,7 @@ get_header();
 		<br>
 		<br>
 		<br>
-		<div style="font-size:10px;">Precios más iva, precios y disponibilidad sujetos a cambio sin previo aviso</div>
+		<span class="leyenda-cambios">Precios más iva, precios y disponibilidad sujetos a cambio sin previo aviso</span>
 		</div>
 		</div><!-- #primary .content-area -->
 

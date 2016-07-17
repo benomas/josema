@@ -38,7 +38,7 @@ include('imagination.php');
 $options=array('imgSizes'=>$imgSizes);
 $processImages= new Imagination($options);
 
-echo 'Cargamdo configuracion...<br>';
+echo 'Cargando configuracion...<br>';
 $processImages->makeSubImagination();
 echo 'Proceso completado';
 ?>

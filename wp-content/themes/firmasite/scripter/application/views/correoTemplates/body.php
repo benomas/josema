@@ -202,5 +202,5 @@
 	<br>
 	<br>
 	<br>
-	<div style="font-size:10px;">Precios mas iva, precios y disponibilidad sugetos a cambio sin previo aviso</div>
+	<span class="leyenda-cambios">Precios mas iva, precios y disponibilidad sugetos a cambio sin previo aviso</span>
 

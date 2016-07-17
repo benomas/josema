@@ -402,3 +402,12 @@ table .promocion_container
     font-weight: bold;
     text-align: center;
 }
+
+.leyenda-cambios
+{
+	font-size:13px;
+	background-color: #0d8d74;
+    border-radius: 0 5px 0 0;
+    color: #ffffff;
+    padding: 2px 5px;
+}
