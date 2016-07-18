@@ -90,7 +90,7 @@ BEGIN
   TRUNCATE TABLE ci_resumen_inventario;
 
     INSERT INTO ci_resumen_inventario
-(busqueda,id_inventario,npc,componente,marca,marca_componente,marca_refaccion,descripcion,origen,precio,referencias)
+(busqueda,id_inventario,npc,componente,marca,marca_componente,marca_refaccion,descripcion,origen,precio_base,referencias)
 (SELECT
   CONCAT(IFNULL(tc.nombre, ' '),
             ' ',
@@ -122,11 +122,7 @@ BEGIN
     mr.nombre AS marca_refaccion,
     i.descripcion,
     o.nombre AS origen,
-    IF(pv.descuento IS NULL,
-        NULL,
-        IF(pv.descuento > 0,
-            (ipv.monto * pv.descuento),
-            ipv.monto)) AS precio,
+    ipv.monto AS precio_base,
     (SELECT
             GROUP_CONCAT(ir.codigo
                     SEPARATOR ', ')
