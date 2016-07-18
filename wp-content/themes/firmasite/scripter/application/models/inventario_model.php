@@ -20,43 +20,36 @@ class Inventario_model extends CI_Model
 									");
 		return $query->result_array();
 	}
+
 	function get_inventario($contar=false,$posicion='0',$limite='0')
 	{
 		$id_usuario=0;
 		$id_usuario=$this->centinela->get('id_usuario');
 		$filtro = new Filtro('filtros_busqueda');
+		$consulta='';
 		if($filtro->isEmpty())
 		{
 			$filtro = new Filtro();
 			$busqueda = $filtro->getValue('busqueda');
 			if(!empty($busqueda))
-				$WHERE="	WHERE	CONCAT(
-											IFNULL(tc.nombre,' '),
-											' ',
-											IFNULL(m.nombre,' '),
-											' ',
-											IFNULL(mc.nombre,' '),
-											' ',
-											IFNULL(mr.nombre,' '),
-											' ',
-											IFNULL(i.descripcion,' '),
-											' ',
-											IFNULL(o.nombre,' '),
-											' ',
-											IFNULL(i.npc,' '),
-											' ',
-											IFNULL(
-														(
-															SELECT	GROUP_CONCAT(ir.codigo SEPARATOR ', ')
-															FROM	ci_inventario_referencia AS ir
-															WHERE	ir.id_inventario=i.id_inventario
-														),
-														' '
-													)
-											)LIKE '%".$busqueda."%'
-						";
+			{
+				$consulta=$this->getConsultaConstante($id_usuario)." WHERE cri.busqueda LIKE '%".$busqueda."%' ";
+				$combinacionesTokens=$this->getCombinaciones($busqueda);
+				foreach ($combinacionesTokens as $combinacionesTokensKey => $combinacionesTokensValue)
+				{
+					foreach ($combinacionesTokensValue as $filtrosKey => $filtrosValue)
+					{
+						$initWere=false;
+						$consulta= $consulta." UNION ".$this->getConsultaConstante($id_usuario)." WHERE 1 ";
+						foreach ($filtrosValue as $filtroKey => $filtroValue)
+						{
+							$consulta=$consulta." AND cri.busqueda LIKE '%".$filtroValue."%' ";
+						}
+					}
+				}
+			}
 			else
-				$WHERE="";
+				$consulta=$this->getConsultaConstante($id_usuario);
 		}
 		else
 		{
@@ -66,35 +59,27 @@ class Inventario_model extends CI_Model
 			{
 				$WHERE.= " AND	".$params['nombre_campo']." ".$params['condicion']." '".$params['exprecion']."' ";
 			}
-		}
-		$consulta=	"	SELECT	i.id_inventario,
-								i.npc,
-								tc.nombre AS componente,
-								m.nombre AS marca,
-								mc.nombre AS marca_componente,
-								mr.nombre AS marca_refaccion,
-								i.descripcion,
-								o.nombre AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto*pv.descuento) ,ipv.monto))AS precio,
-								(
-									SELECT	GROUP_CONCAT(ir.codigo SEPARATOR ', ')
-									FROM	ci_inventario_referencia AS ir
-									WHERE	ir.id_inventario=i.id_inventario
-								) AS referencias
-						FROM ci_inventario AS i
-						LEFT JOIN	ci_tipo_componente 			AS	tc 	ON	tc.id_tipo_componente=i.id_tipo_componente
-						LEFT JOIN	ci_marca 					AS	m 	ON	m.id_marca=i.id_marca
-						LEFT JOIN	ci_marcacomponente 			AS 	mc 	ON	mc.id_marcacomponente=i.id_marcacomponente
-						LEFT JOIN	ci_marcarefaccion 			AS 	mr 	ON	mr.id_marcarefaccion=i.id_marcarefaccion
-						LEFT JOIN	ci_origen 					AS 	o 	ON	o.id_origen=i.id_origen
+			$consulta=	"	SELECT	cri.id_inventario,
+								cri.npc,
+								cri.componente AS componente,
+								cri.marca AS marca,
+								cri.marca_componente AS marca_componente,
+								cri.marca_refaccion AS marca_refaccion,
+								cri.descripcion,
+								cri.origen AS origen,
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(cri.precio_base*pv.descuento) ,cri.precio_base))AS precio,
+								cri.referencias
+						FROM ci_resumen_inventario AS cri
 						LEFT JOIN   usuario 					AS 	u 	ON 	u.id_usuario='".$id_usuario."'
 						LEFT JOIN	ci_precio_venta 			AS 	pv 	ON 	pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=i.id_inventario /*AND ipv.id_precio_venta = pv.id_precio_venta*/
-						LEFT JOIN	ci_promocion				AS	p	ON	p.id_inventario=i.id_inventario AND
+						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=cri.id_inventario
+						LEFT JOIN	ci_promocion				AS	p	ON	p.id_inventario=cri.id_inventario AND
 																			IF(NOT ISNULL(p.fecha_inicio),IF(NOW() > p.fecha_inicio,1,0),1)	AND
 																			IF(NOT ISNULL(p.fecha_fin),IF(NOW() < p.fecha_fin,1,0),1)
 
-					".$WHERE; //debugg($consulta);
+					".$WHERE;
+		}
+
 	if($contar)
 		return $this->db->query($consulta)->num_rows();
 	if($limite )
@@ -103,15 +88,93 @@ class Inventario_model extends CI_Model
 	/*
 		promociones
 	*/
-		$inventario=$this->db->query($consulta)->result_array();
-		foreach($inventario AS $indice=>$producto)
-		{
+	$inventario=$this->db->query($consulta)->result_array();
+	/*
+	foreach($inventario AS $indice=>$producto)
+	{
 
-			$promocion = $this->getPromocion($producto['id_inventario']);
-			if($promocion)
-				$inventario[$indice]['promocion']=$promocion;
-		}
+		$promocion = $this->getPromocion($producto['id_inventario']);
+		if($promocion)
+			$inventario[$indice]['promocion']=$promocion;
+	}
+	*/
 	return $inventario;
+	}
+
+	function getConsultaConstante($id_usuario)
+	{
+		return "	SELECT	cri.id_inventario,
+								cri.npc,
+								cri.componente AS componente,
+								cri.marca AS marca,
+								cri.marca_componente AS marca_componente,
+								cri.marca_refaccion AS marca_refaccion,
+								cri.descripcion,
+								cri.origen AS origen,
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(cri.precio_base*pv.descuento) ,cri.precio_base))AS precio,
+								cri.referencias
+						FROM ci_resumen_inventario AS cri
+						LEFT JOIN   usuario 					AS 	u 	ON 	u.id_usuario='".$id_usuario."'
+						LEFT JOIN	ci_precio_venta 			AS 	pv 	ON 	pv.id_tipo_cliente=u.id_tipo_cliente
+						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=cri.id_inventario
+					";
+	}
+
+	function getCombinaciones($sujeto)
+	{
+		$patrón = '/\w+/';
+		preg_match_all($patrón, $sujeto, $coincidencias);
+		$recorrido=0;
+		$totalTokens=count($coincidencias[0]);
+		$combinacionesTokens[$recorrido++]=$coincidencias;
+		while($recorrido<$totalTokens)
+		{
+			$cobinacionTemporal=$this->ignoraUnaPosicion($combinacionesTokens[$recorrido-1]);
+			$combinacionesTokens[$recorrido]=$cobinacionTemporal;
+			$recorrido++;
+		}
+		return $combinacionesTokens;
+	}
+
+	function ignoraUnaPosicion($combinacionesTokens)
+	{
+		$subquerys=array();
+
+		if(isset($combinacionesTokens) && is_array($combinacionesTokens))
+		{
+			foreach ($combinacionesTokens as $iterationKey => $iterationValue)
+			{
+				if(is_array($iterationValue))
+				{
+					$begin=0;
+					$end=count($iterationValue);
+					while($begin<$end)
+					{
+						$tempArray = $iterationValue;
+						unset($tempArray[$end-$begin-1]);
+						if(!in_array($tempArray,$combinacionesTokens))
+						{
+							$alreadyInArray=false;
+							foreach ($subquerys as $subquerysKey => $subquerysValue)
+							{
+								$totalOfSameItems=0;
+								foreach ($subquerysValue as $key => $value)
+								{
+									if(isset($tempArray[$key]) && $value === $tempArray[$key])
+										$totalOfSameItems++;
+								}
+								if($totalOfSameItems === count($tempArray))
+									$alreadyInArray = $alreadyInArray || true;
+							}
+							if(!$alreadyInArray)
+								$subquerys[]=$tempArray;
+						}
+						$begin++;
+					}
+				}
+			}
+		}
+		return $subquerys;
 	}
 
 	function getPromocion($id_inventario)
@@ -153,25 +216,21 @@ class Inventario_model extends CI_Model
 	{
 		$id_usuario=0;
 		$id_usuario=$this->centinela->get('id_usuario');
-		$consulta=	"	SELECT	i.id_inventario,
-								i.npc,
-								tc.nombre AS componente,
-								m.nombre AS marca,
-								mc.nombre AS marca_componente,
-								mr.nombre AS marca_refaccion,
-								i.descripcion,
-								o.nombre AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto*pv.descuento) ,ipv.monto))AS precio
-						FROM ci_inventario AS i
-						LEFT JOIN	ci_tipo_componente AS tc ON tc.id_tipo_componente=i.id_tipo_componente
-						LEFT JOIN	ci_marca AS m ON m.id_marca=i.id_marca
-						LEFT JOIN	ci_marcacomponente AS mc ON mc.id_marcacomponente=i.id_marcacomponente
-						LEFT JOIN	ci_marcarefaccion AS mr ON mr.id_marcarefaccion=i.id_marcarefaccion
-						LEFT JOIN	ci_origen AS o ON o.id_origen=i.id_origen
-						LEFT JOIN   usuario AS u ON u.id_usuario='".$id_usuario."'
-						LEFT JOIN	ci_precio_venta AS pv ON pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta AS ipv ON ipv.id_inventario=i.id_inventario/* AND ipv.id_precio_venta = pv.id_precio_venta*/
-						WHERE	i.id_inventario='".$id_producto."'
+		$consulta=	"	SELECT	cri.id_inventario,
+								cri.npc,
+								cri.componente AS componente,
+								cri.marca AS marca,
+								cri.marca_componente AS marca_componente,
+								cri.marca_refaccion AS marca_refaccion,
+								cri.descripcion,
+								cri.origen AS origen,
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(cri.precio_base*pv.descuento) ,cri.precio_base))AS precio,
+								cri.referencias
+						FROM ci_resumen_inventario AS cri
+						LEFT JOIN   usuario 					AS 	u 	ON 	u.id_usuario='".$id_usuario."'
+						LEFT JOIN	ci_precio_venta 			AS 	pv 	ON 	pv.id_tipo_cliente=u.id_tipo_cliente
+						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=cri.id_inventario
+						WHERE	cri.id_inventario='".$id_producto."'
 					";
 		$promocion=$this->getPromocion($id_producto);
 		$resultado=$this->db->query($consulta)->row();
@@ -184,25 +243,21 @@ class Inventario_model extends CI_Model
 	{
 		$id_usuario=0;
 		$id_usuario=$this->centinela->get('id_usuario');
-		$consulta=	"	SELECT	i.id_inventario,
-								i.npc,
-								tc.nombre AS componente,
-								m.nombre AS marca,
-								mc.nombre AS marca_componente,
-								mr.nombre AS marca_refaccion,
-								i.descripcion,
-								o.nombre AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(ipv.monto*pv.descuento) ,ipv.monto))AS precio
-						FROM ci_inventario AS i
-						LEFT JOIN	ci_tipo_componente AS tc ON tc.id_tipo_componente=i.id_tipo_componente
-						LEFT JOIN	ci_marca AS m ON m.id_marca=i.id_marca
-						LEFT JOIN	ci_marcacomponente AS mc ON mc.id_marcacomponente=i.id_marcacomponente
-						LEFT JOIN	ci_marcarefaccion AS mr ON mr.id_marcarefaccion=i.id_marcarefaccion
-						LEFT JOIN	ci_origen AS o ON o.id_origen=i.id_origen
-						LEFT JOIN   usuario AS u ON u.id_usuario='".$id_usuario."'
-						LEFT JOIN	ci_precio_venta AS pv ON pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta AS ipv ON ipv.id_inventario=i.id_inventario/* AND ipv.id_precio_venta = pv.id_precio_venta*/
-						WHERE	i.npc='".$npc."'
+		$consulta=	"	SELECT	cri.id_inventario,
+								cri.npc,
+								cri.componente AS componente,
+								cri.marca AS marca,
+								cri.marca_componente AS marca_componente,
+								cri.marca_refaccion AS marca_refaccion,
+								cri.descripcion,
+								cri.origen AS origen,
+								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(cri.precio_base*pv.descuento) ,cri.precio_base))AS precio,
+								cri.referencias
+						FROM ci_resumen_inventario AS cri
+						LEFT JOIN   usuario 					AS 	u 	ON 	u.id_usuario='".$id_usuario."'
+						LEFT JOIN	ci_precio_venta 			AS 	pv 	ON 	pv.id_tipo_cliente=u.id_tipo_cliente
+						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=cri.id_inventario
+						WHERE	cri.npc='".$npc."'
 					";
 
 

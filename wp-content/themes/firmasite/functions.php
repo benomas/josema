@@ -132,13 +132,13 @@ function load_ci_template()
 	{
 		case get_page_by_title( 'Buscador')->ID:
 															$filtro = new Filtro();
-															$filtro->set('busqueda',urlencode($_GET['grid_searsh']));
+															$filtro->set('busqueda',urldecode($_GET['grid_searsh']));
 															get_template_part( 'templates/ci_ajax_templates/buscar');
 															break;
 		case get_page_by_title( 'Valvulas IAC')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'valvulas_iac'	=>	array	(	'nombre_campo'	=>'mc.nombre',
+																								'valvulas_iac'	=>	array	(	'nombre_campo'	=>'cri.marca_componente',
 																																'condicion'		=>'=',
 																																'exprecion'		=>'VALVULA IAC'
 																															)
@@ -149,7 +149,7 @@ function load_ci_template()
 		case get_page_by_title( 'Bobinas')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'bobinas'		=>	array	(	'nombre_campo'	=>'mc.nombre',
+																								'bobinas'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
 																																'condicion'		=>'=',
 																																'exprecion'		=>'BOBINA'
 																															)
@@ -160,7 +160,7 @@ function load_ci_template()
 		case get_page_by_title( 'Sensores')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'sensores'		=>	array	(	'nombre_campo'	=>'tc.nombre',
+																								'sensores'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																'condicion'		=>'=',
 																																'exprecion'		=>'SENSORES'
 																															)
@@ -181,11 +181,11 @@ function load_ci_template()
 		case get_page_by_title( 'INJETECH')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'bombas_gasolina'		=>	array	(	'nombre_campo'	=>'tc.nombre',
+																								'bombas_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
 																																		'exprecion'		=>'BOMBA DE GASOLINA'
 																																	),
-																								'intetecj'				=>	array	(	'nombre_campo'	=>'mr.nombre',
+																								'intetecj'				=>	array	(	'nombre_campo'	=>'cri.marca_refaccion',
 																																		'condicion'		=>'=',
 																																		'exprecion'		=>'INJETECH'
 																																	)
@@ -197,7 +197,7 @@ function load_ci_template()
 		case get_page_by_title( 'Inyectores de gasolina')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'inyectores_gasolina'		=>	array	(	'nombre_campo'	=>'tc.nombre',
+																								'inyectores_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
 																																		'exprecion'		=>'INYECTORES'
 																																	)
@@ -229,11 +229,11 @@ function load_ci_template()
 		case get_page_by_title( 'INJEKTION')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'bombas_gasolina'		=>	array	(	'nombre_campo'	=>'tc.nombre',
+																								'bombas_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
 																																		'exprecion'		=>'BOMBA DE GASOLINA'
 																																	),
-																								'intetecj'				=>	array	(	'nombre_campo'	=>'mr.nombre',
+																								'intetecj'				=>	array	(	'nombre_campo'	=>'cri.marca_refaccion',
 																																		'condicion'		=>'=',
 																																		'exprecion'		=>'INJEKTION'
 																																	)
@@ -244,7 +244,7 @@ function load_ci_template()
 		case get_page_by_title( 'Linea electrica')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'linea_electrica'		=>	array	(	'nombre_campo'	=>'tc.nombre',
+																								'linea_electrica'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
 																																		'exprecion'		=>'SISTEMA ELECTRICO'
 																																	)
