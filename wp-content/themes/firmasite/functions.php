@@ -252,6 +252,17 @@ function load_ci_template()
 																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');
 															break;
+		case get_page_by_title( 'Linea mecanica')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'linea_mecanica'		=>	array	(	'nombre_campo'	=>'cri.componente',
+																																		'condicion'		=>'=',
+																																		'exprecion'		=>'LINEA MECANICA'
+																																	)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
 		default:break;
 	}
 }
