@@ -166,6 +166,15 @@ function load_ci_template()
 																															)
 																							)
 																				);
+		case get_page_by_title( 'Accesorios para bomba')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'accesorios_bomba'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																		'condicion'		=>'=',
+																																		'exprecion'		=>'ACCESORIOS DE BOMBA'
+																																	)
+																							)
+																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');
 															break;
 		case get_page_by_title( 'Pedidos')->ID:
@@ -178,7 +187,7 @@ function load_ci_template()
 															get_template_part( 'templates/ci_ajax_templates/login');
 															break;
 
-		case get_page_by_title( 'INJETECH')->ID:
+		case get_page_by_title( 'Injetech')->ID:
 															$filtro->multiSet	(
 																					array	(
 																								'bombas_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
@@ -226,7 +235,7 @@ function load_ci_template()
 		case get_page_by_title( 'Carrito')->ID:
 															get_template_part( 'templates/ci_ajax_templates/modulo_carrito');
 															break;
-		case get_page_by_title( 'INJEKTION')->ID:
+		case get_page_by_title( 'Injektion')->ID:
 															$filtro->multiSet	(
 																					array	(
 																								'bombas_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
@@ -241,10 +250,10 @@ function load_ci_template()
 																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');
 															break;
-		case get_page_by_title( 'Linea electrica')->ID:
+		case get_page_by_title( 'Sistema electrico')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'linea_electrica'		=>	array	(	'nombre_campo'	=>'cri.componente',
+																								'sistema_electrico'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
 																																		'exprecion'		=>'SISTEMA ELECTRICO'
 																																	)
@@ -252,12 +261,34 @@ function load_ci_template()
 																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');
 															break;
-		case get_page_by_title( 'Linea mecanica')->ID:
+		case get_page_by_title( 'Miscelanea')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'linea_mecanica'		=>	array	(	'nombre_campo'	=>'cri.componente',
+																								'miscelanea'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'LINEA MECANICA'
+																																		'exprecion'		=>'MISCELANEA'
+																																	)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Sistema encendido')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'sistema_encendido'		=>	array	(	'nombre_campo'	=>'cri.componente',
+																																		'condicion'		=>'=',
+																																		'exprecion'		=>'SISTEMA DE ENCENDIDO'
+																																	)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Sensor maf')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'sensor_af'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																		'condicion'		=>'=',
+																																		'exprecion'		=>'SENSOR MAF'
 																																	)
 																							)
 																				);

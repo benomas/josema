@@ -32,7 +32,7 @@
 			<div class="celda_marco" id="celda_marco_<?php echo $row_array['id_inventario'];?>" >
 				<div class="shadow_marco <?php if( !empty($row_array['promocion']) ) {?> promocion_container<?php }?>" id="shadow_marco_<?php echo $row_array['id_inventario'];?>">
 
-						<div class="tittle_marco" ><?php echo $row_array['npc']; ?>
+						<div class="tittle_marco tooltip_class" title="<?php echo $row_array['npc']; ?>" data-original-title="<?php echo $row_array['npc']; ?>"><?php echo $row_array['npc']; ?>
 						</div>
 						<?php
 							if( !empty($row_array['promocion']) )
