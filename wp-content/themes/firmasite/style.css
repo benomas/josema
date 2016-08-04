@@ -184,7 +184,7 @@ td.mceIframeContainer{padding:0!important}
 .last_selected{border: 4px double #145E8D;box-shadow: 0 0 12px 6px #662D4C;}
 .hidden_class{display:none;}
 .fila_marco{display:inline-block;}
-.celda_marco{display:inline-block;width:24%;max-width:300px;min-width:230px;height:21%;max-height:400px;min-height:270px;padding:2%;}
+.celda_marco{display:inline-block;width:24%;max-width:300px;min-width:230px;height:21%;max-height:400px;min-height:270px;padding:2%; font-size: 12px !important;}
 .field_marco{display:inline-block;width:100%;color:#DD4814;margin-left:10px;}
 .tittle_marco{	color:#FFFFFF;background-color:#772953;font-size:20px;text-transform:uppercase;text-align:center;width:50%;border-bottom-right-radius:5px;
 				display:inline-block;border-bottom:3px groove #AE3910;border-right:3px groove #AE3910;border-top:1px solid #CCCCCC;border-left:1px solid #CCCCCC;
@@ -413,4 +413,11 @@ table .promocion_container
     border-radius: 0 5px 0 0;
     color: #ffffff;
     padding: 2px 5px;
+}
+
+.limita-texto
+{
+	overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
 }
