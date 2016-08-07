@@ -57,7 +57,7 @@ class Inventario_model extends CI_Model
 			$WHERE=" WHERE 1 ";
 			foreach($filtros AS $filtro=>$params)
 			{
-				$WHERE.= " AND	".$params['nombre_campo']." ".$params['condicion']." '".$params['exprecion']."' ";
+				$WHERE.= " AND	".$params['nombre_campo']." ".$params['condicion']." '".$params['expresion']."' ";
 			}
 			$consulta=	"	SELECT	cri.id_inventario,
 								cri.npc,

@@ -140,7 +140,7 @@ function load_ci_template()
 																					array	(
 																								'valvulas_iac'	=>	array	(	'nombre_campo'	=>'cri.marca_componente',
 																																'condicion'		=>'=',
-																																'exprecion'		=>'VALVULA IAC'
+																																'expresion'		=>'VALVULA IAC'
 																															)
 																							)
 																				);
@@ -151,7 +151,7 @@ function load_ci_template()
 																					array	(
 																								'bobinas'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
 																																'condicion'		=>'=',
-																																'exprecion'		=>'BOBINA'
+																																'expresion'		=>'BOBINA'
 																															)
 																							)
 																				);
@@ -162,7 +162,7 @@ function load_ci_template()
 																					array	(
 																								'sensores'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																'condicion'		=>'=',
-																																'exprecion'		=>'SENSORES'
+																																'expresion'		=>'SENSORES'
 																															)
 																							)
 																				);
@@ -171,7 +171,7 @@ function load_ci_template()
 																					array	(
 																								'accesorios_bomba'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'ACCESORIOS DE BOMBA'
+																																		'expresion'		=>'ACCESORIOS DE BOMBA'
 																																	)
 																							)
 																				);
@@ -192,11 +192,11 @@ function load_ci_template()
 																					array	(
 																								'bombas_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'BOMBA DE GASOLINA'
+																																		'expresion'		=>'BOMBA DE GASOLINA'
 																																	),
 																								'intetecj'				=>	array	(	'nombre_campo'	=>'cri.marca_refaccion',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'INJETECH'
+																																		'expresion'		=>'INJETECH'
 																																	)
 																							)
 																				);
@@ -208,7 +208,7 @@ function load_ci_template()
 																					array	(
 																								'inyectores_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'INYECTORES'
+																																		'expresion'		=>'INYECTORES'
 																																	)
 																							)
 																				);
@@ -220,7 +220,7 @@ function load_ci_template()
 																					array	(
 																								'promociones'			=>	array	(	'nombre_campo'	=>'NOT ISNULL(p.id_promocion)',
 																																		'condicion'		=>'AND',
-																																		'exprecion'		=>'1'
+																																		'expresion'		=>'1'
 																																	)
 																							)
 																				);
@@ -240,11 +240,11 @@ function load_ci_template()
 																					array	(
 																								'bombas_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'BOMBA DE GASOLINA'
+																																		'expresion'		=>'BOMBA DE GASOLINA'
 																																	),
 																								'intetecj'				=>	array	(	'nombre_campo'	=>'cri.marca_refaccion',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'INJEKTION'
+																																		'expresion'		=>'INJEKTION'
 																																	)
 																							)
 																				);
@@ -255,8 +255,41 @@ function load_ci_template()
 																					array	(
 																								'sistema_electrico'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'SISTEMA ELECTRICO'
+																																		'expresion'		=>'SISTEMA ELECTRICO'
 																																	)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Solenoide')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'solenoide'				=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																		'condicion'		=>'=',
+																																		'expresion'		=>'SOLENOIDE'
+																																	)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Regulador alternador')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'regulador_alternador'				=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																					'condicion'		=>'=',
+																																					'expresion'		=>'REGULADOR ALTERNADOR'
+																																				)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Porta diodos')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'porta_diodos'						=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																					'condicion'		=>'=',
+																																					'expresion'		=>'PORTA DIODOS'
+																																				)
 																							)
 																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');
@@ -266,7 +299,7 @@ function load_ci_template()
 																					array	(
 																								'miscelanea'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'MISCELANEA'
+																																		'expresion'		=>'MISCELANEA'
 																																	)
 																							)
 																				);
@@ -277,7 +310,7 @@ function load_ci_template()
 																					array	(
 																								'sistema_encendido'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'SISTEMA DE ENCENDIDO'
+																																		'expresion'		=>'SISTEMA DE ENCENDIDO'
 																																	)
 																							)
 																				);
@@ -288,7 +321,7 @@ function load_ci_template()
 																					array	(
 																								'sensor_af'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
 																																		'condicion'		=>'=',
-																																		'exprecion'		=>'SENSOR MAF'
+																																		'expresion'		=>'SENSOR MAF'
 																																	)
 																							)
 																				);
