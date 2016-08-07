@@ -1,10 +1,10 @@
 	<style>
-		
+
 		.main_panel
 		{
-			background-color:#FFFFFF; 
-			width:100%; 
-			height:45px; 
+			background-color:#FFFFFF;
+			width:100%;
+			height:45px;
 			margin-bottom:5px;"
 		}
 		.text_tittle
@@ -23,21 +23,21 @@
 			color:#FFFFFF;
 			padding-top:10px;
 		}
-		
+
 		.size1{width:100%;}.size2{width:95%;}.size3{width:90%;}.size4{width:85%;}.size5{width:80%;}
 		.size6{width:75%;}.size7{width:70%;}.size8{width:65;}.size9{width:60%;}.size10{width:55%;}
 		.size11{width:50%;}.size12{width:45%;}.size13{width:40%;}.size14{width:35%;}.size15{width:30%;}
 		.size16{width:25%;}.size17{width:20%;}.size18{width:15%;}.size19{width:10%;}.size20{width:5%;}
-		
+
 		.sub_panel
 		{
-			display:inline-block; 
-			background-color:#772953;  
-			border: 2px solid #DD4814; 
-			width:28%; 
-			max-width:350px; 
-			height:50px; 
-			padding-top:5px; 
+			display:inline-block;
+			background-color:#772953;
+			border: 2px solid #DD4814;
+			width:28%;
+			max-width:350px;
+			height:50px;
+			padding-top:5px;
 			padding-left:10px;
 			padding-right:10px;
 			padding-top:5px;
@@ -51,7 +51,7 @@
 		{
 			border-top-left-radius:15px;
 		}
-		
+
 		.bloque_input_buscador
 		{
 			width:62%;
@@ -59,14 +59,14 @@
 			display:inline-block;
 			margin:0 3px;
 		}
-		
+
 		.input_buscador
 		{
 			width:100%;
 			display:inline-block;
 			height:35px;
 		}
-		
+
 		.bloque_botton_buscador
 		{
 			width:32%;
@@ -74,7 +74,7 @@
 			display:inline-block;
 			margin:0 3px;
 		}
-		
+
 		.botton_buscador
 		{
 			width:100%;
@@ -82,16 +82,16 @@
 			border-radius:4px;
 			text-align:center;
 			cursor:pointer;
-			
+
 			display:inline-block;
 			padding-left: 0;
 			padding-right: 0;
 			padding-top:5px;
-			
+
 			background-color: #DD4814;
 			border-color: #DD4814;
 			color: #FFFFFF;
-			
+
 			font-size: 14px;
 			font-weight: normal;
 			line-height: 1.42857;
@@ -99,14 +99,14 @@
 			vertical-align: middle;
 			white-space: nowrap;
 		}
-		
+
 		.botton_buscador:hover
 		{
 			background-color: #B83C11;
 			border-color: #A5360F;
 			color: #FFFFFF;
 		}
-		
+
 		.bloque_user_data
 		{
 			width:45%;
@@ -115,8 +115,8 @@
 			margin:0 3px;
 			vertical-align:top;
 		}
-		
-		
+
+
 		.bloque_usuarios_button
 		{
 			width:20%;
@@ -125,7 +125,7 @@
 			margin:0 3px;
 			border-radius:4px;
 		}
-		
+
 		.bloque_carrito_button
 		{
 			width:20%;
@@ -134,19 +134,19 @@
 			margin:0 3px;
 			border-radius:4px;
 		}
-		
-		
+
+
 		.bloque_usuarios_button:hover
 		{
 			background-color: #B83C11;
 		}
-		
+
 		.bloque_carrito_button:hover
 		{
 			background-color: #B83C11;
 		}
-		
-		
+
+
 		.bno-accions
 		{
 			padding:4px 3px;
@@ -155,7 +155,7 @@
 		.bno-button
 		{
 			color:#772954;
-			background-color:#f1f1f1;
+			/*background-color:#f1f1f1;*/
 			font-size:28px;
 			cursor:pointer;
 			display:inline-block;
@@ -163,68 +163,68 @@
 			border-radius:4px;
 			display:inline-block;
 		}
-		
+
 		.bno-button:hover
 		{
-			background-color:#FFFFFF;
-			color:#413500;
+			/*background-color:#FFFFFF;*/
+			color:#AE3910;
 		}
 
-		
+
 		/*size9*/
 		@media (min-width:3200px)
 		{
 			.sub_panel{width:50%;max-width:540px; }
 		}
-		
-		
+
+
 		/*size8*/
-		
-		@media (min-width:1200px)	AND  (max-width:1900px)	
+
+		@media (min-width:1200px)	AND  (max-width:1900px)
 		{	.sub_panel{width:28%;}
 			.vista_carrito{ margin-left:18px; width:40px;}
 			.bloque_vista_carrito{ margin-left: 0; width: 80px;}
 		}
-		
+
 		/*size7*/
-		
-		@media (min-width:992px)	AND  (max-width:1199px)	
-		{	
+
+		@media (min-width:992px)	AND  (max-width:1199px)
+		{
 			.sub_panel{width:32%;}
 			.vista_carrito{ margin-left:14px; width:40px;}
 			.bloque_vista_carrito{ margin-left: 0; width: 68px;}
 			.no_essencial2{display:none;}
 		}
-		
-		
+
+
 		/*size6*/
-		
-		@media (min-width:768px)	AND  (max-width:992px)	
+
+		@media (min-width:768px)	AND  (max-width:992px)
 		{
 			.sub_panel{width:42%;}
 			.vista_carrito{ margin-left:8px; width:40px;}
 			.bloque_vista_carrito{ margin-left: 0; width: 55px;}
 			.no_essencial2{display:none;}
 		}
-		
-		
+
+
 		/*size5*/
-		
-		@media (min-width:690px)	AND  (max-width:768px)	
+
+		@media (min-width:690px)	AND  (max-width:768px)
 		{
-			.sub_panel{width:45%;} 
+			.sub_panel{width:45%;}
 			.vista_carrito{ margin-left: 8px; width: 40px;}
 			.bloque_vista_carrito{ margin-left: 0; width: 55px;}
 			.no_essencial2{display:none;}
 		}
-		
-		
+
+
 		/*size4*/
-		
-		@media (min-width:559px)	AND  (max-width:690px)	
+
+		@media (min-width:559px)	AND  (max-width:690px)
 		{
-			.sub_panel{width:100%; max-width:689px;} 
-			.bloque_botton_buscador{width:35%;} 
+			.sub_panel{width:100%; max-width:689px;}
+			.bloque_botton_buscador{width:35%;}
 			.sub1{border-top-right-radius:15px;border-top-left-radius:15px;}
 			.sub2{border-radius:0; margin-top:-5px;}
 			.bloque_user_data{width:35%;}
@@ -234,14 +234,14 @@
 			.bloque_vista_carrito{ margin-left: 0; width: 55px;}
 			.no_essencial2{display:none;}
 		}
-		
-		
+
+
 		/*size3*/
-		
-		@media (min-width:400px)	AND	(max-width:559px)	
-		{	
-			.sub_panel{width:100%; max-width:559px;} 
-			.bloque_botton_buscador{width:30%;} 
+
+		@media (min-width:400px)	AND	(max-width:559px)
+		{
+			.sub_panel{width:100%; max-width:559px;}
+			.bloque_botton_buscador{width:30%;}
 			.sub1{border-top-right-radius:15px;border-top-left-radius:15px;}
 			.sub2{border-radius:0; margin-top:-5px;}
 			.bloque_user_data{width:40%;}
@@ -258,12 +258,12 @@
 			.imagen_middle{height:200px; width:200px;}
 			.table{font-size:12px;}
 		}
-		
+
 		/*size2*/
-		@media (min-width:300px)	AND	(max-width:400px)	
-		{	
-			.sub_panel{width:100%; max-width:400px;} 
-			.bloque_botton_buscador{width:28%;} 
+		@media (min-width:300px)	AND	(max-width:400px)
+		{
+			.sub_panel{width:100%; max-width:400px;}
+			.bloque_botton_buscador{width:28%;}
 			.sub1{border-top-right-radius:15px;border-top-left-radius:15px;}
 			.sub2{border-radius:0; margin-top:-5px;}
 			.bloque_user_data{width:50%;}
@@ -280,12 +280,12 @@
 			.imagen_middle{height:180px; width:180px;}
 			.table{font-size:10px;}
 		}
-		
+
 		/*size1*/
-		@media (min-width:150px)	AND	(max-width:300px)	
-		{	
-			.sub_panel{width:100%; max-width:300px;} 
-			.bloque_botton_buscador{width:28%;} 
+		@media (min-width:150px)	AND	(max-width:300px)
+		{
+			.sub_panel{width:100%; max-width:300px;}
+			.bloque_botton_buscador{width:28%;}
 			.sub1{border-top-right-radius:15px;border-top-left-radius:15px;}
 			.sub2{border-radius:0; margin-top:-5px;}
 			.bloque_user_data{width:60%;}
@@ -302,8 +302,8 @@
 			.imagen_middle{height:160px; width:160px;}
 			.table{font-size:9px;}
 		}
-	
-			<?php 
+
+			<?php
 			if(codeigniter_is_login())
 			{
 				if(get_codeigniter_session_var('rol')<3) //echo '.main_panel{height:90px;}';
@@ -314,24 +314,24 @@
 	<div class="main_panel">
 		<div class="sub_panel sub1" >
 			<div class="bloque_input_buscador">
-				<input id="grid_searsh_g" class="input_buscador" type="text" name="grid_searsh_g"> 
+				<input id="grid_searsh_g" class="input_buscador" type="text" name="grid_searsh_g">
 			</div>
 			<div class="bloque_botton_buscador" >
-				<div id="boton_buscar_g" class="botton_buscador" name="boton_buscar_g" onclick="searsh_redirect();">Buscar</div> 
+				<div id="boton_buscar_g" class="botton_buscador" name="boton_buscar_g" onclick="searsh_redirect();">Buscar</div>
 			</div>
 		</div>
-		<?php 
+		<?php
 		if(codeigniter_is_login())
 		{
 		?>
-		
+
 		<div class="sub_panel sub2" style="float:right; background-color:#DD4814;">
 			<div class="bloque_user_data" >
-				<label class="text_tittle" >Bienvenido: </label> 
+				<label class="text_tittle" >Bienvenido: </label>
 				<label class="text_name" ><?php echo get_codeigniter_session_var('nombre');?></label>
 			</div>
 			<div class="bno-accions">
-				<?php 
+				<?php
 					if(get_codeigniter_session_var('rol')<3)
 					{
 				?>
@@ -339,7 +339,7 @@
 						<div class="icon- bno-button tooltip_panel" title="Administraciónn de usuarios">&#xe674
 						</div>
 					</a>
-				<?php 
+				<?php
 					}
 				?>
 				<a href="<? echo modulo_url('Carrito');?>">

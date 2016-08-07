@@ -208,7 +208,7 @@ function load_ci_template()
 																					array	(
 																								'inyectores_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
 																																		'condicion'		=>'=',
-																																		'expresion'		=>'INYECTORES'
+																																		'expresion'		=>'INYECTORES DE GASOLINA'
 																																	)
 																							)
 																				);
@@ -290,6 +290,50 @@ function load_ci_template()
 																																					'condicion'		=>'=',
 																																					'expresion'		=>'PORTA DIODOS'
 																																				)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Porta carbon')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'porta_carbon'						=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																					'condicion'		=>'=',
+																																					'expresion'		=>'PORTA CARBON'
+																																				)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Impulsor / bendix')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'impulsor_bendix'						=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																						'condicion'		=>'=',
+																																						'expresion'		=>'IMPULSOR/BENDIX'
+																																					)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Armadura')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'armadura'								=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																						'condicion'		=>'=',
+																																						'expresion'		=>'ARMADURA'
+																																					)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Foco')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'foco'									=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																						'condicion'		=>'=',
+																																						'expresion'		=>'FOCO'
+																																					)
 																							)
 																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');

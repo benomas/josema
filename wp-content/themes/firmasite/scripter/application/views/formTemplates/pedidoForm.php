@@ -98,9 +98,9 @@
 						</td>
 						<td class="success col-md-2" style="text-align:center;">
 							<div class="bno-accions acciones">
-								<div class="icon- bno-button  tooltip_class_accion " title="Expandir" onclick="expandir('<?php echo $producto->id_inventario;?>');">
+								<!--<div class="icon- bno-button  tooltip_class_accion " title="Expandir" onclick="expandir('<?php echo $producto->id_inventario;?>');">
 										&#xe682
-								</div>
+								</div>-->
 								<div class="icon- bno-button  tooltip_class_accion " title="Abrir en ventana emergente" onclick="abrir_dialogo('<?php echo $producto->id_inventario;?>');">
 										&#xe75a
 								</div>
@@ -186,29 +186,55 @@
 </div>
 <div class="celda_marco">
 </div>
-<div id="dialog_info">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalData" id="modal_laucher_data" style="visibility:hidden;">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModalData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel" style="color:#DD4814;">Vista completa</h4>
+      </div>
+      <div class="modal-body" id="modal-info-data">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#AE3910;">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalImg" id="modal_laucher_img" style="visibility:hidden;">
+
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModalImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel" style="color:#DD4814;">Imagen Maximizada</h4>
+      </div>
+      <div class="modal-body" id="modal-info-img">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#AE3910;">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
 $(document).ready(function()
 {
-	dialogo=$('#dialog_info');
-	dialogo.dialog(
-	{
-		resizable: false,
-		width: 800,
-		modal: true,
-		autoOpen: false,
-		show: "blind",
-		hide: "explode",
-		title:"Vista completa",
-		buttons:
-		{
-			"Cerrar": function()
-			{
-				$( this ).dialog( "close" );
-			}
-		}
-	});
+
 	$('.celda_marco').hide('fast');
 	var limit=<?php echo $filasDefault;?>;
 	var temp=$('#numeroFilas').val();
@@ -290,8 +316,8 @@ function abrir_dialogo(id_producto)
 		type: 'POST',
 		success : function(html)
 		{
-				dialogo.html(html);
-				dialogo.dialog( "open" );
+			$('#modal-info-data').html(html);
+			$('#modal_laucher_data').trigger('click');
 		}
 	});
 }
@@ -536,9 +562,8 @@ function mostrarOriginal(npc)
 	var htmlDiv='<div class="contenedor_imagen_original"><div id="imagen_original_id" class="imagen_original">';
 	htmlDiv+='<style>#imagen_original_id{background-image:url("' + rutaImg + npc + complementImg + '");}</style>';
 	htmlDiv+='</div></div>';
-	dialogo.dialog('option', 'title', 'Imagen Maximizada ');
-	dialogo.html(htmlDiv);
-	dialogo.dialog( "open" );
+	$('#modal-info-img').html(htmlDiv);
+	$('#modal_laucher_img').trigger('click');
 }
 
 function reducir(id_producto)

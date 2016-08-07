@@ -136,18 +136,19 @@
 					?>
 			</table>
 		</div>
+		<?php
+			if( $show_carrito )
+			{
+		?>
 		<div class="bno-accions acciones">
-			<?php
-				if( $show_carrito )
-				{
-			?>
+
 			<div class="icon- bno-button  tooltip_class_accion " id="aniadir_carrito" title="Añadir al carrito" onclick="agregar_carrito('<?php echo $producto->id_inventario; ?>');">
 				&#xe702
 			</div>
-			<?php
-				}
-			?>
 		</div>
+		<?php
+			}
+		?>
 	</form>
 </div>
 <br>

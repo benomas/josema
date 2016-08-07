@@ -35,7 +35,8 @@ http://codex.wordpress.org/Child_Themes
 .caption .hero-link{display:inline-block;vertical-align:middle}
 
 /* wp-styles */
-.aligncenter{display:block;margin:0 auto}
+.aligncenter{display:block;margin:0 auto; opacity: 0.8;}
+.aligncenter:hover{opacity: 1;}
 .alignleft{float:left}
 .alignright{float:right}
 img.alignleft{margin-right:5px}
@@ -178,8 +179,8 @@ td.mceIframeContainer{padding:0!important}
 
 
 
-.perimeter{display:inline-block;padding-left:2.5%;width:100%;}
-.shadow_marco{background-color: #FFFFFF;border: 2px solid #ccaabd;border-radius: 5px;box-shadow: 0 0 12px 6px #CCCCCC;width:100%;height:100%;margin-bottom: 21px;margin-left:1%;margin-right:1%;}
+.perimeter{display:inline-block;width:100%;}
+.shadow_marco{background-color: #FFFFFF;border: 2px solid #ccaabd;border-radius: 5px;box-shadow: 0 0 12px 6px #CCCCCC;width:100%;height:100%;margin-bottom: 21px;}
 .expanded{background-color: #FFFFFF;border: 4px double #AE3910;border-radius: 5px;box-shadow: 0 0 12px 6px #CCCCCC;}
 .last_selected{border: 4px double #145E8D;box-shadow: 0 0 12px 6px #662D4C;}
 .hidden_class{display:none;}
@@ -210,7 +211,7 @@ td.mceIframeContainer{padding:0!important}
 
 .table .acciones{width:auto;border:none;text-align: center;}
 
-.acciones{width:96%;display:inline-block;border:1px solid #772953;margin:2%;border-radius:8px;background-color: #BCAE72;}
+.acciones{width:96%;display:inline-block;border:1px solid #772953;margin:2%;border-radius:8px;/*background-color: #BCAE72;*/}
 
 .accionesInvenatario{width:28%;height:40px;display:inline-block;margin:0 3px;border-radius:4px;}
 /*

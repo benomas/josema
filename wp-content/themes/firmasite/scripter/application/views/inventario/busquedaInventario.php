@@ -20,6 +20,7 @@
 <br>
 <br>
 <form id="catFinder" name="catFinder">
+<div class="row">
 <?php
 		if(empty($inventantario_array))
 			echo '0 resultados';
@@ -29,19 +30,19 @@
 			if(!empty($row_array))
 			{
 			?>
-			<div class="celda_marco" id="celda_marco_<?php echo $row_array['id_inventario'];?>" >
+			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="celda_marco_<?php echo $row_array['id_inventario'];?>" >
 				<div class="shadow_marco <?php if( !empty($row_array['promocion']) ) {?> promocion_container<?php }?>" id="shadow_marco_<?php echo $row_array['id_inventario'];?>">
 
-						<div class="tittle_marco tooltip_class" title="<?php echo $row_array['npc']; ?>" data-original-title="<?php echo $row_array['npc']; ?>"><?php echo $row_array['npc']; ?>
-						</div>
+					<div class="tittle_marco tooltip_class" title="<?php echo $row_array['npc']; ?>" data-original-title="<?php echo $row_array['npc']; ?>"><?php echo $row_array['npc']; ?>
+					</div>
 						<?php
 							if( !empty($row_array['promocion']) )
 							{
 						?>
-							<div class="promocion_div tooltip_class" title="<?php echo title_promocion($row_array['promocion']);?>">
-								<div class="promocion_button promocion_class">
-								</div>
+						<div class="promocion_div tooltip_class" title="<?php echo title_promocion($row_array['promocion']);?>">
+							<div class="promocion_button promocion_class">
 							</div>
+						</div>
 						<?php
 							}
 						?>
@@ -93,9 +94,9 @@
 						</div>
 					</div>
 					<div class="bno-accions acciones">
-						<div class="icon- bno-button  tooltip_class" title="Expandir" onclick="expandir('<?php echo $row_array['id_inventario'];?>');">
+						<!--<div class="icon- bno-button  tooltip_class" title="Expandir" onclick="expandir('<?php echo $row_array['id_inventario'];?>');">
 						&#xe682
-						</div>
+						</div>-->
 						<div class="icon- bno-button  tooltip_class" id="abrir_dialog" title="Abrir en ventana emergente" onclick="abrir_dialogo('<?php echo $row_array['id_inventario'];?>');">
 						&#xe75a
 						</div>
@@ -132,6 +133,7 @@
 			}
 		}
 ?>
+</div>
 </form>
 
 <div>total de resultados:<?php echo $numero_elementos;?></div>
@@ -145,7 +147,50 @@
 	}
 ?>
 </div>
-<div id="dialog_info">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalData" id="modal_laucher_data" style="visibility:hidden;">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModalData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel" style="color:#DD4814;">Vista completa</h4>
+      </div>
+      <div class="modal-body" id="modal-info-data">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#AE3910;">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalImg" id="modal_laucher_img" style="visibility:hidden;">
+
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModalImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel" style="color:#DD4814;">Imagen Maximizada</h4>
+      </div>
+      <div class="modal-body" id="modal-info-img">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#AE3910;">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>
 <br>
 <br>
@@ -154,42 +199,24 @@
 
 $(document).ready(function()
 {
-	dialogo=$('#dialog_info');
-	dialogo.dialog(
-	{
-		resizable: false,
-		width: 800,
-		modal: true,
-		autoOpen: false,
-		show: "blind",
-		hide: "explode",
-		title:"Vista completa",
-		buttons:
+	 $( '.tooltip_class' ).tooltip(
+	 {
+		tooltipClass: "custom-tooltip-styling",
+		position:
 		{
-			"Cerrar": function()
+			my: "center bottom-20",
+			at: "center top",
+			using: function( position, feedback )
 			{
-				$( this ).dialog( "close" );
+				$( this ).css( position );
+				$( "<div>" )
+				.addClass( "arrow" )
+				.addClass( feedback.vertical )
+				.addClass( feedback.horizontal )
+				.appendTo( this );
 			}
 		}
 	});
-		 $( '.tooltip_class' ).tooltip(
-		 {
-			tooltipClass: "custom-tooltip-styling",
-			position:
-			{
-				my: "center bottom-20",
-				at: "center top",
-				using: function( position, feedback )
-				{
-					$( this ).css( position );
-					$( "<div>" )
-					.addClass( "arrow" )
-					.addClass( feedback.vertical )
-					.addClass( feedback.horizontal )
-					.appendTo( this );
-				}
-			}
-		});
 
 	<?php
 		if(!empty($inventantario_array))
@@ -219,21 +246,6 @@ function calcularPrecio(producto)
 										break;
 		}
 	}
-}
-
-function abrir_dialogo(id_producto)
-{
-	$.ajax(
-	{
-		url : '<?php echo site_url();?>/inventario/dialogInformacionProducto/' + id_producto + '/TRUE',
-		type: 'POST',
-		success : function(html)
-		{
-				dialogo.dialog('option', 'title', 'My New title');
-				dialogo.html(html);
-				dialogo.dialog( "open" );
-		}
-	});
 }
 
 function expandir(id_producto)
@@ -279,9 +291,8 @@ function mostrarOriginal(npc)
 	var htmlDiv='<div class="contenedor_imagen_original"><div id="imagen_original_id" class="imagen_original">';
 	htmlDiv+='<style>#imagen_original_id{background-image:url("' + rutaImg + npc + complementImg + '");}</style>';
 	htmlDiv+='</div></div>';
-	dialogo.dialog('option', 'title', 'Imagen Maximizada ');
-	dialogo.html(htmlDiv);
-	dialogo.dialog( "open" );
+	$('#modal-info-img').html(htmlDiv);
+	$('#modal_laucher_img').trigger('click');
 }
 function abrir_dialogo(id_producto)
 {
@@ -291,8 +302,9 @@ function abrir_dialogo(id_producto)
 		type: 'POST',
 		success : function(html)
 		{
-				dialogo.html(html);
-				dialogo.dialog( "open" );
+
+			$('#modal-info-data').html(html);
+			$('#modal_laucher_data').trigger('click');
 		}
 	});
 }
