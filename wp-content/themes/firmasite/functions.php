@@ -171,7 +171,7 @@ function load_ci_template()
 																					array	(
 																								'accesorios_bomba'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
 																																		'condicion'		=>'=',
-																																		'expresion'		=>'ACCESORIOS DE BOMBA'
+																																		'expresion'		=>'ACCESORIOS PARA BOMBA'
 																																	)
 																							)
 																				);

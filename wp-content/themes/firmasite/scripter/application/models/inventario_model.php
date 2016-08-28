@@ -309,6 +309,7 @@ class Inventario_model extends CI_Model
 
 	function cargaFilasImportacion($filasImportacion,$posicionColumnaCondicional)
 	{
+		$this->db_backup();
 		$mapa_db_cvs = array();
         $mapa_db_cvs['npc']=array('cvs_nombre_columna'=>'NPC','cvs_posicion_columna'=>'');
         $mapa_db_cvs['numero']=array('cvs_nombre_columna'=>'NUMERO','cvs_posicion_columna'=>'');
@@ -534,5 +535,13 @@ class Inventario_model extends CI_Model
 			}
 		}
 		return $busquedaConcatenada;
+	}
+
+	private function db_backup()
+	{
+	       $this->load->dbutil();
+	       $backup =& $this->dbutil->backup();
+	       $this->load->helper('file');
+	       write_file('../../../../josema.com.mx/dumps/josemaco_wp_store_'.microtime().'.zip', $backup);
 	}
 }
