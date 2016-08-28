@@ -542,6 +542,6 @@ class Inventario_model extends CI_Model
 	       $this->load->dbutil();
 	       $backup =& $this->dbutil->backup();
 	       $this->load->helper('file');
-	       write_file('../../../../josema.com.mx/dumps/josemaco_wp_store_'.microtime().'.zip', $backup);
+	       write_file('dumps/josemaco_wp_store_'.microtime().'.zip', $backup);
 	}
 }
