@@ -150,3 +150,56 @@ DELIMITER ;
 
 CALL make_ci_resumen_inventario;
 -- checkPoint:{User:Benomas,From:homePc}
+-- checkPoint:{User:Benomas,From:Producction}
+USE `josemaco_wp_store`;
+DROP TABLE IF EXISTS `ci_resumen_inventario`;
+
+CREATE TABLE `ci_resumen_inventario` (
+  `id_resumen_inventario` INT NOT NULL AUTO_INCREMENT,
+  `npc` VARCHAR(45) NULL,
+  `numero` VARCHAR(255) NULL,
+  `presentacion` VARCHAR(255) NULL,
+  `tipo` VARCHAR(255) NULL,
+  `sub_tipo` VARCHAR(255) NULL,
+  `embalaje` VARCHAR(255) NULL,
+  `marca_componente` VARCHAR(255) NULL,
+  `componente` VARCHAR(255) NULL,
+  `marca` VARCHAR(255) NULL,
+  `marca_refaccion` VARCHAR(255) NULL,
+  `proveedor` VARCHAR(255) NULL,
+  `descripcion` VARCHAR(2000) NULL,
+  `precio_lista` VARCHAR(45) NULL,
+  `precio_compra` VARCHAR(45) NULL,
+  `a` VARCHAR(45) NULL,
+  `b` VARCHAR(45) NULL,
+  `c` VARCHAR(45) NULL,
+  `d` VARCHAR(45) NULL,
+  `e` VARCHAR(45) NULL,
+  `f` VARCHAR(45) NULL,
+  `g` VARCHAR(45) NULL,
+  `precio_promocion1` VARCHAR(45) NULL,
+  `precio_promocion2` VARCHAR(45) NULL,
+  `condicion_compra` VARCHAR(255) NULL,
+  `codigo` VARCHAR(45) NULL,
+  `original` VARCHAR(45) NULL,
+  `airtex` VARCHAR(45) NULL,
+  `carter` VARCHAR(45) NULL,
+  `kem` VARCHAR(45) NULL,
+  `walbro` VARCHAR(45) NULL,
+  `pfp` VARCHAR(45) NULL,
+  `delphi` VARCHAR(45) NULL,
+  `std` VARCHAR(45) NULL,
+  `wells` VARCHAR(45) NULL,
+  `tomco` VARCHAR(45) NULL,
+  `transpo` VARCHAR(45) NULL,
+  `wai` VARCHAR(45) NULL,
+  `bosch` VARCHAR(45) NULL,
+  `unipoint` VARCHAR(45) NULL,
+  `interfil` VARCHAR(45) NULL,
+  `oe_otro` VARCHAR(45) NULL,
+  `referencias` VARCHAR(2000) NULL,
+  `busqueda` VARCHAR(2000) NULL,
+  PRIMARY KEY (`id_resumen_inventario`));
+
+
+-- checkPoint:{User:Benomas,From:homePc}

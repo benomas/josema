@@ -95,7 +95,7 @@
 				<tr >
 					<td class=""><label class="concepto_field">PRECIO:</label>
 					</td>
-					<td class="">$<label class="concepto_value precio_producto" id="producto_precio_dialog_<?php echo $producto->id_inventario;?>" ><?php echo round($producto->precio,2); ?></label>
+					<td class="">$<label class="concepto_value precio_producto" id="producto_precio_dialog_<?php echo $producto->id_inventario;?>" ><?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$producto->precio)),2); ?></label>
 					</td>
 				</tr>
 				<?php

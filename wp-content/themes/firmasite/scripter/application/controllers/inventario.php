@@ -58,4 +58,40 @@ class Inventario extends CI_Controller
 		$data['referencias'] = $this->Inventario_model->getReferencias($id_producto);
 		$this->load->view('inventario/dialogInformacionProducto',$data);
 	}
+
+	function importacion()
+	{
+		$cvsCells = array();
+		$posicionColumnaCondicional=-1;
+		$valorColumnaCondicional='PRECIO DE LISTA';
+		$gestor = fopen("../../../../josema.com.mx/daniel_morales/BASE DE DATOS.csv", "r");
+        if(	$gestor !== FALSE)
+        {
+            while (($datos = fgetcsv($gestor, 1000, ",")) !== FALSE)
+            {
+                foreach ($datos as $key => $value)
+                {
+                    if( mb_detect_encoding($value) ==='UTF-8')
+                        $datos[$key]=utf8_encode($value);
+
+                    $datos[$key] = trim(preg_replace('/(\s+)/',' ',$datos[$key]));
+
+                    if($datos[$key]===$valorColumnaCondicional)
+                    	$posicionColumnaCondicional = $key;
+
+                }
+                if(	$posicionColumnaCondicional > -1 &&
+                	isset($datos[$posicionColumnaCondicional]) &&
+                	!empty($datos[$posicionColumnaCondicional])
+                	)
+                	$cvsCells[]=$datos;
+            }
+            fclose($gestor);
+        }
+        if($result =  $this->Inventario_model->cargaFilasImportacion($cvsCells,$posicionColumnaCondicional))
+        	echo 'Importación correcta';
+        else
+        	echo 'Error en el proceso de importación';
+	}
+
 }

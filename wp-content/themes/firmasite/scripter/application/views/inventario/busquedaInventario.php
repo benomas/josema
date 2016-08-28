@@ -67,28 +67,34 @@
 					<div class="contenedor_info">
 						<div class="table table-striped table-bordered table-hover" style="border:none; border-collapse:unset;">
 
+							<div class="row" <?php if(empty($row_array['marca'])) echo 'style="visibility: hidden;"'; ?> >
+								<div class="col-xs-5 limita-texto tooltip_class" class="custom_td" data-original-title="VEHICULO" ><div style="display:inline;" class="concepto_field"><b>VEHICULO:</b></div>
+								</div>
+								<div class="col-xs-7 limita-texto tooltip_class" class="custom_td" data-original-title="<?php if(!empty($row_array['marca'])) echo $row_array['marca']; ?>" ><div style="display:inline;" class="concepto_value"><?php if(!empty($row_array['marca'])) echo $row_array['marca']; ?></div>
+								</div>
+							</div>
+							<div class="row" <?php if(empty($row_array['descripcion'])) echo 'style="visibility: hidden;"'; ?> >
+								<div class="col-xs-5 limita-texto tooltip_class" class="custom_td" data-original-title="descripcion" ><div style="display:inline;" class="concepto_field"><b>DESCRIPCIÓN:</b></div>
+								</div>
+								<div class="col-xs-12 limita-texto tooltip_class" class="custom_td" data-original-title="<?php if(!empty($row_array['descripcion'])) echo $row_array['descripcion']; ?>" ><div style="display:inline;" class="concepto_value"><?php if(!empty($row_array['descripcion'])) echo $row_array['descripcion']; ?></div>
+								</div>
+							</div>
 							<div class="row" <?php if(empty($row_array['marca_componente'])) echo 'style="visibility: hidden;"'; ?> >
-								<div class="col-xs-5 limita-texto tooltip_class" class="custom_td" data-original-title="TIPO" ><div style="display:inline;" class="concepto_field">TIPO:</div>
+								<div class="col-xs-5 limita-texto tooltip_class" class="custom_td" data-original-title="TIPO" ><div style="display:inline;" class="concepto_field"><b>TIPO:</b></div>
 								</div>
 								<div class="col-xs-7 limita-texto tooltip_class" class="custom_td" data-original-title="<?php if(!empty($row_array['marca_componente'])) echo $row_array['marca_componente']; ?>" ><div style="display:inline;"class="concepto_value"><?php if(!empty($row_array['marca_componente'])) echo $row_array['marca_componente']; ?></div>
 								</div>
 							</div>
 							<div class="row" <?php if(empty($row_array['componente'])) echo 'style="visibility: hidden;"'; ?> >
-								<div class="col-xs-5 limita-texto tooltip_class" class="custom_td" data-original-title="COMPONENTE" ><div style="display:inline;" class="concepto_field">COMPONENTE:</div>
+								<div class="col-xs-5 limita-texto tooltip_class" class="custom_td" data-original-title="COMPONENTE" ><div style="display:inline;" class="concepto_field"><b>COMPONENTE:</b></div>
 								</div>
 								<div class="col-xs-7 limita-texto tooltip_class" class="custom_td" data-original-title="<?php if(!empty($row_array['componente'])) echo $row_array['componente']; ?>" ><div style="display:inline;" class="concepto_value"><?php if(!empty($row_array['componente'])) echo $row_array['componente']; ?></div>
-								</div>
-							</div>
-							<div class="row" <?php if(empty($row_array['marca'])) echo 'style="visibility: hidden;"'; ?> >
-								<div class="col-xs-5 limita-texto tooltip_class" class="custom_td" data-original-title="VEHICULO" ><div style="display:inline;" class="concepto_field">VEHICULO:</div>
-								</div>
-								<div class="col-xs-7 limita-texto tooltip_class" class="custom_td" data-original-title="<?php if(!empty($row_array['marca'])) echo $row_array['marca']; ?>" ><div style="display:inline;" class="concepto_value"><?php if(!empty($row_array['marca'])) echo $row_array['marca']; ?></div>
 								</div>
 							</div>
 							<div class="row" <?php if(empty($row_array['precio'])) echo 'style="visibility: hidden;"'; ?> >
 								<div class="col-xs-5 limita-texto tooltip_class" class="custom_td" data-original-title="<?php  if(!empty($row_array['precio'])) echo 'Precio:'; ?>" ><div style="display:inline;" class="concepto_field"><?php  if(!empty($row_array['precio'])) echo 'Precio:'; ?></div>
 								</div>
-								<div class="col-xs-7 limita-texto tooltip_class" class="custom_td" data-original-title="<?php if(!empty($row_array['precio'])) echo round($row_array['precio'],2); ?>" >$<div style="display:inline;" class="concepto_value precio_producto" id="producto_precio_<?php if(!empty($row_array['precio'])) echo $row_array['id_inventario'];?>" ><?php if(!empty($row_array['precio'])) echo round($row_array['precio'],2); ?></div>
+								<div class="col-xs-7 limita-texto tooltip_class" class="custom_td" data-original-title="<?php if(!empty($row_array['precio'])) echo round($row_array['precio'],2); ?>" >$<div style="display:inline;" class="concepto_value precio_producto" id="producto_precio_<?php if(!empty($row_array['precio'])) echo $row_array['id_inventario'];?>" ><?php if(!empty($row_array['precio'])) echo round(floatval(preg_replace("/[^-0-9\.]/","",$row_array['precio'])),2); ?></div>
 								</div>
 							</div>
 						</div>

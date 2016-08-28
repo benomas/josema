@@ -218,7 +218,7 @@ function load_ci_template()
 		case get_page_by_title( 'Promociones')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'promociones'			=>	array	(	'nombre_campo'	=>'NOT ISNULL(p.id_promocion)',
+																								'promociones'			=>	array	(	'nombre_campo'	=>'cri.precio_promocion1 !="" ',
 																																		'condicion'		=>'AND',
 																																		'expresion'		=>'1'
 																																	)

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if ( ! defined('BASEPATH'))
 	exit('No direct script access allowed');
 
@@ -59,23 +59,23 @@ class Inventario_model extends CI_Model
 			{
 				$WHERE.= " AND	".$params['nombre_campo']." ".$params['condicion']." '".$params['expresion']."' ";
 			}
-			$consulta=	"	SELECT	cri.id_inventario,
-								cri.npc,
-								cri.componente AS componente,
-								cri.marca AS marca,
-								cri.marca_componente AS marca_componente,
-								cri.marca_refaccion AS marca_refaccion,
-								cri.descripcion,
-								cri.origen AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(cri.precio_base*pv.descuento) ,cri.precio_base))AS precio,
-								cri.referencias
+			$tarifas = $this->db->query(" SELECT tc.nombre FROM usuario AS u JOIN tipo_cliente AS tc ON tc.id_tipo_cliente = u.id_tipo_cliente WHERE  u.id_usuario='".$id_usuario."'")
+						->result_array();
+			if(count($tarifas)>0)
+				$tarifa=$tarifas[0]['nombre'];
+			else $tarifa = 'precio_lista';
+
+			$consulta=	"	SELECT	cri.id_resumen_inventario AS id_inventario,
+									cri.npc,
+									cri.componente AS componente,
+									cri.marca AS marca,
+									cri.marca_componente AS marca_componente,
+									cri.marca_refaccion AS marca_refaccion,
+									cri.descripcion,
+									'' AS origen,
+									IF( '".$tarifa."'!='precio_lista', REPLACE(cri.".$tarifa.", '$', ''),NULL)AS precio,
+									cri.referencias
 						FROM ci_resumen_inventario AS cri
-						LEFT JOIN   usuario 					AS 	u 	ON 	u.id_usuario='".$id_usuario."'
-						LEFT JOIN	ci_precio_venta 			AS 	pv 	ON 	pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=cri.id_inventario
-						LEFT JOIN	ci_promocion				AS	p	ON	p.id_inventario=cri.id_inventario AND
-																			IF(NOT ISNULL(p.fecha_inicio),IF(NOW() > p.fecha_inicio,1,0),1)	AND
-																			IF(NOT ISNULL(p.fecha_fin),IF(NOW() < p.fecha_fin,1,0),1)
 
 					".$WHERE;
 		}
@@ -84,7 +84,7 @@ class Inventario_model extends CI_Model
 		return $this->db->query($consulta)->num_rows();
 	if($limite )
 		$consulta.=' LIMIT '.$posicion.' ,'.$limite.' ';
-
+	//debugg($consulta);
 	/*
 		promociones
 	*/
@@ -103,20 +103,23 @@ class Inventario_model extends CI_Model
 
 	function getConsultaConstante($id_usuario)
 	{
-		return "	SELECT	cri.id_inventario,
+		$tarifas = $this->db->query(" SELECT tc.nombre FROM usuario AS u JOIN tipo_cliente AS tc ON tc.id_tipo_cliente = u.id_tipo_cliente WHERE  u.id_usuario='".$id_usuario."'")
+						->result_array();
+			if(count($tarifas)>0)
+				$tarifa=$tarifas[0]['nombre'];
+			else $tarifa = 'precio_lista';
+
+		return "	SELECT	cri.id_resumen_inventario AS id_inventario,
 								cri.npc,
 								cri.componente AS componente,
 								cri.marca AS marca,
 								cri.marca_componente AS marca_componente,
 								cri.marca_refaccion AS marca_refaccion,
 								cri.descripcion,
-								cri.origen AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(cri.precio_base*pv.descuento) ,cri.precio_base))AS precio,
+								'' AS origen,
+								IF( '".$tarifa."'!='precio_lista', REPLACE(cri.".$tarifa.", '$', ''),NULL)AS precio,
 								cri.referencias
 						FROM ci_resumen_inventario AS cri
-						LEFT JOIN   usuario 					AS 	u 	ON 	u.id_usuario='".$id_usuario."'
-						LEFT JOIN	ci_precio_venta 			AS 	pv 	ON 	pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=cri.id_inventario
 					";
 	}
 
@@ -216,21 +219,25 @@ class Inventario_model extends CI_Model
 	{
 		$id_usuario=0;
 		$id_usuario=$this->centinela->get('id_usuario');
-		$consulta=	"	SELECT	cri.id_inventario,
+
+		$tarifas = $this->db->query(" SELECT tc.nombre FROM usuario AS u JOIN tipo_cliente AS tc ON tc.id_tipo_cliente = u.id_tipo_cliente WHERE  u.id_usuario='".$id_usuario."'")
+						->result_array();
+			if(count($tarifas)>0)
+				$tarifa=$tarifas[0]['nombre'];
+			else $tarifa = 'precio_lista';
+
+		$consulta=	"	SELECT	cri.id_resumen_inventario AS id_inventario,
 								cri.npc,
 								cri.componente AS componente,
 								cri.marca AS marca,
 								cri.marca_componente AS marca_componente,
 								cri.marca_refaccion AS marca_refaccion,
 								cri.descripcion,
-								cri.origen AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(cri.precio_base*pv.descuento) ,cri.precio_base))AS precio,
+								'' AS origen,
+								IF( '".$tarifa."'!='precio_lista', REPLACE(cri.".$tarifa.", '$', ''),NULL)AS precio,
 								cri.referencias
 						FROM ci_resumen_inventario AS cri
-						LEFT JOIN   usuario 					AS 	u 	ON 	u.id_usuario='".$id_usuario."'
-						LEFT JOIN	ci_precio_venta 			AS 	pv 	ON 	pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=cri.id_inventario
-						WHERE	cri.id_inventario='".$id_producto."'
+						WHERE	cri.id_resumen_inventario='".$id_producto."'
 					";
 		$promocion=$this->getPromocion($id_producto);
 		$resultado=$this->db->query($consulta)->row();
@@ -243,20 +250,24 @@ class Inventario_model extends CI_Model
 	{
 		$id_usuario=0;
 		$id_usuario=$this->centinela->get('id_usuario');
-		$consulta=	"	SELECT	cri.id_inventario,
+
+		$tarifas = $this->db->query(" SELECT tc.nombre FROM usuario AS u JOIN tipo_cliente AS tc ON tc.id_tipo_cliente = u.id_tipo_cliente WHERE  u.id_usuario='".$id_usuario."'")
+						->result_array();
+			if(count($tarifas)>0)
+				$tarifa=$tarifas[0]['nombre'];
+			else $tarifa = 'precio_lista';
+
+		$consulta=	"	SELECT	cri.id_resumen_inventario AS id_inventario,
 								cri.npc,
 								cri.componente AS componente,
 								cri.marca AS marca,
 								cri.marca_componente AS marca_componente,
 								cri.marca_refaccion AS marca_refaccion,
 								cri.descripcion,
-								cri.origen AS origen,
-								IF(pv.descuento IS NULL,NULL,IF(pv.descuento>0,(cri.precio_base*pv.descuento) ,cri.precio_base))AS precio,
+								'' AS origen,
+								IF( '".$tarifa."'!='precio_lista', REPLACE(cri.".$tarifa.", '$', ''),NULL)AS precio,
 								cri.referencias
 						FROM ci_resumen_inventario AS cri
-						LEFT JOIN   usuario 					AS 	u 	ON 	u.id_usuario='".$id_usuario."'
-						LEFT JOIN	ci_precio_venta 			AS 	pv 	ON 	pv.id_tipo_cliente=u.id_tipo_cliente
-						LEFT JOIN	ci_inventario_precio_venta 	AS 	ipv ON 	ipv.id_inventario=cri.id_inventario
 						WHERE	cri.npc='".$npc."'
 					";
 
@@ -311,198 +322,235 @@ class Inventario_model extends CI_Model
 		return $this->db->query($consulta)->result_array();
 	}
 
-	function tipoScript($scriptImportacion)
-	{
-		$query ="
-					SELECT 	cm.*,
-							ctm.nombre AS tipo_mecanismo
-					FROM	cat_mecanismo AS cm
-					JOIN 	cat_tipo_mecanismo AS ctm ON ctm.id=cm.cat_tipo_mecanismo_id
-					WHERE	cm.nombre = '{$scriptImportacion}'
-				";
-		return $this->db->query($query)->result_array();
-	}
 
-	function cargaDependenciasScript($pasoImportacion)
+	function cargaFilasImportacion($filasImportacion,$posicionColumnaCondicional)
 	{
-		$query ="
-					SELECT 	it.columna_base_de_datos,
-							it.columna_cvs,
-							ctc.nombre AS tipo_campo,
-							cc.nombre  AS catalogo
-					FROM	cat_mecanismo AS cm
-					JOIN	importacion_template AS it ON it.cat_mecanismo_id=cm.id
-					JOIN	cat_tipo_campo AS ctc ON ctc.id=it.cat_tipo_campo_id
-					JOIN	cat_catalogo AS cc ON cc.id=it.cat_catalogo_id
-					WHERE	cm.nombre = '{$pasoImportacion}'
-				";
+		$mapa_db_cvs = array();
+        $mapa_db_cvs['npc']=array('cvs_nombre_columna'=>'NPC','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['numero']=array('cvs_nombre_columna'=>'NUMERO','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['presentacion']=array('cvs_nombre_columna'=>'PRESENTACION','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['tipo']=array('cvs_nombre_columna'=>'TIPO','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['sub_tipo']=array('cvs_nombre_columna'=>'SUB TIPO','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['embalaje']=array('cvs_nombre_columna'=>'EMBALAJE','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['marca_componente']=array('cvs_nombre_columna'=>'TIPO DE COMPONENTE','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['componente']=array('cvs_nombre_columna'=>'TIPO DE COMPONENTE GENERAL','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['marca']=array('cvs_nombre_columna'=>'MARCA','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['marca_refaccion']=array('cvs_nombre_columna'=>'','cvs_posicion_columna'=>'27');
+        $mapa_db_cvs['proveedor']=array('cvs_nombre_columna'=>'PROVEEDOR','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['descripcion']=array('cvs_nombre_columna'=>'DESCRIPCION','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['precio_lista']=array('cvs_nombre_columna'=>'PRECIO DE LISTA','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['precio_compra']=array('cvs_nombre_columna'=>'','cvs_posicion_columna'=>'34');
+        $mapa_db_cvs['a']=array('cvs_nombre_columna'=>'A 0%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['b']=array('cvs_nombre_columna'=>'B 10%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['c']=array('cvs_nombre_columna'=>'C 15%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['d']=array('cvs_nombre_columna'=>'D 17.55%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['e']=array('cvs_nombre_columna'=>'E 18.4%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['f']=array('cvs_nombre_columna'=>'F 19.25%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['g']=array('cvs_nombre_columna'=>'G 23.5%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['precio_promocion1']=array('cvs_nombre_columna'=>'PRECIO PROMOCION','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['precio_promocion2']=array('cvs_nombre_columna'=>'PRECIO PROMOCION','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['condicion_compra']=array('cvs_nombre_columna'=>'CONDICION DE COMPRA','cvs_posicion_columna'=>'');
 
-		return $this->db->query($query)->result_array();
-	}
 
-	function cargaTemplateConfiguracion($pasoImportacion)
-	{
-		$query ="
-					SELECT 	it.columna_base_de_datos,
-							it.columna_cvs,
-							it.columna_referencia,
-							ctc.nombre AS tipo_campo,
-							cc.nombre  AS catalogo
-					FROM	cat_mecanismo AS cm
-					JOIN	importacion_template AS it ON it.cat_mecanismo_id=cm.id
-					JOIN	cat_tipo_campo AS ctc ON ctc.id=it.cat_tipo_campo_id
-					JOIN	cat_catalogo AS cc ON cc.id=it.cat_catalogo_id
-					WHERE	cm.nombre = '{$pasoImportacion}'
-				";
-		return $this->db->query($query)->result_array();
-	}
+        $mapa_db_cvs['codigo']=array('cvs_nombre_columna'=>'CODIGO','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['original']=array('cvs_nombre_columna'=>'ORIGINAL','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['airtex']=array('cvs_nombre_columna'=>'AIRTEX','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['carter']=array('cvs_nombre_columna'=>'CARTER','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['kem']=array('cvs_nombre_columna'=>'KEM','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['walbro']=array('cvs_nombre_columna'=>'WALBRO','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['pfp']=array('cvs_nombre_columna'=>'PFP','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['delphi']=array('cvs_nombre_columna'=>'DELPHI','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['std']=array('cvs_nombre_columna'=>'STD','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['wells']=array('cvs_nombre_columna'=>'WELLS','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['tomco']=array('cvs_nombre_columna'=>'TOMCO','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['transpo']=array('cvs_nombre_columna'=>'TRANSPO','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['wai']=array('cvs_nombre_columna'=>'WAI','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['bosch']=array('cvs_nombre_columna'=>'BOSCH','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['unipoint']=array('cvs_nombre_columna'=>'UNIPOINT','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['interfil']=array('cvs_nombre_columna'=>'INTERFIL','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['oe_otro']=array('cvs_nombre_columna'=>'OE / OTRO','cvs_posicion_columna'=>'');
 
-	function generaConsultasImportacion($ImportacionTabla,$importArray,$tipoScript)
-	{
-		$consultasImportacion ='';
-		foreach ($importArray as $position => $value)
+		$this->db->trans_start();
+		$this->db->query('TRUNCATE `ci_resumen_inventario`;');
+		$query='';
+		$query_insert='';
+		$filasPorQuery = 30;
+		$contadorFilas = 0;
+
+		$mapa_db_cvs=$this->complementaMapa($mapa_db_cvs,$filasImportacion[0]);
+		unset($filasImportacion[0]);
+
+		$db_preparacion=array();
+
+		foreach ($filasImportacion as $filaCvs)
 		{
-			if($position>0)
+			$db_preparacion_temporal=array();
+			foreach ($mapa_db_cvs as $db_indice_columna => $db_configuracion_columna)
 			{
-				$consultasImportacion=$consultasImportacion.$this->generaConsultaImportacion($value,$ImportacionTabla,$tipoScript[0]['nombre']);
+				$db_preparacion_temporal[$db_indice_columna] = $filaCvs[$db_configuracion_columna['cvs_posicion_columna']];
+			}
+
+			if(count($db_preparacion_temporal)>0)
+			{
+				$db_preparacion_temporal['referencias'] 	= $this->generaReferencias($mapa_db_cvs,$filaCvs);
+				$db_preparacion_temporal['busqueda'] 		= $this->generaBusqueda($mapa_db_cvs,$filaCvs);
+				$db_preparacion[]=$db_preparacion_temporal;
 			}
 		}
-		return $consultasImportacion;
+
+		foreach ($db_preparacion[0] as $db_preparacion_indice => $db_preparacion_valor)
+		{
+			if($query_insert !=='')
+				$query_insert = $query_insert.' , ';
+			else
+				$query_insert = $query_insert. 	'	INSERT INTO ci_resumen_inventario
+																(
+												';
+				$query_insert = $query_insert. 	'
+													`'.$db_preparacion_indice.'`
+												';
+		}
+		$query_insert = $query_insert. 	' 			)
+											VALUES
+										';
+
+		foreach ($db_preparacion as $db_preparacion_posicion_fila => $db_preparacion_fila)
+		{
+			$queryValues='';
+			if($query !=='')
+				$query = $query.' , ';
+			foreach ($db_preparacion_fila as $db_preparacion_indice => $db_preparacion_valor)
+			{
+				if($queryValues !=='')
+					$queryValues = $queryValues.' , ';
+				else
+					$queryValues = $queryValues.' ( ';
+
+					$queryValues = $queryValues. 	'
+														"'.mysql_real_escape_string($db_preparacion_valor).'"
+													';
+			}
+			$queryValues = $queryValues.' ) ';
+			$query=$query.$queryValues;
+			$contadorFilas++;
+
+			if($contadorFilas ===$filasPorQuery)
+			{
+				$this->db->query($query_insert.$query);
+				$contadorFilas=0;
+				$query ='';
+			}
+		}
+		if($contadorFilas > 0 )
+		{
+			$this->db->query($query_insert.$query);
+		}
+        $this->db->trans_complete();
+        return $this->db->trans_status();
+
 	}
 
-	function generaConsultaImportacion($row,$ImportacionTabla,$tablaObjetivo)
+	function complementaMapa($mapa_db_cvs,$cvs_cabecera)
 	{
-		$consulta = ' INSERT INTO "`{$tablaObjetivo}`" ';
-		$estructuraInsert=' ( ';
-		$valoresInsert=' VALUES( ';
-		$almenosUno=false;
-		foreach ($ImportacionTabla as $key => $value)
+		foreach ($mapa_db_cvs as $db_indice_columna => $db_configuracion_columna)
 		{
-			if(isset($value['position']))
+			if(
+					(
+						!isset($db_configuracion_columna['cvs_posicion_columna']) ||
+						$db_configuracion_columna['cvs_posicion_columna'] ===''
+					) &&
+					(
+						isset($db_configuracion_columna['cvs_nombre_columna']) &&
+						$db_configuracion_columna['cvs_nombre_columna'] !==''
+					)
+				)
 			{
-				switch($value['tipo_campo'])
+				foreach ($cvs_cabecera as $cvs_posicion_columna => $cvs_valor_columna)
 				{
-					case 'texto'	:
-										if(	isset($row[$value['position']]) && $row[$value['position']]!=='' && $row[$value['position']]!==NULL )
-										{
-											if($almenosUno)
-											{
-												$estructuraInsert 	= $estructuraInsert.',';
-												$valoresInsert 		= $valoresInsert.',';
-											}
-											$estructuraInsert 	= $estructuraInsert.' `'.$value['columna_base_de_datos'].'` ';
-											$valoresInsert 		= $valoresInsert.' "'.mysql_real_escape_string($row[$value['position']]).'" ';
 
-											$almenosUno = true;
-										}
-										break;
-					case 'catalogo'	:
-										if(	isset($row[$value['position']]) && $row[$value['position']]!=='' && $row[$value['position']]!==NULL )
-										{
-											$catalogoId = $this->obtenerIdCatalogo($value['catalogo'],$value['columna_referencia'],$row[$value['position']]);
-
-											if($catalogoId>0)
-											{
-												if($almenosUno)
-												{
-													$estructuraInsert 	= $estructuraInsert.',';
-													$valoresInsert 		= $valoresInsert.',';
-												}
-												$estructuraInsert 	= $estructuraInsert.' `'.$value['columna_base_de_datos'].'` ';
-												$valoresInsert 		= $valoresInsert.' "'.$catalogoId.'" ';
-
-												$almenosUno = true;
-											}
-										}
-										else
-										{
-											$catalogoId = $this->obtenerIdCatalogo($value['catalogo'],$value['columna_referencia'],'UNDEFINED');
-
-											if($catalogoId>0)
-											{
-												if($almenosUno)
-												{
-													$estructuraInsert 	= $estructuraInsert.',';
-													$valoresInsert 		= $valoresInsert.',';
-												}
-												$estructuraInsert 	= $estructuraInsert.' `'.$value['columna_base_de_datos'].'` ';
-												$valoresInsert 		= $valoresInsert.' "'.$catalogoId.'" ';
-
-												$almenosUno = true;
-											}
-										}
-
-										break;
-					default 		:	break;
+					if($db_configuracion_columna['cvs_nombre_columna'] === $cvs_valor_columna)
+					{
+						$mapa_db_cvs[$db_indice_columna]['cvs_posicion_columna']=$cvs_posicion_columna;
+						unset($cvs_cabecera[$cvs_posicion_columna]);
+						break;
+					}
 				}
 			}
+			else
+			{
+				if(
+					(
+						!isset($db_configuracion_columna['cvs_posicion_columna']) ||
+						$db_configuracion_columna['cvs_posicion_columna'] ===''
+					) &&
+					(
+						!isset($db_configuracion_columna['cvs_nombre_columna']) ||
+						$db_configuracion_columna['cvs_nombre_columna'] ===''
+					)
+				)
+					unset($mapa_db_cvs[$db_indice_columna]);
+			}
+
 		}
-		if($almenosUno)
-			return ' INSERT INTO producto '.$estructuraInsert.' ) '.$valoresInsert.' ); <br>';
-		return '';
+		return $mapa_db_cvs;
 	}
 
-	function obtenerIdCatalogo($catalogo,$columna_referencia,$valor)
+	function resuelveFila($db_columna,$cvs_cabecera,$cvs_fila)
 	{
-		if( mb_detect_encoding($valor) ==='UTF-8')
-			$valor=utf8_encode($valor);
+		if(
+			isset($db_columna['cvs_posicion_columna']) &&
+			$db_columna['cvs_posicion_columna']!=='' &&
+			isset($cvs_fila[$db_columna['cvs_nombre_columna']]) &&
+			$cvs_fila[$db_columna['cvs_nombre_columna']]!==''
+			)
+				return $cvs_fila[$db_columna['cvs_nombre_columna']];
 
-		$consulta= 	'
-						SELECT 	id
-						FROM	'.$catalogo.'
-						WHERE	`'.$columna_referencia.'`="'.$valor.'"
+		if(
+			isset($db_columna['cvs_nombre_columna']) &&
+			$db_columna['cvs_nombre_columna']!==''
+			)
+			foreach ($cvs_cabecera as $key => $value)
+			{
+				if($value === $db_columna['cvs_nombre_columna'])
+					return $cvs_fila[$key];
+			}
 
-					';
-		try
-		{
-			$result = 	$this->db->query($consulta);
-			if($result->num_rows()>0)
-				return $result->row()->id;
-		}
-		catch (Exception $e)
-		{
-		}
+		if(isset($cvs_fila[$db_columna['cvs_nombre_columna']]) && $cvs_fila[$db_columna['cvs_nombre_columna']]!=='')
+			return $cvs_fila[$db_columna['cvs_nombre_columna']];
 
-		return -1;
+		if(isset($cvs_fila[$db_columna['cvs_nombre_columna']]) && $cvs_fila[$db_columna['cvs_nombre_columna']]!=='')
+			return $cvs_fila[$db_columna['cvs_nombre_columna']];
+        $mapa_db_cvs['npc']=array('cvs_nombre_columna'=>'NPC','cvs_posicion_columna'=>'');
 	}
 
-
-	function obtenerIdProducto($npc)
+	function generaReferencias($mapa_db_cvs,$filaCvs)
 	{
-		if( mb_detect_encoding($npc) ==='UTF-8')
-			$nombre=utf8_encode($npc);
-
-		$consulta= 	'
-						SELECT 	id
-						FROM	producto
-						WHERE	npc="'.$npc.'"
-
-					';
-		try
+		$referencias = array('codigo','original','airtex','carter','kem','walbro','pfp','delphi','std','wells','tomco','transpo','wai','bosch','unipoint','interfil','oe_otro');
+		$referenciasConcatenadas='';
+		foreach ($referencias as $referencia)
 		{
-			$result = 	$this->db->query($consulta);
-			if($result->num_rows()>0)
-				return $result->row()->id;
+			if(isset($mapa_db_cvs[$referencia]))
+			{
+				$referenciasConcatenadas=$referenciasConcatenadas.' '.$filaCvs[$mapa_db_cvs[$referencia]['cvs_posicion_columna']].' ';
+			}
 		}
-		catch (Exception $e)
-		{
-		}
-
-		return -1;
+		return $referenciasConcatenadas;
 	}
 
-	function cargaCatalogo($catalogo,$cargaUndefined='false', $cargaInactivos='false')
+	function generaBusqueda($mapa_db_cvs,$filaCvs)
 	{
-		$where = ' 1 ';
-		if(!$cargaUndefined)
-			$where = $where. ' AND cat.nombre!="UNDEFINED" ';
-		if(!$cargaInactivos)
-			$where = $where. ' AND cat.activo=="1" ';
-		$query ='
-					SELECT 	cat.*
-					FROM	'.$catalogo.'	as cat
-				';
-		return $this->db->query($query)->result_array();
+		$camposBusqueda = array(	'npc','numero','presentacion','tipo','sub_tipo','embalaje','marca_componente','componente','marca','marca_refaccion','proveedor','descripcion',
+									'codigo','original','airtex','carter','kem','walbro','pfp','delphi','std','wells','tomco','transpo','wai','bosch','unipoint','interfil','oe_otro'
+									);
+		$busquedaConcatenada='';
+		foreach ($camposBusqueda as $referencia)
+		{
+			if(isset($mapa_db_cvs[$referencia]))
+			{
+				$busquedaConcatenada=$busquedaConcatenada.' '.$filaCvs[$mapa_db_cvs[$referencia]['cvs_posicion_columna']].' ';
+			}
+		}
+		return $busquedaConcatenada;
 	}
 }
 ?>

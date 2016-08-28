@@ -80,7 +80,7 @@
 							<?php echo $producto->descripcion;?>
 						</td>
 						<td class="col-md-1">
-							$<label class="precio_producto" id="producto_precio_<?php echo $producto->id_inventario;?>" ><?php echo round($producto->precio,2); ?></label>
+							$<label class="precio_producto" id="producto_precio_<?php echo $producto->id_inventario;?>" ><?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$producto->precio)),2); ?></label>
 						</td>
 						<td class="col-md-1">
 							<div>

@@ -51,7 +51,7 @@
 						</td>
 						<td class="no_essencial"><?php echo $producto->marca; ?>
 						</td>
-						<td>$<label class="precio_producto" id="producto_precio_<?php echo $producto->id_inventario;?>" ><?php echo round($producto->precio,2); ?></label>
+						<td>$<label class="precio_producto" id="producto_precio_<?php echo $producto->id_inventario;?>" ><?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$producto->precio)),2);  ?></label>
 						</td>
 						<td class="success" style="text-align:center;">
 							<div class="bno-accions acciones">
