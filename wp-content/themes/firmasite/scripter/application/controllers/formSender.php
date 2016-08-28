@@ -93,6 +93,7 @@ class FormSender extends CI_Controller
 			$nombre=$data['userData']->nick;
 		$data['nombreUsuario']=	$nombre;
 		$data['id_usuario']=$this->centinela->get('id_usuario');
+		debugg($data);
 		$mensaje= $this->load->view('correoTemplates/body',$data,true);
 		$list=array();
 		$list[]='pedidos_josema@hotmail.com';
@@ -102,6 +103,7 @@ class FormSender extends CI_Controller
 		$this->email->reply_to('', 'Este correo a sido generado electronicamente, no responda a este correo');
 		$this->email->subject('Pedido electronico JOSEMA');
 		$this->email->message($mensaje);
+		die();
 		//$this->email->send();
 		if($this->email->send())
 		{

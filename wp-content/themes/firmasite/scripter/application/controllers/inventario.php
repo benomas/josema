@@ -7,8 +7,8 @@ class Inventario extends CI_Controller
 	public function __construct()
    {
 		parent::__construct();
-		$this->load->model('Catalogos_model');
 		$this->load->model('Inventario_model');
+		$this->load->model('Catalogos_model');
 		$this->load->library('interdata');
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
@@ -93,5 +93,4 @@ class Inventario extends CI_Controller
         else
         	echo 'Error en el proceso de importación';
 	}
-
 }

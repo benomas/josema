@@ -1,15 +1,11 @@
-﻿<?php
-if ( ! defined('BASEPATH'))
-	exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Inventario_model extends CI_Model
 {
 	function __construct()
     {
-        // Call the Model constructor
         parent::__construct();
 		$this->load->library('Filtro');
-
     }
 
 	function getUserData($user_id)
@@ -80,25 +76,14 @@ class Inventario_model extends CI_Model
 					".$WHERE;
 		}
 
-	if($contar)
-		return $this->db->query($consulta)->num_rows();
-	if($limite )
-		$consulta.=' LIMIT '.$posicion.' ,'.$limite.' ';
-	//debugg($consulta);
-	/*
-		promociones
-	*/
-	$inventario=$this->db->query($consulta)->result_array();
-	/*
-	foreach($inventario AS $indice=>$producto)
-	{
+		if($contar)
+			return $this->db->query($consulta)->num_rows();
+		if($limite )
+			$consulta.=' LIMIT '.$posicion.' ,'.$limite.' ';
 
-		$promocion = $this->getPromocion($producto['id_inventario']);
-		if($promocion)
-			$inventario[$indice]['promocion']=$promocion;
-	}
-	*/
-	return $inventario;
+		$inventario=$this->db->query($consulta)->result_array();
+
+		return $inventario;
 	}
 
 	function getConsultaConstante($id_usuario)
@@ -322,7 +307,6 @@ class Inventario_model extends CI_Model
 		return $this->db->query($consulta)->result_array();
 	}
 
-
 	function cargaFilasImportacion($filasImportacion,$posicionColumnaCondicional)
 	{
 		$mapa_db_cvs = array();
@@ -447,7 +431,6 @@ class Inventario_model extends CI_Model
 		}
         $this->db->trans_complete();
         return $this->db->trans_status();
-
 	}
 
 	function complementaMapa($mapa_db_cvs,$cvs_cabecera)
@@ -553,4 +536,3 @@ class Inventario_model extends CI_Model
 		return $busquedaConcatenada;
 	}
 }
-?>

@@ -54,7 +54,7 @@
 				{
 
 					//calcular precio
-					$subtotal= $info['Cantidad'.$i] * round(floatval(preg_replace("/[^-0-9\.]/","",$producto->precio)),2);
+					$subtotal= $info['Cantidad'.$i] * round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$i]->precio)),2);
 					if(!empty($info['row'.$i]->promocion))
 					{
 						$cantidad = $info['Cantidad'.$i];
