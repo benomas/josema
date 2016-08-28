@@ -201,5 +201,18 @@ CREATE TABLE `ci_resumen_inventario` (
   `busqueda` VARCHAR(2000) NULL,
   PRIMARY KEY (`id_resumen_inventario`));
 
+DROP TABLE  IF EXISTS `ci_precio_venta`;
+DROP TABLE  IF EXISTS `ci_precio_compra`;
+DROP TABLE  IF EXISTS `ci_origen`;
+DROP TABLE  IF EXISTS `ci_marcarefaccion`;
+DROP TABLE  IF EXISTS `ci_marcacomponente`;
+DROP TABLE  IF EXISTS `ci_marca`;
+DROP TABLE  IF EXISTS `ci_inventario_referencia`;
+DROP TABLE  IF EXISTS `ci_inventario_precio_venta`;
+DROP TABLE  IF EXISTS `ci_inventario`;
+DROP TABLE  IF EXISTS `ci_precio_venta`;
+DROP TABLE  IF EXISTS `ci_referencia`;
+DROP TABLE  IF EXISTS `ci_tipo_componente`;
 
+DROP PROCEDURE IF EXISTS `make_ci_resumen_inventario`;
 -- checkPoint:{User:Benomas,From:homePc}
