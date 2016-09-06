@@ -111,29 +111,18 @@
 				</tr>
 				<?php
 					}
-					if( isset($referencias)  &&  COUNT($referencias)>0)
+					if( isset($producto->referencias)  &&  $producto->referencias !='')
 					{
 				?>
 				<tr >
-					<td class="" colspan="2" style="vertical-align: middle;"><label class="important_concepto_field">REFERENCIAS:</label>
+					<td class=""  style="vertical-align: middle;"><label class="important_concepto_field">REFERENCIAS:</label>
+					</td>
+					<td class="" ><label class="important_concepto_field"><?php echo $producto->referencias; ?></label>
 					</td>
 				</tr>
 				<?php
 					}
 				?>
-				<?php
-					foreach($referencias AS $referencia)
-					{
-					?>
-						<tr >
-							<td class=""><label class="important_concepto_field"><?php echo $referencia['nombre']; ?>:</label>
-							</td>
-							<td class=""><label class="important_concepto_value"><?php echo $referencia['codigo']; ?></label>
-							</td>
-						</tr>
-					<?php
-					}
-					?>
 			</table>
 		</div>
 		<?php

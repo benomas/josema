@@ -43,7 +43,7 @@ class Inventario extends CI_Controller
 		else
 			$data['show_carrito']=FALSE;
 		$data['producto'] = $this->Inventario_model->getProduct($id_producto);
-		$data['referencias'] = $this->Inventario_model->getReferencias($id_producto);
+		//$data['referencias'] = $this->Inventario_model->getReferencias($id_producto);
 		$this->load->view('inventario/informacionProducto',$data);
 	}
 
@@ -55,7 +55,7 @@ class Inventario extends CI_Controller
 		else
 			$data['show_carrito']=FALSE;
 		$data['producto'] = $this->Inventario_model->getProduct($id_producto);
-		$data['referencias'] = $this->Inventario_model->getReferencias($id_producto);
+		//$data['referencias'] = $this->Inventario_model->getReferencias($id_producto);
 		$this->load->view('inventario/dialogInformacionProducto',$data);
 	}
 
