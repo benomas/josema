@@ -152,15 +152,19 @@
         $gran_sub_total         =$total;
         $descuento_adicional    =0;
         $iva                    =0;
+        $gastos_envio           =180.00;
 
         if($total>1500)
         {
             $descuento_adicional    = round($total*0.02, 2, PHP_ROUND_HALF_UP);
             $total                  = round($total*0.98, 2, PHP_ROUND_HALF_UP);
+            $gastos_envio = 0;
         }
+        if($total===0)
+            $gastos_envio = 0;
 
         $iva                        = round($total*0.16, 2, PHP_ROUND_HALF_UP);
-        $total                      = $total + $iva;
+        $total                      = $total + $iva + $gastos_envio;
 	?>
     <tr>
         <td style="background-color:#F2DEDE;" colspan="3"><b>GRAN SUB TOTAL:</b>
@@ -178,6 +182,12 @@
         <td style="background-color:#F2DEDE;" colspan="3"><b>IVA:</b>
         </td>
         <td style="background-color:#F2DEDE;"><b>$<?php echo $iva;?></b>
+        </td>
+    </tr>
+    <tr>
+        <td style="background-color:#F2DEDE;" colspan="3"><b>Gastos de envio:</b>
+        </td>
+        <td style="background-color:#F2DEDE;"><b>$<?php echo $gastos_envio;?></b>
         </td>
     </tr>
 	<tr>

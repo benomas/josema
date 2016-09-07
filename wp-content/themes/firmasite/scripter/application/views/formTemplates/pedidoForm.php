@@ -91,6 +91,7 @@
 							<input class="form-control numeric" id="cantidad<?php echo $i;?>" name="Cantidad<?php echo $i;?>" value=""
 							size="6" type="text" onchange="updateSubtotal(this.value,jsonProducto<?php echo ($producto->id_inventario);?>,'<?php echo $i;?>');"
 												 onkeyup="updateSubtotal(this.value,jsonProducto<?php echo ($producto->id_inventario);?>,'<?php echo $i;?>');"
+
 							>
 						</td>
 						<td>
@@ -115,7 +116,7 @@
 				}
 
 		?>
-				<tr id="numeroFila<?php echo $i;?>">
+				<tr >
 					<td colspan="2" ><b>GRAN SUB TOTAL:</b>
 					</td>
 					<td>
@@ -128,7 +129,7 @@
 					<td>
 					</td>
 				</tr>
-				<tr id="numeroFila<?php echo $i;?>">
+				<tr >
 					<td colspan="2" ><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $1500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
 					</td>
 					<td>
@@ -141,7 +142,7 @@
 					<td>
 					</td>
 				</tr>
-				<tr id="numeroFila<?php echo $i;?>">
+				<tr >
 					<td colspan="2"><b>IVA:</b>
 					</td>
 					<td>
@@ -154,7 +155,20 @@
 					<td>
 					</td>
 				</tr>
-				<tr id="numeroFila<?php echo $i;?>">
+				<tr >
+					<td colspan="2"><b>Gastos de envio:</b>
+					</td>
+					<td>
+					</td>
+					<td>
+					</td>
+					<td>
+						<label class="moneda" >$</label><label id="gastos_envio">0</label>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr >
 					<td colspan="2"><b>GRAN TOTAL:</b>
 					</td>
 					<td>
@@ -254,7 +268,11 @@ $(document).ready(function()
 			}
 			}
 	});
-	$(".numeric").numeric(",");
+	var config = {};
+	config.negative=false;
+	config.decimal=false;
+
+	$(".numeric").numeric(config);
 
 
 	<?php
@@ -330,6 +348,7 @@ function updateTotal()
 	var total_antes_de_iva=0;
 	var descuento_adicional=0;
 	var iva=0;
+	var gastos_envio = 180.00;
 
 	for(i=1;i<num_elementos;i++)
 	{
@@ -341,16 +360,21 @@ function updateTotal()
 	}
 
 	total_antes_de_iva = Math.round(total_antes_de_iva*100)/100;
+
 	if(total_antes_de_iva>1500)
 	{
 		descuento_adicional	= Math.round(total_antes_de_iva*100*0.02)/100;
 		total 				= Math.round(total_antes_de_iva*100*0.98)/100;
+		gastos_envio=0;
 	}
 	else
 		total 				=total_antes_de_iva;
 
+	if(total_antes_de_iva===0)
+		gastos_envio=0;
+
 	iva 	= Math.round(total*100*0.16)/100;
-	total   = total + iva;
+	total   = total + iva + gastos_envio;
 
 	var res 			= total_antes_de_iva.toString();
 	total_antes_de_iva	= res.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
@@ -364,6 +388,8 @@ function updateTotal()
 	$('#gran_sub_total').text(total_antes_de_iva);
 	$('#descuento_adicional').text(descuento_adicional);
 	$('#iva').text(iva);
+	$('#gastos_envio').text(gastos_envio);
+
 	$('#total').text(total);
 }
 
