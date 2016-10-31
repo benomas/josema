@@ -51,7 +51,7 @@
 		<td class="col-md-2" style="text-align:center;"><b>ACCIONES:</b>
 		</td>
 	</tr>
-	<?php 
+	<?php
 		foreach($usuarios AS $usuario)
 		{
 	?>
@@ -84,17 +84,31 @@
 				<?php echo $usuario['activo'];?>
 			</td>
 			<td class="success" style="text-align:center;">
-				
 				<div class="bno-accions acciones">
-					<div class="icon- bno-button  tooltip_class_accion " title="Desactivar usuario" id="desactivar_usuario" onclick="desactivar_usuario('<?php echo $usuario['id_usuario']; ?>');">
-							&#xe701
+					<?php
+					if($usuario['activo']=='No')
+					{
+					?>
+					<div class="icon- bno-button  tooltip_class_accion " title="Activar usuario" id="activar_usuario" onclick="activar_usuario('<?php echo $usuario['id_usuario']; ?>');">
+							&#xe689
 					</div>
+					<?php
+					}
+					else
+					{
+					?>
+					<div class="icon- bno-button  tooltip_class_accion " title="Desactivar usuario" id="desactivar_usuario" onclick="desactivar_usuario('<?php echo $usuario['id_usuario']; ?>');">
+							&#xe68a
+					</div>
+					<?php
+					}
+					?>
 					<div class="icon- bno-button  tooltip_class_accion " title="Editar usuario" id="ci_add_button" onclick="editar_usuario('<?php echo $usuario['id_usuario']; ?>');">
 							&#xe605
 					</div>
 				</div>
 			</td>
-		<?php		
+		<?php
 		}
 		?>
 	</tr>
@@ -115,17 +129,17 @@ $(document).ready(function()
 						success : function(html)
 						{
 								$('#form_container').html(html);
-						}           
-			});	
+						}
+			});
 		});
-		
+
 	jQuery( '.tooltip_class_accion' ).tooltip(
 	{
-			position: 
+			position:
 			{
 				my: "center bottom-20",
 				at: "center top",
-				using: function( position, feedback ) 
+				using: function( position, feedback )
 				{
 					jQuery( this ).css( position );
 					jQuery( "<div>" )
@@ -140,22 +154,37 @@ $(document).ready(function()
 
 function desactivar_usuario(id_usuario)
 {
-	
+
 	$.ajax(
 	{
-		url : '<?php echo site_url();?>/usuario/unactiveUser/' + id_usuario,
+		url : '<?php echo site_url();?>/usuario/deactivateUser/' + id_usuario,
 		type: 'POST',
 		success : function(html)
 		{
 				$('#form_container').html(html);
-		}           
-	});	
+				alertify.success('Usuario desactivado');
+		}
+	});
 }
 
+function activar_usuario(id_usuario)
+{
+
+	$.ajax(
+	{
+		url : '<?php echo site_url();?>/usuario/activateUser/' + id_usuario,
+		type: 'POST',
+		success : function(html)
+		{
+				$('#form_container').html(html);
+				alertify.success('Usuario activado');
+		}
+	});
+}
 
 function editar_usuario(id_usuario)
 {
-	
+
 	$.ajax(
 	{
 		url : '<?php echo site_url();?>/usuario/updateUser/' + id_usuario,
@@ -163,7 +192,7 @@ function editar_usuario(id_usuario)
 		success : function(html)
 		{
 				$('#form_container').html(html);
-		}           
-	});	
+		}
+	});
 }
 </script>

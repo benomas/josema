@@ -1,13 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Usuario extends CI_Controller 
+class Usuario extends CI_Controller
 {
 
 	public function __construct()
    {
 		parent::__construct();
 		$this->load->model('Usuario_model');
-		
+
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
 		if(! $this->centinela->is_logged_in() ) {
@@ -19,10 +19,10 @@ class Usuario extends CI_Controller
 	 *
 	 * Maps to the following URL
 	 * 		http://example.com/index.php/welcome
-	 *	- or -  
+	 *	- or -
 	 * 		http://example.com/index.php/welcome/index
 	 *	- or -
-	 * Since this controller is set as the default controller in 
+	 * Since this controller is set as the default controller in
 	 * config/routes.php, it's displayed at http://example.com/
 	 *
 	 * So any other public methods not prefixed with an underscore will
@@ -33,10 +33,10 @@ class Usuario extends CI_Controller
 	{
 		$this->load->view('welcome_message');
 	}
-	
+
 	public function loadGridUser()
-	{	 
-		
+	{
+
 		$headers= array(	"Id",
 							"Nombre",
 							"Apellido paterno",
@@ -49,17 +49,24 @@ class Usuario extends CI_Controller
 							"Activo"
 						);
 		$data['headers']=$headers;
-		$data['usuarios']=$this->Usuario_model->getCamposUsuarios($this->centinela->get('rol'));	
+		$data['usuarios']=$this->Usuario_model->getCamposUsuarios($this->centinela->get('rol'));
 		$this->load->view('usuarioTemplates/usuarioGrid',$data);
 	}
-	
-	function unactiveUser($id_usuario)
+
+	function deactivateUser($id_usuario)
 	{
 		$this->tiene_permiso();
-		$r=$this->Usuario_model->unactiveUser($id_usuario);
+		$r=$this->Usuario_model->deactivateUser($id_usuario);
 		$this->loadGridUser();
 	}
-	
+
+	function activateUser($id_usuario)
+	{
+		$this->tiene_permiso();
+		$r=$this->Usuario_model->activateUser($id_usuario);
+		$this->loadGridUser();
+	}
+
 	function addUser()
 	{
 		$this->tiene_permiso();
@@ -67,7 +74,7 @@ class Usuario extends CI_Controller
 		$data['tipos_clientes']=$this->Usuario_model->get_tipos_cliente_opcions_array();
 		$this->load->view('usuarioTemplates/addUser',$data);
 	}
-	
+
 	function updateUser($id_usuario)
 	{
 		$this->tiene_permiso();
@@ -77,9 +84,9 @@ class Usuario extends CI_Controller
 		$data['rol_editor']=$this->centinela->get('rol');
 		$this->load->view('usuarioTemplates/updateUser',$data);
 	}
-	
-	
-	function saveUser() 
+
+
+	function saveUser()
 	{
 		$this->tiene_permiso();
 		$error_validacion= false;
@@ -89,7 +96,7 @@ class Usuario extends CI_Controller
 		{
 			$this->form_validation->set_rules('id_usuario');
 			if( $this->centinela->get('rol') ==1)
-			{	
+			{
 				if(isset($checkbox))
 				{
 					if($checkbox==1)
@@ -98,31 +105,31 @@ class Usuario extends CI_Controller
 					}
 				}
 			}
-		}	
+		}
 		else
-			$this->form_validation->set_rules('clave', 'Clave', 'required');	
-			
+			$this->form_validation->set_rules('clave', 'Clave', 'required');
+
 		$this->form_validation->set_rules('email', 'Correo electronico', 'trim|required|valid_email');
 		$this->form_validation->set_rules('nombre', 'Nombre', 'required');
 		$this->form_validation->set_rules('apellido_paterno', 'Apellido paterno', 'required');
 		$this->form_validation->set_rules('apellido_materno');
 		$this->form_validation->set_rules('nick', 'Nick', 'required');
-			
+
 		$this->form_validation->set_rules('domicilio');
 		$this->form_validation->set_rules('telefono', 'Telefono', 'required');
 		$this->form_validation->set_rules('rfc');
 		$this->form_validation->set_rules('email', 'Correo electronico', 'trim|required|valid_email');
 		$this->form_validation->set_rules('id_rol', 'Rol', 'trim|required|valid_select');
 		$this->form_validation->set_rules('id_tipo_cliente');
-		
+
 		$this->form_validation->set_rules('cambiar_clave');
-		
+
 		$this->form_validation->set_error_delimiters('<tr class="danger"><td colspan="2">', '</td></tr>');
-		
+
 		if ($this->form_validation->run() == FALSE)
 		{
 			$error_validacion = true;
-			if($this->input->is_ajax_request() ) 
+			if($this->input->is_ajax_request() )
 			{
 				$data['roles']=$this->Usuario_model->get_roles_opcions_array($this->centinela->get('rol'));
 				$data['tipos_clientes']=$this->Usuario_model->get_tipos_cliente_opcions_array();
@@ -153,52 +160,52 @@ class Usuario extends CI_Controller
 				$r = $this->Usuario_model->editUser($id_usuario,$this->centinela->get('rol'));
 			else
 				$r = $this->Usuario_model->addUser();
-			if ($r) 
-			{				
+			if ($r)
+			{
 				$this->loadGridUser();
-			} 
-			else 
+			}
+			else
 			{
 				echo "<div align='center'><img src='" . base_url('images/alert.png') . "' /></div>";
 			}
-			
+
 		}
-			
+
 	}
-	
+
 	public function getTest()
-	{	
-		
+	{
+
 		$data['info']=$_POST;
-		
+
 		$userData=$this->Catalogos_model->getUserFirstName($_SESSION['wp_user_info']);
 		$userData+=$this->Catalogos_model->getUserLastName($_SESSION['wp_user_info']);
 		$userData+=$this->Catalogos_model->getUserNick($_SESSION['wp_user_info']);
-		
+
 		//print_r($userData);die();
 		$data['userData']=$userData;
-		$data['nombreUsuario']=$userData['firtsName'].' '.$userData['last_name']; 
+		$data['nombreUsuario']=$userData['firtsName'].' '.$userData['last_name'];
 		$temp=$userData['firtsName'].$userData['last_name'];
 		if(empty( $temp) )
 			$data['nombreUsuario']= $userData['nickname'];
-			
+
 		$data['id_usuario']=$_SESSION['wp_user_info'];
 		$mensaje= $this->load->view('correoTemplates/body',$data,true);
 		//print_r($mensaje);die();
 		$list = array('orlando_m28@yahoo.com.mx','benymeves@hotmail.com');
-		
+
 		//$this->email->initialize($config);
 		$this->email->from('josema@systamashii.com', 'JOSEMA');
 		$this->email->to($list);
 		$this->email->reply_to('benymeves@hotmail.com', 'codeigniter local..');
 		$this->email->subject('Pedido electronico JOSEMA');
 		$this->email->message($mensaje);
-		
+
 		//$this->email->send();
 		if($this->email->send())
 			echo 'Pedido registrado';
-		
-		
+
+
 		/*$list = 'orlando_m28@yahoo.com.mx,benymeves@hotmail.com';
 		$cabeceras = '	From: orlando_m28@yahoo.com.mx' . "\r\n" .
 						'Reply-To: benymeves@hotmail.com' . "\r\n" .
@@ -207,7 +214,7 @@ class Usuario extends CI_Controller
 			echo 'Pedido registrado';
 		*/
 	}
-	
+
 	function is_session_started()
 	{
 		if ( php_sapi_name() !== 'cli' ) {
@@ -219,7 +226,7 @@ class Usuario extends CI_Controller
 		}
 		return FALSE;
 	}
-	
+
 	function tiene_permiso()
 	{
 		return true;

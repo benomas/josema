@@ -1,15 +1,15 @@
-<?php 
-if ( ! defined('BASEPATH')) 
+<?php
+if ( ! defined('BASEPATH'))
 	exit('No direct script access allowed');
-	
-class Usuario_model extends CI_Model 
+
+class Usuario_model extends CI_Model
 {
 	function __construct()
     {
         // Call the Model constructor
         parent::__construct();
     }
-	
+
 	function get($id_usuario)
 	{
 		$query=	"	SELECT 	*
@@ -19,7 +19,7 @@ class Usuario_model extends CI_Model
 		$result = $this->db->query($query);
 		return $result->result_array();
 	}
-	
+
 	function getUsuarios()
 	{
 		$query=	"	SELECT 	*
@@ -28,8 +28,8 @@ class Usuario_model extends CI_Model
 		$result = $this->db->query($query);
 		return $result->result_array();
 	}
-	
-	
+
+
 	function getCamposUsuarios($rol)
 	{
 		$WHERE =' AND usuario.id_rol_usuario >="'.$rol.'"';
@@ -39,8 +39,8 @@ class Usuario_model extends CI_Model
 							usuario.apellido_materno,
 							usuario.nick,
 							usuario.telefono,
-							usuario.email,	
-							rol_usuario.nombre AS rol,	
+							usuario.email,
+							rol_usuario.nombre AS rol,
 							tipo_cliente.nombre AS tipo_negocio,
 							IF(	usuario.activo='1',
 								'Si',
@@ -54,7 +54,7 @@ class Usuario_model extends CI_Model
 		$result = $this->db->query($query);
 		return $result->result_array();
 	}
-	
+
 	function getCamposUsuario($id_usuario)
 	{
 		$WHERE =' AND usuario.id_usuario ="'.$id_usuario.'"';
@@ -64,8 +64,8 @@ class Usuario_model extends CI_Model
 							usuario.apellido_materno,
 							usuario.nick,
 							usuario.telefono,
-							usuario.email,	
-							rol_usuario.nombre AS rol,	
+							usuario.email,
+							rol_usuario.nombre AS rol,
 							tipo_cliente.nombre AS tipo_negocio,
 							IF(	usuario.activo='1',
 								'Si',
@@ -81,8 +81,8 @@ class Usuario_model extends CI_Model
 		$result = $this->db->query($query);
 		return $result->row();
 	}
-	
-	function addUser() 
+
+	function addUser()
 	{
 		$apellido_materno = $this->input->post('apellido_materno');
 		$domicilio = $this->input->post('domicilio');
@@ -110,8 +110,8 @@ class Usuario_model extends CI_Model
 		$inserted =  $this->db->insert('usuario', $data);
 		return $inserted;
 	}
-	
-	function editUser($id_user,$rol_editor) 
+
+	function editUser($id_user,$rol_editor)
 	{
 		$apellido_materno = $this->input->post('apellido_materno');
 		$domicilio = $this->input->post('domicilio');
@@ -135,8 +135,8 @@ class Usuario_model extends CI_Model
 			$data['rfc']=$rfc;
 		if(!empty($id_tipo_cliente))
 			$data['id_tipo_cliente']=$id_tipo_cliente;
-			
-		if($rol_editor==1)	
+
+		if($rol_editor==1)
 		{
 			$checkbox = $this->input->post('cambiar_clave');
 			if(isset($checkbox))
@@ -147,12 +147,12 @@ class Usuario_model extends CI_Model
 				}
 			}
 		}
-			
+
 		$this->db->where('id_usuario', $id_user);
-		$updated = $this->db->update('usuario', $data);	
+		$updated = $this->db->update('usuario', $data);
 		return $updated;
 	}
-	
+
 	function get_roles_opcions_array($id_rol=0)
 	{
 		$opciones= array();
@@ -160,12 +160,12 @@ class Usuario_model extends CI_Model
 		foreach ($consulta->result_array() as $fila)
 		{
 			$opciones += array($fila['id_rol_usuario']=>$fila['nombre']);
-			
+
 		}
 		$opciones += array('-'=>'----');
 		return $opciones;;
 	}
-	
+
 	function get_tipos_cliente_opcions_array()
 	{
 		$opciones= array();
@@ -173,21 +173,31 @@ class Usuario_model extends CI_Model
 		foreach ($consulta->result_array() as $fila)
 		{
 			$opciones += array($fila['id_tipo_cliente']=>$fila['nombre']);
-			
+
 		}
 		$opciones += array('-'=>'----');
 		return $opciones;;
 	}
-	
-	function unactiveUser($id_usuario)
+
+	function deactivateUser($id_usuario)
 	{
 		$data = array	(
 							'activo'						=> '0'
 						);
-			
+
 		$this->db->where('id_usuario',$id_usuario);
 		return $this->db->update('usuario', $data);
 	}
-	
+
+	function activateUser($id_usuario)
+	{
+		$data = array	(
+							'activo'						=> '1'
+						);
+
+		$this->db->where('id_usuario',$id_usuario);
+		return $this->db->update('usuario', $data);
+	}
+
 }
 ?>

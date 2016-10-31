@@ -93,31 +93,32 @@ class FormSender extends CI_Controller
 			$nombre=$data['userData']->nick;
 		$data['nombreUsuario']=	$nombre;
 		$data['id_usuario']=$this->centinela->get('id_usuario');
-		debugg($data);
 		$mensaje= $this->load->view('correoTemplates/body',$data,true);
 		$list=array();
-		$list[]='pedidos_josema@hotmail.com';
 		$list[]=$data['userData']->email;
-		$this->email->from('josema@systamashii.com', 'JOSEMA');
+		$this->email->from('pedidos@josema.com.mx', 'JOSEMA');
 		$this->email->to($list);
 		$this->email->reply_to('', 'Este correo a sido generado electronicamente, no responda a este correo');
 		$this->email->subject('Pedido electronico JOSEMA');
 		$this->email->message($mensaje);
-		die();
-		//$this->email->send();
 		if($this->email->send())
 		{
 			echo '	<div class="contenedor_info">
 						<label class="concepto_field" style="font-size:16px;">Pedido enviado</label>
 					</div>';
 			$list=array();
-			$array_list=$this->Catalogos_model->getAdminMails();
-			foreach($array_list AS $element)
+			if(is_array($this->config->item('pedidos_emails')))
+				$list = $this->config->item('pedidos_emails');
+			else
 			{
-				$list[]=$element['email'];
+				$array_list=$this->Catalogos_model->getAdminMails();
+				foreach($array_list AS $element)
+				{
+					$list[]=$element['email'];
+				}
+				$list[]=$data['userData']->email;
 			}
-			$list[]=$data['userData']->email;
-			$this->email->from('josema@systamashii.com', 'JOSEMA');
+			$this->email->from('pedidos@josema.com.mx', 'JOSEMA');
 			$this->email->to($list);
 			$this->email->reply_to('', 'Este correo a sido generado electronicamente, no responda a este correo');
 			$this->email->subject('Pedido electronico JOSEMA');
@@ -125,9 +126,6 @@ class FormSender extends CI_Controller
 			$this->email->send();
 			$this->carro->reset();
 		}
-
-
-
 	}
 
 	function almenosUna($numeroProductos=0)
