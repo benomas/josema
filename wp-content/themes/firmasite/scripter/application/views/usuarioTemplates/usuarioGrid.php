@@ -57,31 +57,31 @@
 	?>
 		<tr>
 			<td class="no_essencial">
-				<?php echo $usuario['nombre'];?>
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['nombre']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td class="no_essencial">
-				<?php echo $usuario['apellido_paterno'];?>
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['apellido_paterno']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td class="no_essencial">
-				<?php echo $usuario['apellido_materno'];?>
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['apellido_materno']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td>
-				<?php echo $usuario['nick'];?>
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['nick']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td class="no_essencial2">
-				<?php echo $usuario['telefono'];?>
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['telefono']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td class="no_essencial2">
-				<?php echo $usuario['email'];?>
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['email']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td>
-				<?php echo $usuario['rol'];?>
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['rol']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td class="no_essencial2">
-				<?php echo $usuario['tipo_negocio'];?>
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['tipo_negocio']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td>
-				<?php echo $usuario['activo'];?>
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['activo']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td class="success" style="text-align:center;">
 				<div class="bno-accions acciones">
