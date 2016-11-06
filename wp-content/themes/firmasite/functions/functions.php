@@ -122,7 +122,7 @@ function modulo_url($modulo)
 	}
 	return home_url();*/
 }
-
+//depreciada
 function load_ci_template()
 {
 	$page_navegation=$_GET['page_id'];

@@ -146,13 +146,46 @@ function load_ci_template()
 																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');
 															break;
-		case get_page_by_title( 'Bobinas')->ID:
+		case get_page_by_title( 'Bobina')->ID:
 															$filtro->multiSet	(
 																					array	(
 																								'bobinas'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
 																																'condicion'		=>'=',
 																																'expresion'		=>'BOBINA'
 																															)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Cable de bujia')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'cable_bujia'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																	'condicion'		=>'=',
+																																	'expresion'		=>'CABLES BUJIA'
+																																)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Distribuidor')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'distribuidor'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																																	'condicion'		=>'=',
+																																	'expresion'		=>'DISTRIBUIDOR'
+																																)
+																							)
+																				);
+															get_template_part( 'templates/ci_ajax_templates/buscar');
+															break;
+		case get_page_by_title( 'Modulo de ignición')->ID:
+															$filtro->multiSet	(
+																					array	(
+																								'modulo_ignicion'		=>	array	(	'nombre_campo'	=>'cri.descripcion',
+																																		'condicion'		=>' LIKE ',
+																																		'expresion'		=>'%MODULO%IGNICI%'
+																																	)
 																							)
 																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');
@@ -207,9 +240,9 @@ function load_ci_template()
 															$filtro->multiSet	(
 																					array	(
 																								'inyectores_gasolina'		=>	array	(	'nombre_campo'	=>'cri.componente',
-																																		'condicion'		=>'=',
-																																		'expresion'		=>'INYECTORES DE GASOLINA'
-																																	)
+																																			'condicion'		=>'=',
+																																			'expresion'		=>'INYECTORES DE GASOLINA'
+																																		)
 																							)
 																				);
 															get_template_part( 'templates/ci_ajax_templates/buscar');
@@ -363,7 +396,7 @@ function load_ci_template()
 		case get_page_by_title( 'Sensor maf')->ID:
 															$filtro->multiSet	(
 																					array	(
-																								'sensor_af'		=>	array	(	'nombre_campo'	=>'cri.marca_componente',
+																								'sensor_af'		=>	array			(	'nombre_campo'	=>'cri.marca_componente',
 																																		'condicion'		=>'=',
 																																		'expresion'		=>'SENSOR MAF'
 																																	)
