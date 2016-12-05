@@ -4,13 +4,21 @@
  */
 global $firmasite_settings;
 ?>
+		<p style="border: 1px solid #cccccc;
+				    border-radius: 4px;
+				    height: 50px;
+				    margin: 0 15px;
+				    padding: 10px;
+				    width: auto;"
+		>
+		<b>Lee nuestro <a href="http://josema.com.mx/?page_id=478">aviso de privacidad</a></b>
+		</p>
 		</div><!--  .row -->
         <?php do_action( 'after_content' ); ?>
 	</div><!-- #main .site-main -->
 
 	<?php //get_template_part( 'templates/footer', $firmasite_settings["footer-style"] ); ?>
 </div><!-- #page .hfeed .site -->
-
 <?php wp_footer(); ?>
 
 </body>
