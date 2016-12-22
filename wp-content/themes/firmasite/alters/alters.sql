@@ -216,3 +216,8 @@ DROP TABLE  IF EXISTS `ci_tipo_componente`;
 
 DROP PROCEDURE IF EXISTS `make_ci_resumen_inventario`;
 -- checkPoint:{User:Benomas,From:homePc}
+ALTER TABLE `josemaco_wp_store`.`ci_resumen_inventario`
+ADD COLUMN `h` VARCHAR(45) NULL AFTER `g`,
+ADD COLUMN `i` VARCHAR(45) NULL AFTER `h`,
+ADD COLUMN `j` VARCHAR(45) NULL AFTER `i`;
+-- checkPoint:{User:Benomas,From:homePc}

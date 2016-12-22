@@ -80,7 +80,7 @@ class Inventario_model extends CI_Model
 			return $this->db->query($consulta)->num_rows();
 		if($limite )
 			$consulta.=' LIMIT '.$posicion.' ,'.$limite.' ';
-
+		debugg($consulta);
 		$inventario=$this->db->query($consulta)->result_array();
 
 		return $inventario;
@@ -332,11 +332,12 @@ class Inventario_model extends CI_Model
         $mapa_db_cvs['e']=array('cvs_nombre_columna'=>'E 18.4%','cvs_posicion_columna'=>'');
         $mapa_db_cvs['f']=array('cvs_nombre_columna'=>'F 19.25%','cvs_posicion_columna'=>'');
         $mapa_db_cvs['g']=array('cvs_nombre_columna'=>'G 23.5%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['h']=array('cvs_nombre_columna'=>'H 25%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['i']=array('cvs_nombre_columna'=>'I 32.5%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['j']=array('cvs_nombre_columna'=>'J 35%','cvs_posicion_columna'=>'');
         $mapa_db_cvs['precio_promocion1']=array('cvs_nombre_columna'=>'PRECIO PROMOCION','cvs_posicion_columna'=>'');
         $mapa_db_cvs['precio_promocion2']=array('cvs_nombre_columna'=>'PRECIO PROMOCION','cvs_posicion_columna'=>'');
         $mapa_db_cvs['condicion_compra']=array('cvs_nombre_columna'=>'CONDICION DE COMPRA','cvs_posicion_columna'=>'');
-
-
         $mapa_db_cvs['codigo']=array('cvs_nombre_columna'=>'CODIGO','cvs_posicion_columna'=>'');
         $mapa_db_cvs['original']=array('cvs_nombre_columna'=>'ORIGINAL','cvs_posicion_columna'=>'');
         $mapa_db_cvs['airtex']=array('cvs_nombre_columna'=>'AIRTEX','cvs_posicion_columna'=>'');
