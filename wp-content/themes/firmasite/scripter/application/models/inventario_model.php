@@ -80,7 +80,6 @@ class Inventario_model extends CI_Model
 			return $this->db->query($consulta)->num_rows();
 		if($limite )
 			$consulta.=' LIMIT '.$posicion.' ,'.$limite.' ';
-		debugg($consulta);
 		$inventario=$this->db->query($consulta)->result_array();
 
 		return $inventario;
