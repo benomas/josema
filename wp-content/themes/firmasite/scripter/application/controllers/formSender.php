@@ -94,7 +94,6 @@ class FormSender extends CI_Controller
 		$data['nombreUsuario']=	$nombre;
 		$data['id_usuario']=$this->centinela->get('id_usuario');
 		$mensaje= $this->load->view('correoTemplates/body',$data,true);
-		debugg($mensaje); die();
 		$list=array();
 		$list[]=$data['userData']->email;
 		$this->email->from('pedidos@josema.com.mx', 'JOSEMA');
