@@ -18,6 +18,14 @@
 		<td ><?php echo $nombreUsuario;?>
 		</td>
 	</tr>
+    <tr >
+        <td style="background-color:#DFF0D8;">
+            <b>Forma de entrega:</b>
+        </td>
+        <td >
+            <?php if(isset($info['tipo_envio']) && $info['tipo_envio'])  echo 'Se entrega en sucursal';  else echo 'Se envia a domicilio';?>
+        </td>
+    </tr>
 	<tr >
 		<td style="background-color:#DFF0D8;"><b>Fecha:</b>
 		</td>

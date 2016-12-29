@@ -23,6 +23,14 @@
 		</tr>
 		<tr>
 			<td >
+				Recoger en sucursal:
+			</td>
+			<td colspan="2">
+				 <input type="checkbox" id="tipo_envio" name="tipo_envio" value="sucursal">
+			</td>
+		</tr>
+		<tr>
+			<td >
 				Fecha:
 			</td>
 			<td colspan="2">
@@ -248,7 +256,6 @@
 <script>
 $(document).ready(function()
 {
-
 	$('.celda_marco').hide('fast');
 	var limit=<?php echo $filasDefault;?>;
 	var temp=$('#numeroFilas').val();
@@ -290,6 +297,10 @@ $(document).ready(function()
 			}
 		}
 	?>
+
+	$('[name="tipo_envio"]').on('change',function(){
+		updateTotal();
+	});
 });
 
 function removerFila(idTr)
@@ -348,7 +359,8 @@ function updateTotal()
 	var total_antes_de_iva=0;
 	var descuento_adicional=0;
 	var iva=0;
-	var gastos_envio = 180.00;
+	var tipo_envio = $('[name=tipo_envio]').prop('checked');
+	var gastos_envio = 180.00 * (!tipo_envio);
 
 	for(i=1;i<num_elementos;i++)
 	{
