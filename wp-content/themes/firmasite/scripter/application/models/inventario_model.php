@@ -114,6 +114,8 @@ class Inventario_model extends CI_Model
 		$recorrido=0;
 		$totalTokens=count($coincidencias[0]);
 		$combinacionesTokens[$recorrido++]=$coincidencias;
+		if($totalTokens > 6)
+			return $combinacionesTokens;
 		while($recorrido<$totalTokens)
 		{
 			$cobinacionTemporal=$this->ignoraUnaPosicion($combinacionesTokens[$recorrido-1]);
