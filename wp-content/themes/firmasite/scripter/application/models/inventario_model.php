@@ -114,7 +114,7 @@ class Inventario_model extends CI_Model
 		$recorrido=0;
 		$totalTokens=count($coincidencias[0]);
 		$combinacionesTokens[$recorrido++]=$coincidencias;
-		if($totalTokens > 6)
+		if($totalTokens > 8)
 			return $combinacionesTokens;
 		while($recorrido<$totalTokens)
 		{
