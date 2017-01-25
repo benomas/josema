@@ -12,7 +12,7 @@ class Inventario extends CI_Controller
 		$this->load->library('interdata');
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
-		$this->limite=20;
+		$this->limite=100;
 		$this->posicion_inicial=0;
 
    }
