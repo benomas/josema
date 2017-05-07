@@ -368,13 +368,20 @@ class Inventario_model extends CI_Model
 		unset($filasImportacion[0]);
 
 		$db_preparacion=array();
-
 		foreach ($filasImportacion as $filaCvs)
 		{
 			$db_preparacion_temporal=array();
 			foreach ($mapa_db_cvs as $db_indice_columna => $db_configuracion_columna)
 			{
-				$db_preparacion_temporal[$db_indice_columna] = $filaCvs[$db_configuracion_columna['cvs_posicion_columna']];
+				if(	isset($db_configuracion_columna) &&
+					isset($db_configuracion_columna['cvs_posicion_columna'])&&
+					isset($filaCvs[$db_configuracion_columna['cvs_posicion_columna']])
+				)
+				$db_preparacion_temporal[$db_indice_columna] = $filaCvs[$db_configuracion_columna[
+					'cvs_posicion_columna']
+					];
+					else
+						$db_preparacion_temporal[$db_indice_columna] = '';
 			}
 
 			if(count($db_preparacion_temporal)>0)
@@ -403,29 +410,33 @@ class Inventario_model extends CI_Model
 
 		foreach ($db_preparacion as $db_preparacion_posicion_fila => $db_preparacion_fila)
 		{
-			$queryValues='';
-			if($query !=='')
-				$query = $query.' , ';
-			foreach ($db_preparacion_fila as $db_preparacion_indice => $db_preparacion_valor)
-			{
-				if($queryValues !=='')
-					$queryValues = $queryValues.' , ';
-				else
-					$queryValues = $queryValues.' ( ';
+			try{
+				$queryValues='';
+				if($query !=='')
+					$query = $query.' , ';
+				foreach ($db_preparacion_fila as $db_preparacion_indice => $db_preparacion_valor)
+				{
+					if($queryValues !=='')
+						$queryValues = $queryValues.' , ';
+					else
+						$queryValues = $queryValues.' ( ';
 
-					$queryValues = $queryValues. 	'
-														"'.mysql_real_escape_string($db_preparacion_valor).'"
-													';
-			}
-			$queryValues = $queryValues.' ) ';
-			$query=$query.$queryValues;
-			$contadorFilas++;
+						$queryValues = $queryValues. 	'
+															"'.mysql_real_escape_string($db_preparacion_valor).'"
+														';
+				}
+				$queryValues = $queryValues.' ) ';
+				$query=$query.$queryValues;
+				$contadorFilas++;
 
-			if($contadorFilas ===$filasPorQuery)
-			{
-				$this->db->query($query_insert.$query);
-				$contadorFilas=0;
-				$query ='';
+				if($contadorFilas ===$filasPorQuery)
+				{
+					$this->db->query($query_insert.$query);
+					$contadorFilas=0;
+					$query ='';
+				}
+			} catch (Exception $e) {
+
 			}
 		}
 		if($contadorFilas > 0 )
@@ -531,9 +542,16 @@ class Inventario_model extends CI_Model
 		$busquedaConcatenada='';
 		foreach ($camposBusqueda as $referencia)
 		{
-			if(isset($mapa_db_cvs[$referencia]))
+			if(
+				isset($mapa_db_cvs) &&
+				isset($mapa_db_cvs[$referencia]) &&
+				isset($mapa_db_cvs[$referencia]['cvs_posicion_columna'])
+			)
 			{
-				$busquedaConcatenada=$busquedaConcatenada.' '.$filaCvs[$mapa_db_cvs[$referencia]['cvs_posicion_columna']].' ';
+				$partial='';
+				if(isset($filaCvs[$mapa_db_cvs[$referencia]['cvs_posicion_columna']]))
+					$partial = $filaCvs[$mapa_db_cvs[$referencia]['cvs_posicion_columna']];
+				$busquedaConcatenada=$busquedaConcatenada.' '.$partial.' ';
 			}
 		}
 		return $busquedaConcatenada;
