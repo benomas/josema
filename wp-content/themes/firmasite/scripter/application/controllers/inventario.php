@@ -63,10 +63,11 @@ class Inventario extends CI_Controller
 	{
 		$cvsCells = array();
 		$posicionColumnaCondicional=-1;
-		$valorColumnaCondicional='PRECIO DE LISTA';
+		$valorColumnaCondicional='A';
 		$gestor = fopen("../../../../josema.com.mx/daniel_morales/BASE DE DATOS.csv", "r");
         if(	$gestor !== FALSE)
         {
+        	$rowCount=0;
             while (($datos = fgetcsv($gestor, 1000, ",")) !== FALSE)
             {
                 foreach ($datos as $key => $value)
@@ -81,10 +82,12 @@ class Inventario extends CI_Controller
 
                 }
                 if(	$posicionColumnaCondicional > -1 &&
-                	isset($datos[$posicionColumnaCondicional]) &&
-                	!empty($datos[$posicionColumnaCondicional])
+                	!empty($datos[$posicionColumnaCondicional]) &&
+                	($rowCount===0 || (preg_match('/(.*)\d+(.*)/', $datos[$posicionColumnaCondicional], $matches)) )
                 	)
                 	$cvsCells[]=$datos;
+                //debugg([$datos[$posicionColumnaCondicional],preg_match('/(.*)\$(.*)/', $datos[$posicionColumnaCondicional], $matches),$matches]);
+                $rowCount++;
             }
             fclose($gestor);
         }

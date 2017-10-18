@@ -67,6 +67,13 @@ class Usuario extends CI_Controller
 		$this->loadGridUser();
 	}
 
+	function deleteUser($id_usuario)
+	{
+		$this->tiene_permiso();
+		$r=$this->Usuario_model->deleteUser($id_usuario);
+		$this->loadGridUser();
+	}
+
 	function addUser()
 	{
 		$this->tiene_permiso();

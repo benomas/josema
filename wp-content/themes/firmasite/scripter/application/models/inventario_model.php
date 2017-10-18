@@ -320,22 +320,23 @@ class Inventario_model extends CI_Model
         $mapa_db_cvs['embalaje']=array('cvs_nombre_columna'=>'EMBALAJE','cvs_posicion_columna'=>'');
         $mapa_db_cvs['marca_componente']=array('cvs_nombre_columna'=>'TIPO DE COMPONENTE','cvs_posicion_columna'=>'');
         $mapa_db_cvs['componente']=array('cvs_nombre_columna'=>'TIPO DE COMPONENTE GENERAL','cvs_posicion_columna'=>'');
-        $mapa_db_cvs['marca']=array('cvs_nombre_columna'=>'MARCA','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['marca']=array('cvs_nombre_columna'=>'ARMADORA','cvs_posicion_columna'=>'');
         $mapa_db_cvs['marca_refaccion']=array('cvs_nombre_columna'=>'','cvs_posicion_columna'=>'27');
         $mapa_db_cvs['proveedor']=array('cvs_nombre_columna'=>'PROVEEDOR','cvs_posicion_columna'=>'');
         $mapa_db_cvs['descripcion']=array('cvs_nombre_columna'=>'DESCRIPCION','cvs_posicion_columna'=>'');
-        $mapa_db_cvs['precio_lista']=array('cvs_nombre_columna'=>'PRECIO DE LISTA','cvs_posicion_columna'=>'');
-        $mapa_db_cvs['precio_compra']=array('cvs_nombre_columna'=>'','cvs_posicion_columna'=>'34');
-        $mapa_db_cvs['a']=array('cvs_nombre_columna'=>'A 0%','cvs_posicion_columna'=>'');
+        //$mapa_db_cvs['precio_lista']=array('cvs_nombre_columna'=>'PRECIO DE LISTA','cvs_posicion_columna'=>'');
+        //$mapa_db_cvs['precio_compra']=array('cvs_nombre_columna'=>'','cvs_posicion_columna'=>'34');
+        $mapa_db_cvs['a']=array('cvs_nombre_columna'=>'A','cvs_posicion_columna'=>'');
         $mapa_db_cvs['b']=array('cvs_nombre_columna'=>'B 10%','cvs_posicion_columna'=>'');
         $mapa_db_cvs['c']=array('cvs_nombre_columna'=>'C 15%','cvs_posicion_columna'=>'');
         $mapa_db_cvs['d']=array('cvs_nombre_columna'=>'D 17.55%','cvs_posicion_columna'=>'');
         $mapa_db_cvs['e']=array('cvs_nombre_columna'=>'E 18.4%','cvs_posicion_columna'=>'');
         $mapa_db_cvs['f']=array('cvs_nombre_columna'=>'F 19.25%','cvs_posicion_columna'=>'');
-        $mapa_db_cvs['g']=array('cvs_nombre_columna'=>'G 23.5%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['g']=array('cvs_nombre_columna'=>'G 20%','cvs_posicion_columna'=>'');
         $mapa_db_cvs['h']=array('cvs_nombre_columna'=>'H 25%','cvs_posicion_columna'=>'');
-        $mapa_db_cvs['i']=array('cvs_nombre_columna'=>'I 32.5%','cvs_posicion_columna'=>'');
-        $mapa_db_cvs['j']=array('cvs_nombre_columna'=>'J 35%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['i']=array('cvs_nombre_columna'=>'I 30%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['j']=array('cvs_nombre_columna'=>'J 32.5%','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['k']=array('cvs_nombre_columna'=>'K 35%','cvs_posicion_columna'=>'');
         $mapa_db_cvs['precio_promocion1']=array('cvs_nombre_columna'=>'PRECIO PROMOCION','cvs_posicion_columna'=>'');
         $mapa_db_cvs['precio_promocion2']=array('cvs_nombre_columna'=>'PRECIO PROMOCION','cvs_posicion_columna'=>'');
         $mapa_db_cvs['condicion_compra']=array('cvs_nombre_columna'=>'CONDICION DE COMPRA','cvs_posicion_columna'=>'');
@@ -355,6 +356,7 @@ class Inventario_model extends CI_Model
         $mapa_db_cvs['bosch']=array('cvs_nombre_columna'=>'BOSCH','cvs_posicion_columna'=>'');
         $mapa_db_cvs['unipoint']=array('cvs_nombre_columna'=>'UNIPOINT','cvs_posicion_columna'=>'');
         $mapa_db_cvs['interfil']=array('cvs_nombre_columna'=>'INTERFIL','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['valeo']=array('cvs_nombre_columna'=>'VALEO','cvs_posicion_columna'=>'');
         $mapa_db_cvs['oe_otro']=array('cvs_nombre_columna'=>'OE / OTRO','cvs_posicion_columna'=>'');
 
 		$this->db->trans_start();
@@ -363,10 +365,8 @@ class Inventario_model extends CI_Model
 		$query_insert='';
 		$filasPorQuery = 30;
 		$contadorFilas = 0;
-
 		$mapa_db_cvs=$this->complementaMapa($mapa_db_cvs,$filasImportacion[0]);
 		unset($filasImportacion[0]);
-
 		$db_preparacion=array();
 		foreach ($filasImportacion as $filaCvs)
 		{
@@ -391,7 +391,6 @@ class Inventario_model extends CI_Model
 				$db_preparacion[]=$db_preparacion_temporal;
 			}
 		}
-
 		foreach ($db_preparacion[0] as $db_preparacion_indice => $db_preparacion_valor)
 		{
 			if($query_insert !=='')
@@ -522,7 +521,7 @@ class Inventario_model extends CI_Model
 
 	function generaReferencias($mapa_db_cvs,$filaCvs)
 	{
-		$referencias = array('codigo','original','airtex','carter','kem','walbro','pfp','delphi','std','wells','tomco','transpo','wai','bosch','unipoint','interfil','oe_otro');
+		$referencias = array('codigo','original','airtex','carter','kem','walbro','pfp','delphi','std','wells','tomco','transpo','wai','bosch','unipoint','valeo','interfil','oe_otro');
 		$referenciasConcatenadas='';
 		foreach ($referencias as $referencia)
 		{
@@ -537,7 +536,7 @@ class Inventario_model extends CI_Model
 	function generaBusqueda($mapa_db_cvs,$filaCvs)
 	{
 		$camposBusqueda = array(	'npc','numero','presentacion','tipo','sub_tipo','embalaje','marca_componente','componente','marca','marca_refaccion','proveedor','descripcion',
-									'codigo','original','airtex','carter','kem','walbro','pfp','delphi','std','wells','tomco','transpo','wai','bosch','unipoint','interfil','oe_otro'
+									'codigo','original','airtex','carter','kem','walbro','pfp','delphi','std','wells','tomco','transpo','wai','bosch','unipoint','valeo','interfil','oe_otro'
 									);
 		$busquedaConcatenada='';
 		foreach ($camposBusqueda as $referencia)

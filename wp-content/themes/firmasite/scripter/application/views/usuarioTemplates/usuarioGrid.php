@@ -106,6 +106,9 @@
 					<div class="icon- bno-button  tooltip_class_accion " title="Editar usuario" id="ci_add_button" onclick="editar_usuario('<?php echo $usuario['id_usuario']; ?>');">
 							&#xe605
 					</div>
+					<div class="icon- bno-button  tooltip_class_accion " title="Eliminar usuario" id="ci_add_button" onclick="eliminar_usuario('<?php echo $usuario['id_usuario']; ?>');">
+							&#xe6a8
+					</div>
 				</div>
 			</td>
 		<?php
@@ -151,6 +154,21 @@ $(document).ready(function()
 			}
 	});
 });
+
+function eliminar_usuario(id_usuario)
+{
+
+	$.ajax(
+	{
+		url : '<?php echo site_url();?>/usuario/deleteUser/' + id_usuario,
+		type: 'POST',
+		success : function(html)
+		{
+				$('#form_container').html(html);
+				alertify.success('Usuario Eliminado');
+		}
+	});
+}
 
 function desactivar_usuario(id_usuario)
 {

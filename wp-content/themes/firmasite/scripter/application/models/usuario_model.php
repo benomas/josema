@@ -199,5 +199,9 @@ class Usuario_model extends CI_Model
 		return $this->db->update('usuario', $data);
 	}
 
+	function deleteUser($id_usuario)
+	{
+		return $this->db->delete('usuario', array('id_usuario' => $id_usuario));
+	}
 }
 ?>
