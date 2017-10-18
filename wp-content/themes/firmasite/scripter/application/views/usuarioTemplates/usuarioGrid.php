@@ -157,7 +157,7 @@ $(document).ready(function()
 
 function eliminar_usuario(id_usuario)
 {
-
+	if(confirm("Realmente deseas eliminar el usuario?"))
 	$.ajax(
 	{
 		url : '<?php echo site_url();?>/usuario/deleteUser/' + id_usuario,
