@@ -46,5 +46,6 @@ get_header();
 		</div>
 		</div><!-- #primary .content-area -->
 
+ <script src="<?php echo get_rcodeigniter_url();?>js/custom.js" type="text/javascript" style=""></script>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

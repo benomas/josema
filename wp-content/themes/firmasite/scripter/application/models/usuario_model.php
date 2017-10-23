@@ -4,9 +4,9 @@ if ( ! defined('BASEPATH'))
 
 class Usuario_model extends CI_Model
 {
+	public $instance;
 	function __construct()
     {
-        // Call the Model constructor
         parent::__construct();
     }
 
@@ -30,9 +30,12 @@ class Usuario_model extends CI_Model
 	}
 
 
-	function getCamposUsuarios($rol)
+	function getCamposUsuarios($rol,$id_usuario)
 	{
-		$WHERE =' AND usuario.id_rol_usuario >="'.$rol.'"';
+		if($this->rolName($rol)==="Vendedor")
+			$WHERE =' AND usuario.id_vendedor ="'.$id_usuario.'"';
+		else
+			$WHERE =' AND usuario.id_rol_usuario >="'.$rol.'"';
 		$query=	"	SELECT 	usuario.id_usuario,
 							usuario.nombre,
 							usuario.apellido_paterno,
@@ -40,14 +43,17 @@ class Usuario_model extends CI_Model
 							usuario.nick,
 							usuario.telefono,
 							usuario.email,
+							usuario.id_vendedor,
 							rol_usuario.nombre AS rol,
 							tipo_cliente.nombre AS tipo_negocio,
+							CONCAT(usuario2.nombre,' ',usuario2.apellido_paterno,' ',usuario2.apellido_materno) AS vendedor,
 							IF(	usuario.activo='1',
 								'Si',
 								'No'
 								) AS activo
 					FROM 	usuario AS usuario
 					JOIN	rol_usuario AS rol_usuario ON rol_usuario.id_rol_usuario = usuario.id_rol_usuario
+					LEFT JOIN	usuario AS usuario2 on usuario2.id_usuario=usuario.id_vendedor
 					LEFT JOIN	tipo_cliente AS tipo_cliente ON tipo_cliente.id_tipo_cliente = usuario.id_tipo_cliente
 					WHERE 1 ".$WHERE."
 				";
@@ -72,7 +78,8 @@ class Usuario_model extends CI_Model
 								'No'
 								) AS activo,
 							usuario.id_rol_usuario,
-							usuario.id_tipo_cliente
+							usuario.id_tipo_cliente,
+							usuario.id_vendedor
 					FROM 	usuario AS usuario
 					JOIN	rol_usuario AS rol_usuario ON rol_usuario.id_rol_usuario = usuario.id_rol_usuario
 					LEFT JOIN	tipo_cliente AS tipo_cliente ON tipo_cliente.id_tipo_cliente = usuario.id_tipo_cliente
@@ -85,9 +92,10 @@ class Usuario_model extends CI_Model
 	function addUser()
 	{
 		$apellido_materno = $this->input->post('apellido_materno');
-		$domicilio = $this->input->post('domicilio');
-		$rfc = $this->input->post('rfc');
-		$id_tipo_cliente = $this->input->post('id_tipo_cliente');
+		$domicilio        = $this->input->post('domicilio');
+		$rfc              = $this->input->post('rfc');
+		$id_tipo_cliente  = $this->input->post('id_tipo_cliente');
+		$id_vendedor      = $this->input->post('id_vendedor');
 		$data = array	(
 							'nombre'						=> $this->input->post('nombre'),
 							'apellido_paterno'				=> $this->input->post('apellido_paterno'),
@@ -107,6 +115,8 @@ class Usuario_model extends CI_Model
 			$data['rfc']=$rfc;
 		if(!empty($id_tipo_cliente))
 			$data['id_tipo_cliente']=$id_tipo_cliente;
+		if(!empty($id_vendedor))
+			$data['id_vendedor']=$id_vendedor;
 		$inserted =  $this->db->insert('usuario', $data);
 		return $inserted;
 	}
@@ -117,6 +127,7 @@ class Usuario_model extends CI_Model
 		$domicilio = $this->input->post('domicilio');
 		$rfc = $this->input->post('rfc');
 		$id_tipo_cliente = $this->input->post('id_tipo_cliente');
+		$id_vendedor      = $this->input->post('id_vendedor');
 		$data = array	(
 							'nombre'						=> $this->input->post('nombre'),
 							'apellido_paterno'				=> $this->input->post('apellido_paterno'),
@@ -135,6 +146,7 @@ class Usuario_model extends CI_Model
 			$data['rfc']=$rfc;
 		if(!empty($id_tipo_cliente))
 			$data['id_tipo_cliente']=$id_tipo_cliente;
+		$data['id_vendedor']=$id_vendedor?$id_vendedor:NULL;
 
 		if($rol_editor==1)
 		{
@@ -166,18 +178,39 @@ class Usuario_model extends CI_Model
 		return $opciones;;
 	}
 
-	function get_tipos_cliente_opcions_array()
+	function clientTypes()
 	{
-		$opciones= array();
-		$consulta = $this->db->query('SELECT id_tipo_cliente, nombre FROM tipo_cliente WHERE activo="1"');
-		foreach ($consulta->result_array() as $fila)
-		{
-			$opciones += array($fila['id_tipo_cliente']=>$fila['nombre']);
-
-		}
-		$opciones += array('-'=>'----');
-		return $opciones;;
+		return $this->db->query('SELECT id_tipo_cliente, nombre FROM tipo_cliente WHERE activo="1"');
 	}
+
+	function clients($id_vendedor=null)
+	{
+		if($id_vendedor)
+			return $this->db->query('
+				SELECT 	u.id_usuario AS keyColumn, CONCAT( u.nombre," ", u.apellido_paterno," ", u.apellido_materno) AS valueColumn 
+				FROM 	usuario AS u
+				JOIN	rol_usuario AS ru ON ru.id_rol_usuario=u.id_rol_usuario AND ru.nombre="Cliente"
+				WHERE 	u.activo="1" AND u.id_vendedor="{$id_vendedor}" 
+			');
+		
+		return $this->db->query('
+			SELECT 	u.id_usuario AS keyColumn, CONCAT( u.nombre," ", u.apellido_paterno," ", u.apellido_materno) AS valueColumn 
+			FROM 	usuario
+			JOIN	rol_usuario AS ru ON ru.id_rol_usuario=u.id_rol_usuario AND ru.nombre="Cliente"
+			WHERE 	u.activo="1"
+		');
+	}
+
+	function vendors()
+	{
+		return $this->db->query('
+			SELECT 	u.id_usuario AS keyColumn, CONCAT( u.nombre," ", u.apellido_paterno," ", u.apellido_materno) AS valueColumn 
+			FROM 	usuario AS u
+			JOIN	rol_usuario AS ru ON ru.id_rol_usuario=u.id_rol_usuario AND ru.nombre="Vendedor"
+			WHERE 	u.activo="1"
+		');
+	}
+
 
 	function deactivateUser($id_usuario)
 	{
@@ -202,6 +235,12 @@ class Usuario_model extends CI_Model
 	function deleteUser($id_usuario)
 	{
 		return $this->db->delete('usuario', array('id_usuario' => $id_usuario));
+	}
+	
+	public function rolName($rol){
+		if($rol && ($currentRole = $this->db->query("SELECT nombre FROM rol_usuario WHERE id_rol_usuario={$rol}")->row()))
+			return $currentRole->nombre;
+		return "";
 	}
 }
 ?>

@@ -1,10 +1,16 @@
 ﻿<div id="container">
 	<form id="editUserForm">
 	<?php
-		if(!empty($usuario->id_usuario))
-			$id_usuario_back=$usuario->id_usuario;
-		else
-			$id_usuario_back='';
+		if(!empty($usuario->id_usuario)){
+			$id_usuario_back      =$usuario->id_usuario;
+			$id_tipo_cliente_back =$usuario->id_tipo_cliente;
+			$id_vendedor_back     =$usuario->id_vendedor;
+		}
+		else{
+			$id_usuario_back      ='';
+			$id_tipo_cliente_back ='';
+			$id_vendedor_back     ='';
+		}
 	?>
 	<input type="hidden" name="id_usuario" id="id_usuario" value="<? echo set_value('id_usuario',$id_usuario_back);?>" />
 	<table class="table" id="formSeccion1">
@@ -222,25 +228,22 @@
 			</td>
 		</tr>
 		<?php echo form_error('id_rol');?>
-		<tr>
+		<tr class="row-tipo-cliente">
 			<td >
 				Tipo cliente:
 			</td>
-			<td >
-				<?php							
-						if(!empty($usuario->id_tipo_cliente))
-							$id_tipo_cliente_back=$usuario->id_tipo_cliente;
-						else
-							$id_tipo_cliente_back='-';
-				echo form_dropdown(	"id_tipo_cliente",
-									$tipos_clientes,
-									set_value('id_tipo_cliente',$id_tipo_cliente_back),
-									" id='id_tipo_cliente'"
-									);
-				?>
+			<td class="select-container">
 			</td>
 		</tr>
 		<?php echo form_error('id_tipo_cliente');?>
+		<tr class="row-vendedor">
+			<td >
+				Vendedor:
+			</td>
+			<td class="select-container">
+			</td>
+		</tr>
+		<?php echo form_error('vendor_id');?>
 		
 		
 	</table>
@@ -250,22 +253,85 @@
 	</div>
 </div>
 <script>
+var oldidClientType = "<?php echo set_value('id_tipo_cliente',$id_tipo_cliente_back);?>";
+var oldVendor       = "<?php echo set_value('id_vendedor',$id_vendedor_back);?>";
+
+function loadClientTypes(){
+	$.ajax(
+	{
+		url        :'<?php echo site_url();?>/usuario/ajaxClientTypeSelect',
+		type       :'get',
+		contentType:"application/json; charset=utf-8",
+		dataType   :"json",
+		success : function(json){
+			$(".row-tipo-cliente .select-container").html("<select id='id_tipo_cliente'>"+getOptions(json)+"<select>");
+			$(".row-tipo-cliente .select-container select").val(oldidClientType);
+			$(".row-tipo-cliente").slideDown(slideTime);
+		}           
+	});
+};
+
+function loadVendors(){
+	$.ajax(
+	{
+		url        :'<?php echo site_url();?>/usuario/ajaxVendorSelect',
+		type       :'get',
+		contentType:"application/json; charset=utf-8",
+		dataType   :"json",
+		success : function(json){
+			$(".row-vendedor .select-container").html("<select id='id_vendedor'>"+getOptions(json)+"<select>");
+			$(".row-vendedor .select-container select").val(oldVendor);
+			$(".row-vendedor").slideDown(slideTime);
+		}           
+	});
+};
+
+function switchOptions(){
+	if($("#id_rol option:selected").text()==="Cliente"){
+		loadClientTypes();
+		loadVendors();
+	}
+	else{
+		$(".row-tipo-cliente .select-container").html("");
+		$(".row-tipo-cliente,.row-vendedor").slideUp(slideTime);
+		$(".row-vendedor .select-container").html("");
+		$(".row-vendedor,.row-vendedor").slideUp(slideTime);
+	}
+}
+
 $(document).ready(function()
 {
-	
 	$('#boton_enviar').click(function()
 	{
-				
+		var serializedData = $('#editUserForm').serialize();
+		if(	$(".row-tipo-cliente .select-container select").length && 
+			$(".row-tipo-cliente .select-container select").val() && 
+			$(".row-tipo-cliente .select-container select").val()!=="-"
+			)
+			serializedData+="&id_tipo_cliente="+$(".row-tipo-cliente .select-container select").val();
+
+		if(	$(".row-vendedor .select-container select").length && 
+			$(".row-vendedor .select-container select").val() && 
+			$(".row-vendedor .select-container select").val()!=="-"
+			)
+			serializedData+="&id_vendedor="+$(".row-vendedor .select-container select").val();
 		$.ajax(
 		{
-					url : '<?php echo site_url();?>/usuario/saveUser',
-					type: 'POST',
-					data: $('#editUserForm').serialize(),
-					success : function(html)
-					{
-							$('#form_container').html(html);
-					}           
+			url : '<?php echo site_url();?>/usuario/saveUser',
+			type: 'POST',
+			data: serializedData,
+			success : function(html)
+			{
+				$('#form_container').html(html);
+			}           
 		});
 	});
+
+	$("#id_rol").change(function(event){
+		switchOptions();
+	});
+
+	switchOptions();
+
 });
 </script>

@@ -1,6 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Usuario extends CI_Controller
+include "baseController.php";
+
+class Usuario extends baseController
 {
 
 	public function __construct()
@@ -36,7 +38,6 @@ class Usuario extends CI_Controller
 
 	public function loadGridUser()
 	{
-
 		$headers= array(	"Id",
 							"Nombre",
 							"Apellido paterno",
@@ -46,10 +47,12 @@ class Usuario extends CI_Controller
 							"Email",
 							"Rol usuario",
 							"Tipo cliente",
+							"Vendedor",
 							"Activo"
 						);
 		$data['headers']=$headers;
-		$data['usuarios']=$this->Usuario_model->getCamposUsuarios($this->centinela->get('rol'));
+		$data['usuarios']=$this->Usuario_model->getCamposUsuarios($this->centinela->get('rol'),$this->centinela->get('id_usuario'));
+		$data['rolName']=$this->Usuario_model->rolName($this->centinela->get('rol'));
 		$this->load->view('usuarioTemplates/usuarioGrid',$data);
 	}
 
@@ -78,7 +81,7 @@ class Usuario extends CI_Controller
 	{
 		$this->tiene_permiso();
 		$data['roles']=$this->Usuario_model->get_roles_opcions_array($this->centinela->get('rol'));
-		$data['tipos_clientes']=$this->Usuario_model->get_tipos_cliente_opcions_array();
+		$data['tipos_clientes']=$this->clientTypeSelect();
 		$this->load->view('usuarioTemplates/addUser',$data);
 	}
 
@@ -86,12 +89,15 @@ class Usuario extends CI_Controller
 	{
 		$this->tiene_permiso();
 		$data['roles']=$this->Usuario_model->get_roles_opcions_array($this->centinela->get('rol'));
-		$data['tipos_clientes']=$this->Usuario_model->get_tipos_cliente_opcions_array();
+		$data['tipos_clientes']=$this->clientTypeSelect();
 		$data['usuario']=$this->Usuario_model->getCamposUsuario($id_usuario);
 		$data['rol_editor']=$this->centinela->get('rol');
 		$this->load->view('usuarioTemplates/updateUser',$data);
 	}
 
+	function clients(){
+
+	}
 
 	function saveUser()
 	{
@@ -128,6 +134,7 @@ class Usuario extends CI_Controller
 		$this->form_validation->set_rules('email', 'Correo electronico', 'trim|required|valid_email');
 		$this->form_validation->set_rules('id_rol', 'Rol', 'trim|required|valid_select');
 		$this->form_validation->set_rules('id_tipo_cliente');
+		$this->form_validation->set_rules('id_vendedor');
 
 		$this->form_validation->set_rules('cambiar_clave');
 
@@ -139,7 +146,7 @@ class Usuario extends CI_Controller
 			if($this->input->is_ajax_request() )
 			{
 				$data['roles']=$this->Usuario_model->get_roles_opcions_array($this->centinela->get('rol'));
-				$data['tipos_clientes']=$this->Usuario_model->get_tipos_cliente_opcions_array();
+				$data['tipos_clientes']=$this->clientTypeSelect();
 				if(!empty($id_usuario))
 				{
 					$data['usuario']=$this->Usuario_model->getCamposUsuario($id_usuario);
@@ -240,6 +247,21 @@ class Usuario extends CI_Controller
 		redirect('/usuario/loadGridUser','location');
 	}
 
+	public function clientTypeSelect(){
+		return $this->selectData($this->Usuario_model->clientTypes(),"id_tipo_cliente","nombre");
+	}
+
+	public function ajaxClientTypeSelect(){
+		echo $this->jsonOptions($this->Usuario_model->clientTypes(),"id_tipo_cliente","nombre");
+	}
+
+	public function ajaxClientSelect($vendedor_id=null){
+		echo $this->jsonOptions($this->Usuario_model->clients($vendedor_id));
+	}
+
+	public function ajaxVendorSelect(){
+		echo $this->jsonOptions($this->Usuario_model->vendors());
+	}
 // Example
 }
 

@@ -19,6 +19,8 @@
 		</td>
 		<td class="no_essencial2">
 		</td>
+		<td class="no_essencial2">
+		</td>
 		<td >
 		</td>
 		<td style="text-align:center;">
@@ -45,6 +47,8 @@
 		<td><b>Rol usuario:</b>
 		</td>
 		<td class="no_essencial2"><b>Tipo cliente:</b>
+		</td>
+		<td class="no_essencial2"><b>Vendedor:</b>
 		</td>
 		<td ><b>Activo:</b>
 		</td>
@@ -80,35 +84,53 @@
 			<td class="no_essencial2">
 				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['tipo_negocio']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
+			<td class="no_essencial2">
+				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['vendedor']; if($usuario['activo']==='No') echo '</s>';?>
+			</td>
 			<td>
 				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['activo']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td class="success" style="text-align:center;">
 				<div class="bno-accions acciones">
 					<?php
-					if($usuario['activo']=='No')
+					if(in_array($rolName,["Super Administrador", "Administrador"]))
 					{
-					?>
-					<div class="icon- bno-button  tooltip_class_accion " title="Activar usuario" id="activar_usuario" onclick="activar_usuario('<?php echo $usuario['id_usuario']; ?>');">
-							&#xe689
-					</div>
+						if($usuario['activo']=='No')
+						{
+						?>
+						<div class="icon- bno-button  tooltip_class_accion " title="Activar usuario" id="activar_usuario" onclick="activar_usuario('<?php echo $usuario['id_usuario']; ?>');">
+								&#xe689
+						</div>
+						<?php
+						}
+						else
+						{
+						?>
+						<div class="icon- bno-button  tooltip_class_accion " title="Desactivar usuario" id="desactivar_usuario" onclick="desactivar_usuario('<?php echo $usuario['id_usuario']; ?>');">
+								&#xe68a
+						</div>
+						<?php
+						}
+						?>
+						<div class="icon- bno-button  tooltip_class_accion " title="Editar usuario" id="ci_add_button" onclick="editar_usuario('<?php echo $usuario['id_usuario']; ?>');">
+								&#xe605
+						</div>
+						<div class="icon- bno-button  tooltip_class_accion " title="Eliminar usuario" id="ci_add_button" onclick="eliminar_usuario('<?php echo $usuario['id_usuario']; ?>');">
+								&#xe6a8
+						</div>
 					<?php
 					}
-					else
+					?>
+					<?php
+					if(in_array($rolName,["Vendedor"]))
 					{
 					?>
-					<div class="icon- bno-button  tooltip_class_accion " title="Desactivar usuario" id="desactivar_usuario" onclick="desactivar_usuario('<?php echo $usuario['id_usuario']; ?>');">
-							&#xe68a
-					</div>
+						<div class="icon- bno-button  tooltip_class_accion " title="Cambiar de usuario" id="user-switch" onclick="userSwitch('<?php echo $usuario['id_usuario']; ?>');">
+							&#xe673
+						</div>
 					<?php
 					}
 					?>
-					<div class="icon- bno-button  tooltip_class_accion " title="Editar usuario" id="ci_add_button" onclick="editar_usuario('<?php echo $usuario['id_usuario']; ?>');">
-							&#xe605
-					</div>
-					<div class="icon- bno-button  tooltip_class_accion " title="Eliminar usuario" id="ci_add_button" onclick="eliminar_usuario('<?php echo $usuario['id_usuario']; ?>');">
-							&#xe6a8
-					</div>
 				</div>
 			</td>
 		<?php
@@ -127,12 +149,12 @@ $(document).ready(function()
 		{
 			$.ajax(
 			{
-						url : '<?php echo site_url();?>/usuario/addUser',
-						type: 'POST',
-						success : function(html)
-						{
-								$('#form_container').html(html);
-						}
+				url : '<?php echo site_url();?>/usuario/addUser',
+				type: 'POST',
+				success : function(html)
+				{
+						$('#form_container').html(html);
+				}
 			});
 		});
 
