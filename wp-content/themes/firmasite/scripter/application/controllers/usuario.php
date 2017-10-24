@@ -52,7 +52,7 @@ class Usuario extends baseController
 						);
 		$data['headers']=$headers;
 		$data['usuarios']=$this->Usuario_model->getCamposUsuarios($this->centinela->get('rol'),$this->centinela->get('id_usuario'));
-		$data['rolName']=$this->Usuario_model->rolName($this->centinela->get('rol'));
+		$data['rolName']=$this->centinela->get('rolName');
 		$this->load->view('usuarioTemplates/usuarioGrid',$data);
 	}
 
@@ -95,8 +95,9 @@ class Usuario extends baseController
 		$this->load->view('usuarioTemplates/updateUser',$data);
 	}
 
-	function clients(){
-
+	function userSwitch($id_client){
+		$this->centinela->userSwitch($id_client);
+		$this->loadGridUser();
 	}
 
 	function saveUser()

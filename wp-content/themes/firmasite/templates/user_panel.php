@@ -342,7 +342,7 @@
 				<?php
 					}
 				?>
-				<a href="<? echo modulo_url('Carrito');?>">
+				<a href="<? echo modulo_url('Pedidos');?>">
 					<div class="icon- bno-button tooltip_panel" title="Carrito de compras" >&#xe636
 					</div>
 				</a>

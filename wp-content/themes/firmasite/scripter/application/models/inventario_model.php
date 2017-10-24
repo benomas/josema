@@ -19,8 +19,7 @@ class Inventario_model extends CI_Model
 
 	function get_inventario($contar=false,$posicion='0',$limite='0')
 	{
-		$id_usuario=0;
-		$id_usuario=$this->centinela->get('id_usuario');
+		$id_usuario=$this->centinela->getDinamicIdUser();
 		$filtro = new Filtro('filtros_busqueda');
 		$consulta='';
 		if($filtro->isEmpty())
@@ -203,9 +202,7 @@ class Inventario_model extends CI_Model
 
 	function getProduct($id_producto)
 	{
-		$id_usuario=0;
-		$id_usuario=$this->centinela->get('id_usuario');
-
+		$id_usuario=$this->centinela->getDinamicIdUser();
 		$tarifas = $this->db->query(" SELECT tc.nombre FROM usuario AS u JOIN tipo_cliente AS tc ON tc.id_tipo_cliente = u.id_tipo_cliente WHERE  u.id_usuario='".$id_usuario."'")
 						->result_array();
 			if(count($tarifas)>0)

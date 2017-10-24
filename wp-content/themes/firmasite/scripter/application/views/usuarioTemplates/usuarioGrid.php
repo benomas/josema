@@ -115,7 +115,12 @@
 						<div class="icon- bno-button  tooltip_class_accion " title="Editar usuario" id="ci_add_button" onclick="editar_usuario('<?php echo $usuario['id_usuario']; ?>');">
 								&#xe605
 						</div>
-						<div class="icon- bno-button  tooltip_class_accion " title="Eliminar usuario" id="ci_add_button" onclick="eliminar_usuario('<?php echo $usuario['id_usuario']; ?>');">
+						<div 
+							class="icon- bno-button  tooltip_class_accion" 
+							title="Eliminar usuario" 
+							id="ci_add_button" 
+							onclick="eliminar_usuario('<?php echo $usuario['id_usuario']; ?>');"
+						>
 								&#xe6a8
 						</div>
 					<?php
@@ -125,7 +130,12 @@
 					if(in_array($rolName,["Vendedor"]))
 					{
 					?>
-						<div class="icon- bno-button  tooltip_class_accion " title="Cambiar de usuario" id="user-switch" onclick="userSwitch('<?php echo $usuario['id_usuario']; ?>');">
+						<div 
+							class="icon- bno-button  tooltip_class_accion" 
+							title="Firmar como: <?php echo $usuario["nombre"].' '.$usuario["apellido_materno"].' '.$usuario["apellido_paterno"] ?>" 
+							id="user-switch" 
+							onclick='user_switch(<?php echo json_encode($usuario); ?>);'
+						>
 							&#xe673
 						</div>
 					<?php
@@ -235,4 +245,19 @@ function editar_usuario(id_usuario)
 		}
 	});
 }
+
+function user_switch(usuario)
+{
+	$.ajax(
+	{
+		url : '<?php echo site_url();?>/usuario/userSwitch/' + usuario.id_usuario,
+		type: 'POST',
+		success : function(html)
+		{
+			$('#form_container').html(html);
+			alertify.success('Ahora firmaras como:'+usuario.nombre+' '+usuario.apellido_materno+' '+usuario.apellido_paterno);
+		}
+	});
+}
+
 </script>

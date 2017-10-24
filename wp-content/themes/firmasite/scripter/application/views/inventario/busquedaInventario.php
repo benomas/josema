@@ -134,7 +134,7 @@
 							&#xe702
 							</div>
 						<?php
-							if($this->centinela->get('rol')==1){
+							if($this->centinela->get('rolName')=="Super Administrador"){
 						?>
 							<div class="icon- bno-button  tooltip_class" title="Modificar producto" onclick="agregar_carrito('<?php echo $row_array['id_inventario'];?>');">
 							&#xe605

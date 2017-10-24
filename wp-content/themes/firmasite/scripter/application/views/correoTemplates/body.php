@@ -11,7 +11,23 @@
 </p>
 <br>
 
-<table class="table table-bordered table-striped table-responsive table-hover success" style="width:800px; ">
+<table class="table table-bordered table-striped table-responsive table-hover success" style="width:800px; "><?php
+	if($vendedor){
+	?>
+	<tr >
+		<td style="background-color:#DFF0D8;"><b>Pedido generado por:</b>
+		</td>
+		<td >
+			<?php
+				$nombre= $vendedor->nombre.' '.$vendedor->apellido_paterno.' '.$vendedor->apellido_materno;
+				if(empty($nombre))
+					$nombre=$vendedor->nick;
+			echo $nombre;?>
+		</td>
+	</tr>
+	<?php
+	}
+	?>
 	<tr >
 		<td style="background-color:#DFF0D8;"><b>Nombre del cliente:</b>
 		</td>

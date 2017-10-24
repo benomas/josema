@@ -41,27 +41,26 @@ class FormSender extends CI_Controller
 		$data['filasDefault']='1';
 		$data['numeroFilas']='1';
 		$data[]=array();
-		$data['userData']=$this->Catalogos_model->getUserData($this->centinela->get('id_usuario'));
+		$data["vendedor"]=$this->centinela->get("rolName")==="Vendedor"?$this->centinela->get_usuario():null;
+		$data['userData']=$this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
 		$data['traerCarrito']=$traerCarrito;
-		/*if($traerCarrito)
-		{*/
-			$productos= $this->carro->getProductos();
-			if(!empty($productos))
+		$productos= $this->carro->getProductos();
+		if(!empty($productos))
+		{
+			foreach($productos AS $producto)
 			{
-				foreach($productos AS $producto)
-				{
-					$data['productos'][]=$this->Inventario_model->getProduct($producto);
-				}
+				$data['productos'][]=$this->Inventario_model->getProduct($producto);
 			}
-			if(!empty($productos))
-			{
-				$data['numeroFilas']=sizeof($productos);
-				$this->load->view('formTemplates/pedidoForm',$data);
-			}
-			else
-				echo '	<div class="contenedor_info">
-							<label class="concepto_field" style="font-size:16px;">Debes añadir productos al carrito</label>
-						</div>';
+		}
+		if(!empty($productos))
+		{
+			$data['numeroFilas']=sizeof($productos);
+			$this->load->view('formTemplates/pedidoForm',$data);
+		}
+		else
+			echo '	<div class="contenedor_info">
+						<label class="concepto_field" style="font-size:16px;">Debes añadir productos al carrito</label>
+					</div>';
 
 	}
 
@@ -87,12 +86,13 @@ class FormSender extends CI_Controller
 				}
 			}
 		}
-		$data['userData']=$this->Catalogos_model->getUserData($this->centinela->get('id_usuario'));
+		$data["vendedor"]=$this->centinela->get("rolName")==="Vendedor"?$this->centinela->get_usuario():null;
+		$data['userData']=$this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
 		$nombre= $data['userData']->nombre.' '.$data['userData']->apellido_paterno.' '.$data['userData']->apellido_materno;
 		if(empty($nombre))
 			$nombre=$data['userData']->nick;
 		$data['nombreUsuario']=	$nombre;
-		$data['id_usuario']=$this->centinela->get('id_usuario');
+		$data['id_usuario']=$this->centinela->getDinamicIdUser();
 		$mensaje= $this->load->view('correoTemplates/body',$data,true);
 		$list=array();
 		$list[]=$data['userData']->email;

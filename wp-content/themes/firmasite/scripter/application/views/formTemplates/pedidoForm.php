@@ -9,6 +9,24 @@
 	<form id="formularioPedido">
 	<input type="hidden" name="numeroFilas" id="numeroFilas" value="<?php echo set_value('numeroFilas',$numeroFilas); ?>">
 	<table class="table table-responsive table-hover" id="formSeccion1">
+		<?php
+		if($vendedor){
+		?>
+		<tr>
+			<td >
+				Pedido generado por:
+			</td>
+			<td colspan="2">
+				<?php
+					$nombre= $vendedor->nombre.' '.$vendedor->apellido_paterno.' '.$vendedor->apellido_materno;
+					if(empty($nombre))
+						$nombre=$vendedor->nick;
+				echo $nombre;?>
+			</td>
+		</tr>
+		<?php
+		}
+		?>
 		<tr>
 			<td >
 				Nombre del Cliente:
