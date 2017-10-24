@@ -19,6 +19,19 @@ get_header();
 <link id="dashicons-css" media="all" type="text/css" href="<?php echo get_rcodeigniter_url();?>/css/humanity/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 
 <br>
+
+		<?php
+			$child=get_codeigniter_session_var('child');
+			if($child){	
+		?>
+			<center>
+				<div>
+					Firmando Como: <b><?php echo $child->nombre.' '.$child->apellido_paterno.' '.$child->apellido_materno;?></b>
+				</div>
+			</center>
+		<?php
+			}
+		?>
 		<div id="primary" class="content-area clearfix <?php echo $firmasite_settings["layout_primary_class"]; ?>">
 		<div class="panel panel-default">
 			<header class="entry-header">

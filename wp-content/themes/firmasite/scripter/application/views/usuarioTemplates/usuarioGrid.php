@@ -256,6 +256,7 @@ function user_switch(usuario)
 		{
 			$('#form_container').html(html);
 			alertify.success('Ahora firmaras como:'+usuario.nombre+' '+usuario.apellido_materno+' '+usuario.apellido_paterno);
+			location.reload(); 
 		}
 	});
 }
