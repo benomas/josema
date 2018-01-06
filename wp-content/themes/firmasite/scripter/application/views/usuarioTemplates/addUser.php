@@ -228,8 +228,8 @@ function loadVendors(){
 };
 
 function switchOptions(){
+	loadClientTypes();
 	if($("#id_rol option:selected").text()==="Cliente"){
-		loadClientTypes();
 		loadVendors();
 	}
 	else{
