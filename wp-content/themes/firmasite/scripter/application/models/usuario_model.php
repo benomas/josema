@@ -211,6 +211,15 @@ class Usuario_model extends CI_Model
 		');
 	}
 
+	function vendor($id_vendedor=null)
+	{
+		return $this->db->query('
+			SELECT 	u.*
+			FROM 	usuario AS u
+			JOIN	rol_usuario AS ru ON ru.id_rol_usuario=u.id_rol_usuario AND ru.nombre="Vendedor"
+			WHERE 	u.activo="1"  AND u.id_usuario='.$id_vendedor.'
+		');
+	}
 
 	function deactivateUser($id_usuario)
 	{

@@ -8,6 +8,7 @@ class FormSender extends CI_Controller
 		parent::__construct();
 		$this->load->model('Catalogos_model');
 		$this->load->model('Inventario_model');
+		$this->load->model('Usuario_model');
 
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
@@ -118,6 +119,9 @@ class FormSender extends CI_Controller
 				}
 				$list[]=$data['userData']->email;
 			}
+			$vendedor = $this->Usuario_model->vendor($data['userData']->id_vendedor)->row();
+			if($vendedor)
+				$list[]=$vendedor->email
 			$this->email->from('pedidos@josema.com.mx', 'JOSEMA');
 			$this->email->to($list);
 			$this->email->reply_to('', 'Este correo a sido generado electronicamente, no responda a este correo');
