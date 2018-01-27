@@ -119,9 +119,9 @@ class FormSender extends CI_Controller
 				}
 				$list[]=$data['userData']->email;
 			}
-			$vendedor = $this->Usuario_model->vendor($data['userData']->id_vendedor)->row();
-			if($vendedor)
-				$list[]=$vendedor->email
+			$vendedor = $this->Usuario_model->vendor($data['userData']->id_vendedor);
+			if($vendedor && $vendedor->row())
+				$list[]=$vendedor->row()->email;
 			$this->email->from('pedidos@josema.com.mx', 'JOSEMA');
 			$this->email->to($list);
 			$this->email->reply_to('', 'Este correo a sido generado electronicamente, no responda a este correo');

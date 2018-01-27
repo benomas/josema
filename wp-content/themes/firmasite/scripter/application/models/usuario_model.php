@@ -213,6 +213,8 @@ class Usuario_model extends CI_Model
 
 	function vendor($id_vendedor=null)
 	{
+		if(!$id_vendedor)
+			return false;
 		return $this->db->query('
 			SELECT 	u.*
 			FROM 	usuario AS u
