@@ -306,7 +306,7 @@
 			<?php
 			if(codeigniter_is_login())
 			{
-				if(in_array(get_codeigniter_session_var('rolName'),["Super Administrador","Administrador","Vendedor"])) //echo '.main_panel{height:90px;}';
+				if(in_array(get_codeigniter_session_var('rolName'),["Super Administrador","Administrador","Super Vendedor","Vendedor"])) //echo '.main_panel{height:90px;}';
 					echo '@media (min-width:150px)	AND  (max-width:690px)	{.main_panel{height:90px;}}';
 			}
 			?>
@@ -332,7 +332,7 @@
 			</div>
 			<div class="bno-accions">
 				<?php
-					if(in_array(get_codeigniter_session_var('rolName'),["Super Administrador","Administrador","Vendedor"]))
+					if(in_array(get_codeigniter_session_var('rolName'),["Super Administrador","Administrador","Super Vendedor","Vendedor"]))
 					{
 				?>
 					<a href="<? echo modulo_url('Usuarios');?>">

@@ -127,7 +127,7 @@
 					}
 					?>
 					<?php
-					if(in_array($rolName,["Vendedor"]))
+					if(in_array($rolName,["Super Vendedor","Vendedor"]))
 					{
 					?>
 						<div 
@@ -252,11 +252,12 @@ function user_switch(usuario)
 	{
 		url : '<?php echo site_url();?>/usuario/userSwitch/' + usuario.id_usuario,
 		type: 'POST',
-		success : function(html)
+		success : function(status)
 		{
-			$('#form_container').html(html);
-			alertify.success('Ahora firmaras como:'+usuario.nombre+' '+usuario.apellido_materno+' '+usuario.apellido_paterno);
-			location.reload(); 
+			if(status)
+				alertify.success('Ahora firmaras como:'+usuario.nombre+' '+usuario.apellido_materno+' '+usuario.apellido_paterno);
+			else
+				alertify.error('No tienes permiso para ejecutar esta acción');
 		}
 	});
 }

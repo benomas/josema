@@ -32,10 +32,18 @@ class Usuario_model extends CI_Model
 
 	function getCamposUsuarios($rol,$id_usuario)
 	{
-		if($this->rolName($rol)==="Vendedor")
-			$WHERE =' AND usuario.id_vendedor ="'.$id_usuario.'"';
-		else
-			$WHERE =' AND usuario.id_rol_usuario >="'.$rol.'"';
+		switch ($this->rolName($rol)) {
+			case "Vendedor":
+				$WHERE =' AND usuario.id_vendedor ="'.$id_usuario.'"';
+				break;
+			case "Super Vendedor":
+				$WHERE =' AND rol_usuario.nombre ="Cliente" AND usuario.activo="1"';
+				break;
+			
+			default:
+				$WHERE =' AND usuario.id_rol_usuario >="'.$rol.'"';
+				break;
+		}
 		$query=	"	SELECT 	usuario.id_usuario,
 							usuario.nombre,
 							usuario.apellido_paterno,

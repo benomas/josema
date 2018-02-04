@@ -96,8 +96,7 @@ class Usuario extends baseController
 	}
 
 	function userSwitch($id_client){
-		$this->centinela->userSwitch($id_client);
-		$this->loadGridUser();
+		echo $this->centinela->userSwitch($id_client)?"true":"false";
 	}
 
 	function saveUser()
