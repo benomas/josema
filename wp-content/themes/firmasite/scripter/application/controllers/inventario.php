@@ -33,6 +33,13 @@ class Inventario extends CI_Controller
 		$data['numero_elementos']=$this->Inventario_model->get_inventario(true,$inicio_sql,$this->limite);
 		$data['limite']=$this->limite;
 		$data['posicion_inicial']=$numero_pagina;
+		$data['selects']=[
+			"selectMarcaComponente" =>$this->Inventario_model->catMarcaComponente(),
+			"selectComponente"      =>$this->Inventario_model->catComponente(),
+			"selectMarca"           =>$this->Inventario_model->catMarca(),
+			"selectMarcaRefaccion"  =>$this->Inventario_model->catMarcaRefaccion()
+		];
+		//echo json_encode($data); die();
 		$this->load->view('inventario/busquedaInventario',$data);
 	}
 

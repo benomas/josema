@@ -6,7 +6,85 @@
 }
 </style>
 
-<div class="perimeter">
+<script>
+	var basicFilter={
+		name:'<?php echo !empty($_GET["basic_filter_name"])?$_GET["basic_filter_name"]:"" ?>',
+		value:'<?php echo !empty($_GET["basic_filter_value"])?$_GET["basic_filter_value"]:"" ?>'
+	};
+</script>
+<div class="perimeter" style="padding:10px;">
+	<h3 style="color:#772953; font-weight: bold;">
+		Filtros
+	</h3>
+	<div style="padding:5px 20px;">
+		<div class="row" style="color:#97310e;">
+			<div class="col-xs-12 col-sm-6 col-md-3">
+				Tipo de componente
+				<select title="Tipo de componente" id="marca_componente" name="marca_componente" class="basic-filter">
+					<?php
+						echo "<option value=''></option>";
+						foreach ($selects["selectMarcaComponente"] as $key => $value)
+							echo "
+								<option 
+									value='".$value["marca_componente"]."'
+									".( !empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca_componente' && $_GET["basic_filter_value"]===$value["marca_componente"]?'selected':'')."
+								>
+										".$value["marca_componente"]."
+								</option>
+							";
+					?>
+				</select>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-3">
+				Linea
+				<select title="Linea" id="componente" name="componente" class="basic-filter">
+					<?php
+						echo "<option value=''></option>";
+						foreach ($selects["selectComponente"] as $key => $value)
+							echo "
+								<option 
+									value='".$value["componente"]."' 
+									".(!empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='componente' && $_GET["basic_filter_value"]===$value["componente"]?'selected':'').">
+										".$value["componente"]."
+								</option>
+							";
+					?>
+				</select>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-3">
+				Armadora
+				<select title="Armadora" id="marca" name="marca" class="basic-filter">
+					<?php
+						echo "<option value=''></option>";
+						foreach ($selects["selectMarca"] as $key => $value)
+							echo "
+								<option 
+									value='".$value["marca"]."' 
+									".(!empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca' && $_GET["basic_filter_value"]===$value["marca"]?'selected':'').">
+										".$value["marca"]."
+								</option>
+							";
+					?>
+				</select>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-3">
+				Marca
+				<select title="Marca" id="marca_refaccion" name="marca_refaccion" class="basic-filter">
+					<?php
+						echo "<option value=''></option>";
+						foreach ($selects["selectMarcaRefaccion"] as $key => $value)
+							echo "
+								<option 
+									value='".$value["marca_refaccion"]."' 
+									".(!empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca_refaccion' && $_GET["basic_filter_value"]===$value["marca_refaccion"]?'selected':'').">
+										".$value["marca_refaccion"]."
+								</option>
+							";
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
 <div>total de resultados:<?php echo $numero_elementos;?></div>
 <?php
 	$j=1;
@@ -19,7 +97,7 @@
 ?>
 <br>
 <br>
-<form id="catFinder" name="catFinder">
+<form id="catFinder" name="catFinder" style="padding:10px;">
 <div class="row">
 <?php
 		if(empty($inventantario_array))
@@ -225,7 +303,14 @@
 
 $(document).ready(function()
 {
-	 $( '.tooltip_class' ).tooltip(
+	$(".basic-filter").change(function(event){
+		basicFilter.name=$(this).attr("name");
+		basicFilter.value=$(this).val();
+		$(".basic-filter").val('');
+		paginar("<?php echo $posicion_inicial;?>");
+	});
+
+	$( '.tooltip_class' ).tooltip(
 	 {
 		tooltipClass: "custom-tooltip-styling",
 		position:
@@ -339,7 +424,7 @@ function paginar(numero_pagina)
 {
 	$('#form_container').html('<div style="width:100%; text-align:center;"><label > Cargando...</label><br><br><br><img src="<?php echo base_url();?>images/loading.gif"></div>');
 	$.ajax({
-			url : '<?php echo site_url().'/inventario/buscar/';?>' + numero_pagina ,
+			url : '<?php echo site_url().'/inventario/buscar/';?>' + numero_pagina + "?basic_filter_name=" +basicFilter.name + "&basic_filter_value="+ basicFilter.value,
 			type: 'POST',
 			success : function(html)
 			{

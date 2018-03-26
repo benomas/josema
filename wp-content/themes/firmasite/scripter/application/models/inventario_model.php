@@ -27,8 +27,12 @@ class Inventario_model extends CI_Model
 			$filtro = new Filtro();
 			$busqueda = $filtro->getValue('busqueda');
 			if(!empty($busqueda))
-			{
+			{ 
 				$consulta=$this->getConsultaConstante($id_usuario)." WHERE cri.busqueda LIKE '%".$busqueda."%' ";
+
+				if(!empty($_GET["basic_filter_name"]) && !empty($_GET["basic_filter_value"]))
+					$consulta=$consulta." AND ".$_GET["basic_filter_name"]."='".$_GET["basic_filter_value"]."'";
+
 				$combinacionesTokens=$this->getCombinaciones($busqueda);
 				foreach ($combinacionesTokens as $combinacionesTokensKey => $combinacionesTokensValue)
 				{
@@ -40,11 +44,16 @@ class Inventario_model extends CI_Model
 						{
 							$consulta=$consulta." AND cri.busqueda LIKE '%".$filtroValue."%' ";
 						}
+						if(!empty($_GET["basic_filter_name"]) && !empty($_GET["basic_filter_value"]))
+							$consulta=$consulta." AND ".$_GET["basic_filter_name"]."='".$_GET["basic_filter_value"]."'";
 					}
 				}
 			}
-			else
+			else{
 				$consulta=$this->getConsultaConstante($id_usuario);
+				if(!empty($_GET["basic_filter_name"]) && !empty($_GET["basic_filter_value"]))
+					$consulta=$consulta." WHERE ".$_GET["basic_filter_name"]."='".$_GET["basic_filter_value"]."'";
+			}
 		}
 		else
 		{
@@ -74,7 +83,7 @@ class Inventario_model extends CI_Model
 
 					".$WHERE;
 		}
-
+		
 		if($contar)
 			return $this->db->query($consulta)->num_rows();
 		if($limite )
@@ -559,5 +568,33 @@ class Inventario_model extends CI_Model
 	       $backup =& $this->dbutil->backup();
 	       $this->load->helper('file');
 	       write_file('dumps/josemaco_wp_store_'.microtime().'.zip', $backup);
+	}
+
+	//columna tipo componente, y de excel
+	public function getCatalog($column){
+		$query=	"	SELECT DISTINCT(".$column.") 
+					FROM ci_resumen_inventario
+				";
+		return $this->db->query($query)->result_array();
+	}
+
+	//columna tipo componente, y de excel
+	public function catMarcaComponente(){
+		return $this->getCatalog("marca_componente");
+	}
+
+	//columna linea, z de excel
+	public function catComponente(){
+		return $this->getCatalog("componente");
+	}
+
+	//columna armadora, aa de excel
+	public function catMarca(){
+		return $this->getCatalog("marca");
+	}
+
+	//columna armadora, aa de excel
+	public function catMarcaRefaccion(){
+		return $this->getCatalog("marca_refaccion");
 	}
 }
