@@ -307,7 +307,7 @@ $(document).ready(function()
 		basicFilter.name=$(this).attr("name");
 		basicFilter.value=$(this).val();
 		$(".basic-filter").val('');
-		paginar("<?php echo $posicion_inicial;?>");
+		paginar(0);
 	});
 
 	$( '.tooltip_class' ).tooltip(
