@@ -133,6 +133,7 @@ class FormSender extends CI_Controller
 			$this->email->message($mensaje);
 			$this->email->send();
 			$this->carro->reset();
+			$this->Usuario_model->setCar($this->centinela->get("id_usuario"),$this->carro->getProductos());
 		}
 	}
 

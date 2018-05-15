@@ -7,6 +7,7 @@ class Carrito extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Catalogos_model');
 		$this->load->model('Inventario_model');
+		$this->load->model('Usuario_model');
 
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
@@ -50,6 +51,8 @@ class Carrito extends CI_Controller {
 		}
 
 		$result=$this->carro->addProduct($id_producto);
+		$this->Usuario_model->setCar($this->centinela->get("id_usuario"),$this->carro->getProductos());
+
 		if($result==1)
 			echo 'error';
 		if($result==2)
@@ -71,12 +74,14 @@ class Carrito extends CI_Controller {
 	function remove_carrito($id_producto)
 	{
 		$result=$this->carro->remove($id_producto);
+		$this->Usuario_model->setCar($this->centinela->get("id_usuario"),$this->carro->getProductos());
 		$this->vistaCarrito();
 	}
 
 	function vaciar_carrito()
 	{
 		$this->carro->reset();
+		$this->Usuario_model->setCar($this->centinela->get("id_usuario"),$this->carro->getProductos());
 		$this->vistaCarrito();
 	}
 }

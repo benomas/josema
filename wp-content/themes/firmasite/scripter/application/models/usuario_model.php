@@ -5,6 +5,7 @@ if ( ! defined('BASEPATH'))
 class Usuario_model extends CI_Model
 {
 	public $instance;
+
 	function __construct()
     {
         parent::__construct();
@@ -260,6 +261,23 @@ class Usuario_model extends CI_Model
 		if($rol && ($currentRole = $this->db->query("SELECT nombre FROM rol_usuario WHERE id_rol_usuario={$rol}")->row()))
 			return $currentRole->nombre;
 		return "";
+	}
+
+	public function setCar($id_usuario,$car){
+		if(empty($car))
+			$car="[]";
+		else
+			$car=json_encode($car);
+		$this->db->where('id_usuario', $id_usuario);
+		return $this->db->update('usuario', ["carrito"=>$car]);
+	}
+
+	public function getCar($id_usuario){
+		$this->db->select("carrito");
+		$this->db->from('usuario');
+		$this->db->where('id_usuario', $id_usuario);
+		$car = $this->db->get()->row_array();
+		return $car? json_decode($car["carrito"]):[];
 	}
 }
 ?>

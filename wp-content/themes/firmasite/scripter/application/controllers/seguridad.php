@@ -23,6 +23,7 @@ class Seguridad extends CI_Controller
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$this->homepage=word_pres_url();
+		$this->load->model('Usuario_model');
 		$this->load->library('carro');
 	}
 	
@@ -43,11 +44,13 @@ class Seguridad extends CI_Controller
 			//if ($val->run() AND $this->centinela->login( $val->set_value('username'), $val->set_value('password')) )
 			if ( $val->run() )
 			{
-					
-					if( $this->loginLocal($val->set_value('username'), $val->set_value('password')) )
-						$this->_redirect_to_homepage();
-					else
-						$this->_redirect_to_homepage();
+				if( $this->loginLocal($val->set_value('username'), $val->set_value('password')) ){
+					$carrito = $this->Usuario_model->getCar($this->centinela->get("id_usuario"));
+					$this->carro->setProducts($carrito);
+					$this->_redirect_to_homepage();
+				}
+				else
+					$this->_redirect_to_homepage();
 			} else
 				 $this->pantallaLogin($this->centinela->get_error());	
 		}
