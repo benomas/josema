@@ -8,6 +8,7 @@
 <div id="container">
 	<form id="formularioPedido">
 	<input type="hidden" name="numeroFilas" id="numeroFilas" value="<?php echo set_value('numeroFilas',$numeroFilas); ?>">
+	<input type="hidden" name="productIds" id="productIds" value="<?php echo json_encode($productosValidosCarrito); ?>">
 	<table class="table table-responsive table-hover" id="formSeccion1">
 		<?php
 		if($vendedor){
@@ -92,8 +93,8 @@
 			</td>
 		</tr>
 		<script>
-			var validCarProducts = {}
-			var jsonProductos = <?php echo !empty($productos) ? json_encode($productos):'{}'?>
+			var validCarProducts        = {}
+			var jsonProductos           = <?php echo !empty($productos) ? json_encode($productos):'{}'?>;
 		</script>
 		<?php
 				foreach($productos AS $producto)
@@ -138,7 +139,7 @@
 								<div class="icon- bno-button  tooltip_class_accion " title="Abrir en ventana emergente" onclick="abrir_dialogo('<?php echo $producto->id_inventario;?>');">
 										&#xe75a
 								</div>
-								<div class="icon- bno-button  tooltip_class_accion " title="Remover producto del pedido" onclick='removerFila(/\<tr.*?id=\"numeroFila<?php echo $producto->id_inventario;?>\".*?\>([.|\s|\S]*?)tr\>/);'>
+								<div class="icon- bno-button  tooltip_class_accion " title="Remover producto del pedido" onclick='removerFila(/\<tr.*?id=\"numeroFila<?php echo $producto->id_inventario;?>\".*?\>([.|\s|\S]*?)tr\>/,"<?php echo $producto->id_inventario;?>");'>
 										&#xe701
 								</div>
 							</div>
@@ -280,6 +281,7 @@
   </div>
 </div>
 <script>
+var productosValidosCarrito = <?php echo json_encode($productosValidosCarrito)?>;
 $(document).ready(function()
 {
 	$('.celda_marco').hide('fast');
@@ -334,9 +336,28 @@ $(document).ready(function()
 			jsonProductos[validCarProductKeys[i]],
 			validCarProductKeys[i]
 		);
+	$("#productIds").val(JSON.stringify(productosValidosCarrito))
 });
 
+var getValidProductsIndex = (idProduct) => {
+	return productosValidosCarrito.indexOf(idProduct);
+}
+
 var updateCar = (idProduct,quantity=1) => {
+	if (quantity == null || quantity==0){
+		var index = getValidProductsIndex(idProduct);
+		if (index > -1) {
+		  	productosValidosCarrito.splice(index, 1);
+			$("#productIds").val(JSON.stringify(productosValidosCarrito))
+		}
+	}
+	else{
+		var index = getValidProductsIndex(idProduct);
+		if (index < 0){
+			productosValidosCarrito.push(idProduct)
+			$("#productIds").val(JSON.stringify(productosValidosCarrito))
+		}
+	}
 	return new Promise((resolve,reject) => {
 		$.ajax({
 			url     : '<?php echo site_url();?>/carrito/add_carrito/' + idProduct + '/' + quantity,
@@ -347,9 +368,10 @@ var updateCar = (idProduct,quantity=1) => {
 	});
 }
 
-function removerFila(idTr)
+function removerFila(idTr,idProduct)
 {
 	$("#formSeccion2").html( $("#formSeccion2").html().replace(idTr,''));
+	updateCar(idProduct,0)
 	updateTotal();
 	$( '.tooltip_class_accion' ).tooltip(
 	{
@@ -406,9 +428,10 @@ function updateTotal()
 	var tipo_envio = $('[name=tipo_envio]').prop('checked');
 	var gastos_envio = 180.00 * (!tipo_envio);
 
-	for(i=1;i<num_elementos;i++)
+	for(i=0;i<num_elementos;i++)
 	{
-		precio =	Number($('#subtotal'+i).text() );
+		let idProduct =productosValidosCarrito[i]
+		precio = Number($('#subtotal'+idProduct).text() );
 		if(isNumber(precio))
 		{
 			total_antes_de_iva = total_antes_de_iva + precio;
@@ -569,6 +592,7 @@ function isNumber(s)
 
 $('#boton_enviar').click(function()
 {
+	$("#numeroFilas").val(productosValidosCarrito.length)
 	$('.form-control').prop('disabled', false);
 	$.ajax(
 	{

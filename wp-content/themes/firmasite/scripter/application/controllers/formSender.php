@@ -39,24 +39,27 @@ class FormSender extends CI_Controller
 
 	public function loadForm($traerCarrito=true)
 	{
-		$data['filasDefault'] = '1';
-		$data['numeroFilas']  = '1';
-		$data[]               = array();
-		$data["vendedor"]     = in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
-		$data['userData']     = $this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
-		$data['traerCarrito'] = $traerCarrito;
-		$data['carrito']      = $productos = $this->carro->getProductos();
+		$data['filasDefault']            = '1';
+		$data['numeroFilas']             = '1';
+		$data[]                          = array();
+		$data["vendedor"]                = in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
+		$data['userData']                = $this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
+		$data['traerCarrito']            = $traerCarrito;
+		$data['carrito']                 = $productos = $this->carro->getProductos();
+		$data['productosValidosCarrito'] = [];
 		if(!empty($productos))
 		{
 			foreach($productos AS $idProducto=>$quantity)
 			{
-				if($quantity)
-					$data['productos'][$idProducto]=$this->Inventario_model->getProduct($idProducto);
+				if($quantity){
+					$data['productos'][$idProducto]    = $this->Inventario_model->getProduct($idProducto);
+					$data['productosValidosCarrito'][] = $idProducto;
+				}
 			}
 		}
-		if(!empty($productos))
+		if(!empty($data['productos']))
 		{
-			$data['numeroFilas']=sizeof($productos);
+			$data['numeroFilas']=count($data['productos']);
 			$this->load->view('formTemplates/pedidoForm',$data);
 		}
 		else
@@ -69,22 +72,25 @@ class FormSender extends CI_Controller
 
 	public function sendPedido()
 	{
-		if(!$this->almenosUna($_POST['numeroFilas']))
+		$productIds = json_decode(stripslashes($_POST["productIds"]));
+		if(!$this->almenosUna($_POST['numeroFilas'],$productIds))
 		{
 			echo '	<div class="contenedor_info">
 						<label class="concepto_field" style="font-size:16px;">Debes indicar almenos una cantidad</label>
 					</div>';
 			return false;
 		}
-		$data['info']=$_POST;
+		$data['info']               = $_POST;
+		$data['info']["productIds"] = $productIds;
 		if($data['info']['numeroFilas']>0 && $data['info']['numeroFilas'] < 100)
-		for($i=1;$i<=$data['info']['numeroFilas'];$i++)
+		for($i=0;$i<$data['info']['numeroFilas'];$i++)
 		{
-			if(isset($data['info']['Cantidad'.$i]))
+			$productId=$data['info']["productIds"][$i];
+			if(isset($data['info']['Cantidad'.$productId]))
 			{
-				if($data['info']['Cantidad'.$i]>0)
+				if($data['info']['Cantidad'.$productId]>0)
 				{
-					$data['info']['row'.$i]=$this->Inventario_model->getProductByNpc($data['info']['NPC'.$i]);
+					$data['info']['row'.$productId]=$this->Inventario_model->getProductByNpc($data['info']['NPC'.$productId]);
 				}
 			}
 		}
@@ -138,13 +144,13 @@ class FormSender extends CI_Controller
 		}
 	}
 
-	function almenosUna($numeroProductos=0)
+	function almenosUna($numeroProductos=0,$productIds)
 	{
 		for($i=1;$i<=$numeroProductos;$i++)
 		{
-			if(isset($_POST['Cantidad'.$i]))
+			if(isset($_POST['Cantidad'.$productIds[$i]]))
 			{
-				$cantidad=$_POST['Cantidad'.$i];
+				$cantidad=$_POST['Cantidad'.$productIds[$i]];
 				if($cantidad>0)
 					return true;
 			}

@@ -71,25 +71,25 @@
 		if($info['numeroFilas']>0 && $info['numeroFilas'] < 100)
 		{
 			$total=0;
-			for($i=1;$i<=$info['numeroFilas'];$i++)
+			for($i=0;$i<$info['numeroFilas'];$i++)
 			{
-				if(isset($info['Cantidad'.$i]))
-				if($info['Cantidad'.$i]>0)
+				if(isset($info['Cantidad'.$info['productIds'][$i]]))
+				if($info['Cantidad'.$info['productIds'][$i]]>0)
 				{
 
 					//calcular precio
-					$subtotal= $info['Cantidad'.$i] * round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$i]->precio)),2);
-					if(!empty($info['row'.$i]->promocion))
+					$subtotal= $info['Cantidad'.$info['productIds'][$i]] * round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio)),2);
+					if(!empty($info['row'.$info['productIds'][$i]]->promocion))
 					{
-						$cantidad = $info['Cantidad'.$i];
-						switch	($info['row'.$i]->promocion['nombre_tabla_promocion'])
+						$cantidad = $info['Cantidad'.$info['productIds'][$i]];
+						switch	($info['row'.$info['productIds'][$i]]->promocion['nombre_tabla_promocion'])
 						{
 							case 'ci_promocion_fija':
-														$subtotal=$cantidad * $info['row'.$i]->promocion['precio_oferta'];
+														$subtotal=$cantidad * $info['row'.$info['productIds'][$i]]->promocion['precio_oferta'];
 														break;
 							case 'ci_promocion_rango':
-														$min=$info['row'.$i]->promocion['cantidad_min'];
-														$max=$info['row'.$i]->promocion['cantidad_max'];
+														$min=$info['row'.$info['productIds'][$i]]->promocion['cantidad_min'];
+														$max=$info['row'.$info['productIds'][$i]]->promocion['cantidad_max'];
 														$cantidad_precio_especial=0;
 														$cantidad_precio_normal=0;
 
@@ -148,25 +148,25 @@
 															$cantidad_precio_especial	= 	$cantidad;
 															$cantidad_precio_normal 		=	0;
 														}
-														$precio_normal = round($info['row'.$i]->precio,2);
-														$precio_especial = round($info['row'.$i]->promocion['precio_oferta'],2);
+														$precio_normal = round($info['row'.$info['productIds'][$i]]->precio,2);
+														$precio_especial = round($info['row'.$info['productIds'][$i]]->promocion['precio_oferta'],2);
 														$subtotal = $cantidad_precio_normal * $precio_normal + $cantidad_precio_especial * $precio_especial;
 														break;
-							case 'ci_promocion_m_n':	$subtotal=$cantidad * $info['row'.$i]->promocion['precio_oferta'];
+							case 'ci_promocion_m_n':	$subtotal=$cantidad * $info['row'.$info['productIds'][$i]]->promocion['precio_oferta'];
 														break;
-							default:$subtotal= $info['Cantidad'.$i] * round($info['row'.$i]->precio,2); break;
+							default:$subtotal= $info['Cantidad'.$info['productIds'][$i]] * round($info['row'.$info['productIds'][$i]]->precio,2); break;
 						}
 					}
 					$total+=$subtotal;
 			?>
-				<tr <?php if (!empty($info['row'.$i]->promocion)) { ?> class="promocion_container" <?php }?> >
-					<td ><?php echo $info['NPC'.$i];?>
+				<tr <?php if (!empty($info['row'.$info['productIds'][$i]]->promocion)) { ?> class="promocion_container" <?php }?> >
+					<td ><?php echo $info['NPC'.$info['productIds'][$i]];?>
 					</td>
-					<td ><?php echo $info['row'.$i]->descripcion/*$info['Descripcion'.$i]*/;?>
+					<td ><?php echo $info['row'.$info['productIds'][$i]]->descripcion/*$info['Descripcion'.$info['productIds'][$i]]*/;?>
 					</td>
-					<td ><?php echo $info['Cantidad'.$i];?>
+					<td ><?php echo $info['Cantidad'.$info['productIds'][$i]];?>
 					</td>
-					<td >$<?php echo $subtotal;?><?php if (!empty($info['row'.$i]->promocion)){ ?> (Promoción) <?php }?>
+					<td >$<?php echo $subtotal;?><?php if (!empty($info['row'.$info['productIds'][$i]]->promocion)){ ?> (Promoción) <?php }?>
 					</td>
 				</tr>
 				<?php
