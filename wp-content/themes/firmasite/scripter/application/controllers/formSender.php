@@ -39,18 +39,19 @@ class FormSender extends CI_Controller
 
 	public function loadForm($traerCarrito=true)
 	{
-		$data['filasDefault']='1';
-		$data['numeroFilas']='1';
-		$data[]=array();
-		$data["vendedor"]=in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
-		$data['userData']=$this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
-		$data['traerCarrito']=$traerCarrito;
-		$productos= $this->carro->getProductos();
+		$data['filasDefault'] = '1';
+		$data['numeroFilas']  = '1';
+		$data[]               = array();
+		$data["vendedor"]     = in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
+		$data['userData']     = $this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
+		$data['traerCarrito'] = $traerCarrito;
+		$data['carrito']      = $productos = $this->carro->getProductos();
 		if(!empty($productos))
 		{
-			foreach($productos AS $producto)
+			foreach($productos AS $idProducto=>$quantity)
 			{
-				$data['productos'][]=$this->Inventario_model->getProduct($producto);
+				if($quantity)
+					$data['productos'][$idProducto]=$this->Inventario_model->getProduct($idProducto);
 			}
 		}
 		if(!empty($productos))

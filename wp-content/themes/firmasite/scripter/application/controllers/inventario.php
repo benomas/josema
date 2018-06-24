@@ -12,6 +12,7 @@ class Inventario extends CI_Controller
 		$this->load->library('interdata');
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
+		$this->load->library('carro');
 		$this->limite=100;
 		$this->posicion_inicial=0;
 
@@ -26,14 +27,15 @@ class Inventario extends CI_Controller
 	{
 		if(!$numero_pagina)
 			$numero_pagina = $this->posicion_inicial;
-		$inicio_sql= $numero_pagina * $this->limite;
-		$filtro=$this->input->post('filtro_busqueda');
-		$inventantario_array = $this->Inventario_model->get_inventario(false,$inicio_sql,$this->limite);
+		$inicio_sql                  = $numero_pagina * $this->limite;
+		$filtro                      = $this->input->post('filtro_busqueda');
+		$inventantario_array         = $this->Inventario_model->get_inventario(false,$inicio_sql,$this->limite);
 		$data['inventantario_array'] = $inventantario_array;
-		$data['numero_elementos']=$this->Inventario_model->get_inventario(true,$inicio_sql,$this->limite);
-		$data['limite']=$this->limite;
-		$data['posicion_inicial']=$numero_pagina;
-		$data['selects']=[
+		$data['numero_elementos']    = $this->Inventario_model->get_inventario(true,$inicio_sql,$this->limite);
+		$data['limite']              = $this->limite;
+		$data['posicion_inicial']    = $numero_pagina;
+		$data['carrito']             = $this->carro->getProductos();
+		$data['selects']             = [
 			"selectMarcaComponente" =>$this->Inventario_model->catMarcaComponente(),
 			"selectComponente"      =>$this->Inventario_model->catComponente(),
 			"selectMarca"           =>$this->Inventario_model->catMarca(),

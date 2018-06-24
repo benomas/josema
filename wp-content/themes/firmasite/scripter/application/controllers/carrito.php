@@ -41,16 +41,10 @@ class Carrito extends CI_Controller {
 		$this->load->view('carrito/productos',$data);
 	}
 
-	function add_carrito($id_producto)
+	function add_carrito($id_producto,$quantity=0)
 	{
 		$producto = $this->Inventario_model->getProduct($id_producto);
-		if(empty($producto))
-		{
-			echo 'error';
-			return false;
-		}
-
-		$result=$this->carro->addProduct($id_producto);
+		$result   = $this->carro->addProduct($id_producto,$quantity);
 		$this->Usuario_model->setCar($this->centinela->get("id_usuario"),$this->carro->getProductos());
 
 		if($result==1)
@@ -65,9 +59,9 @@ class Carrito extends CI_Controller {
 
 	function informacionProducto($id_producto)
 	{
-		$data['show_carrito']=FALSE;
-		$data['producto'] = $this->Inventario_model->getProduct($id_producto);
-		$data['referencias'] = $this->Inventario_model->getReferencias($id_producto);
+		$data['show_carrito'] = FALSE;
+		$data['producto']     = $this->Inventario_model->getProduct($id_producto);
+		$data['referencias']  = $this->Inventario_model->getReferencias($id_producto);
 		$this->load->view('inventario/informacionProducto',$data);
 	}
 

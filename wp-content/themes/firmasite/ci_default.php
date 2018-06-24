@@ -15,6 +15,7 @@ get_header();
 <link  type="text/css" href="<?php echo get_rcodeigniter_url();?>/css/alertify/alertify.bootstrap.css" rel="stylesheet">
 
  <script src="<?php echo get_rcodeigniter_url();?>js/jquery-1.11.0.min.js" type="text/javascript" style=""></script>
+<script src="<?php echo get_rcodeigniter_url();?>js/jquery.numeric.js" type="text/javascript" style=""></script>
  <script src="<?php echo get_rcodeigniter_url();?>js/jquery-ui-1.10.4.custom.min.js" type="text/javascript" style=""></script>
 <link id="dashicons-css" media="all" type="text/css" href="<?php echo get_rcodeigniter_url();?>/css/humanity/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 

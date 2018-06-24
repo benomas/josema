@@ -91,18 +91,25 @@
 				<b>ACCIÓN</b>
 			</td>
 		</tr>
+		<script>
+			var validCarProducts = {}
+			var jsonProductos = <?php echo !empty($productos) ? json_encode($productos):'{}'?>
+		</script>
 		<?php
-				$i=1;
 				foreach($productos AS $producto)
 				{
+					if( isset($carrito) && isset($producto->id_inventario) && isset($carrito->{$producto->id_inventario}) && $carrito->{$producto->id_inventario} > 0){
 				?>
-					<tr id="numeroFila<?php echo $i;?>" <?php  if(!empty($producto->promocion)){?> class="promocion_container tooltip_class_accion" title="<?php echo title_promocion($producto->promocion);?>"<?php }?> >
+					<script>
+						validCarProducts['<?php echo $producto->id_inventario?>'] = '<?php echo $carrito->{$producto->id_inventario}?>'
+					</script>
+					<tr id="numeroFila<?php echo $producto->id_inventario;?>" <?php  if(!empty($producto->promocion)){?> class="promocion_container tooltip_class_accion" title="<?php echo title_promocion($producto->promocion);?>"<?php }?> >
 						<td >
-							<input class="form-control" id="npc<?php echo $i;?>" name="NPC<?php echo $i;?>" size="10" type="hidden" value="<?php echo $producto->npc;?>" >
+							<input class="form-control" id="npc<?php echo $producto->id_inventario;?>" name="NPC<?php echo $producto->id_inventario;?>" size="10" type="hidden" value="<?php echo $producto->npc;?>" >
 							<?php echo $producto->npc;?>
 						</td>
 						<td class="no_essencial">
-							<input class="form-control" id="descripcion<?php echo $i;?>" name="Descripcion<?php echo $i;?>" size="50" type="hidden"  value="<?php echo $producto->descripcion;?>">
+							<input class="form-control" id="descripcion<?php echo $producto->id_inventario;?>" name="Descripcion<?php echo $producto->id_inventario;?>" size="50" type="hidden"  value="<?php echo $producto->descripcion;?>">
 							<?php echo $producto->descripcion;?>
 						</td>
 						<td class="col-md-1">
@@ -114,14 +121,14 @@
 									var jsonProducto<?php echo ($producto->id_inventario);?>=<?php echo json_encode(($producto));?>;
 								</script>
 							</div>
-							<input class="form-control numeric" id="cantidad<?php echo $i;?>" name="Cantidad<?php echo $i;?>" value=""
-							size="6" type="text" onchange="updateSubtotal(this.value,jsonProducto<?php echo ($producto->id_inventario);?>,'<?php echo $i;?>');"
-												 onkeyup="updateSubtotal(this.value,jsonProducto<?php echo ($producto->id_inventario);?>,'<?php echo $i;?>');"
+							<input class="form-control numeric" id="cantidad<?php echo $producto->id_inventario;?>" name="Cantidad<?php echo $producto->id_inventario;?>" value="<?php echo !empty($carrito->{$producto->id_inventario}) ? $carrito->{$producto->id_inventario} : 0 ?>"
+							size="6" type="text" onchange="updateSubtotal(this.value,jsonProducto<?php echo ($producto->id_inventario);?>,'<?php echo $producto->id_inventario;?>',true);"
+												 onkeyup="updateSubtotal(this.value,jsonProducto<?php echo ($producto->id_inventario);?>,'<?php echo $producto->id_inventario;?>',true);"
 
 							>
 						</td>
 						<td>
-							<label class="moneda" >$</label><label class="subtotal" id="subtotal<?php echo $i;?>">0</label>
+							<label class="moneda" >$</label><label class="subtotal" id="subtotal<?php echo $producto->id_inventario;?>">0</label>
 						</td>
 						<td class="success col-md-2" style="text-align:center;">
 							<div class="bno-accions acciones">
@@ -131,14 +138,15 @@
 								<div class="icon- bno-button  tooltip_class_accion " title="Abrir en ventana emergente" onclick="abrir_dialogo('<?php echo $producto->id_inventario;?>');">
 										&#xe75a
 								</div>
-								<div class="icon- bno-button  tooltip_class_accion " title="Remover producto del pedido" onclick='removerFila(/\<tr.*?id=\"numeroFila<?php echo $i;?>\".*?\>([.|\s|\S]*?)tr\>/);'>
+								<div class="icon- bno-button  tooltip_class_accion " title="Remover producto del pedido" onclick='removerFila(/\<tr.*?id=\"numeroFila<?php echo $producto->id_inventario;?>\".*?\>([.|\s|\S]*?)tr\>/);'>
 										&#xe701
 								</div>
 							</div>
 						</td>
 					</tr>
 				<?php
-					$i++;
+					}
+						
 				}
 
 		?>
@@ -319,7 +327,25 @@ $(document).ready(function()
 	$('[name="tipo_envio"]').on('change',function(){
 		updateTotal();
 	});
+	let validCarProductKeys = Object.keys(validCarProducts)
+	for (let i=0; i<validCarProductKeys.length; i++)
+		updateSubtotal(
+			validCarProducts[validCarProductKeys[i]],
+			jsonProductos[validCarProductKeys[i]],
+			validCarProductKeys[i]
+		);
 });
+
+var updateCar = (idProduct,quantity=1) => {
+	return new Promise((resolve,reject) => {
+		$.ajax({
+			url     : '<?php echo site_url();?>/carrito/add_carrito/' + idProduct + '/' + quantity,
+			type    : 'POST',
+			success : (html)=>{resolve(html)},
+			error   : (error)=>{reject(error)}
+		});
+	});
+}
 
 function removerFila(idTr)
 {
@@ -371,7 +397,7 @@ function abrir_dialogo(id_producto)
 
 function updateTotal()
 {
-	num_elementos='<?php echo $i;?>';
+	num_elementos='<?php echo !empty($productos)? count($productos):0 ;?>';
 	total=0;
 
 	var total_antes_de_iva=0;
@@ -423,7 +449,7 @@ function updateTotal()
 	$('#total').text(total);
 }
 
-function updateSubtotal(cantidad,producto, elemento)
+function updateSubtotal(cantidad,producto, elemento,save=false)
 {
 	var res;
 	if(isPositiveInteger(cantidad))
@@ -522,6 +548,8 @@ function updateSubtotal(cantidad,producto, elemento)
 			res = res.toString();
 			res=res.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
 			$('#subtotal'+elemento).text(Number(res));
+			if(save)
+				updateCar(elemento,cantidad)
 		}
 	}
 	else

@@ -125,26 +125,12 @@
 				?>
 			</table>
 		</div>
-		<?php
-			if( $show_carrito )
-			{
-		?>
-		<div class="bno-accions acciones">
-
-			<div class="icon- bno-button  tooltip_class_accion " id="aniadir_carrito" title="Añadir al carrito" onclick="agregar_carrito('<?php echo $producto->id_inventario; ?>');">
-				&#xe702
-			</div>
-		</div>
-		<?php
-			}
-		?>
 	</form>
 </div>
 <br>
 <script>
 $(document).ready(function()
 {
-
 	$( '.toottip_class_dialog' ).tooltip(
 	{
 		position: {

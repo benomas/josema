@@ -4,6 +4,34 @@
 	background:none;
 	background-color:#DD4814;
 }
+.bno-accions{
+	display:inline-block;
+}
+
+ .input-transition {
+	-webkit-transition : width 1s ease , opacity 1s ease ;
+	transition         : width 1s ease , opacity 1s ease ;
+ }
+
+ .input-control-show {
+	opacity : 1;
+	width   : 120px;
+ }
+ .input-control-hide {
+	opacity : 0;
+	width   : 0;
+ }
+ .chip{
+	margin-left: -19px;
+	margin-top: -3px;
+	z-index: 1000;
+	position: absolute;
+	background-color: #0D8D74;
+	font-size: 11px;
+	padding: 1px 7px;
+	border-radius: 10px;
+	color: #FFFFFF;
+ }
 </style>
 
 <script>
@@ -99,6 +127,9 @@
 <br>
 <form id="catFinder" name="catFinder" style="padding:10px;">
 <div class="row">
+<script>
+	var inventory = [];
+</script>
 <?php
 		if(empty($inventantario_array))
 			echo '0 resultados';
@@ -108,10 +139,19 @@
 			if(!empty($row_array))
 			{
 			?>
+			<script>
+				inventory.push(<? echo json_encode($row_array) ?>);
+			</script>
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="celda_marco_<?php echo $row_array['id_inventario'];?>" >
-				<div class="shadow_marco <?php if( !empty($row_array['promocion']) ) {?> promocion_container<?php }?>" id="shadow_marco_<?php echo $row_array['id_inventario'];?>">
+				<div 
+					class="shadow_marco <?php if( !empty($row_array['promocion']) ) {?> promocion_container<?php }?>" 
+					id="shadow_marco_<?php echo $row_array['id_inventario'];?>" 
+					ondblclick ="showProductInput('<? echo $row_array['id_inventario'] ?>')"
+					>
 
 					<div class="tittle_marco tooltip_class" title="<?php echo $row_array['npc']; ?>" data-original-title="<?php echo $row_array['npc']; ?>"><?php echo $row_array['npc']; ?>
+					</div>
+					<div style="float:right; display:inline-block; padding:3px;" class="car_chip" id="car_chip_id_<?php echo $row_array['id_inventario']?>">
 					</div>
 						<?php
 							if( !empty($row_array['promocion']) )
@@ -208,21 +248,19 @@
 							if( $this->centinela->is_logged_in())
 							{
 						?>
-							<div class="icon- bno-button  tooltip_class" title="Añadir al carrito" onclick="agregar_carrito('<?php echo $row_array['id_inventario'];?>');">
+							<div class="icon- bno-button  tooltip_class" title="Añadir al carrito" onclick="toggleProductInput('<? echo $row_array['id_inventario'] ?>')">
 							&#xe702
 							</div>
-						<?php
-							if($this->centinela->get('rolName')=="Super Administrador"){
-						?>
-							<div class="icon- bno-button  tooltip_class" title="Modificar producto" onclick="agregar_carrito('<?php echo $row_array['id_inventario'];?>');">
-							&#xe605
-							</div>
-							<div class="icon- bno-button  tooltip_class" title="Agregar promocion" onclick="agregar_carrito('<?php echo $row_array['id_inventario'];?>');">
-							&#xe630
-							</div>
-						<?php
-							}
-						?>
+							<input  
+								class      = "form-control numeric input-transition product-input input-control-hide"
+								style      = "float:right; margin-left: 5px;" 
+								name       = "product_quantity_id_<? echo $row_array['id_inventario'] ?>" 
+								id         = "product_quantity_id_<? echo $row_array['id_inventario'] ?>"
+								onkeyup    = "validateQuantity($('#product_quantity_id_<? echo $row_array['id_inventario'] ?>'))"
+								onchange   = "validateQuantity($('#product_quantity_id_<? echo $row_array['id_inventario'] ?>'))"
+								ondblclick = "persistProduct($('#product_quantity_id_<? echo $row_array['id_inventario'] ?>'))"
+								value      = "<?php echo !empty($carrito->{$row_array['id_inventario']}) ? $carrito->{$row_array['id_inventario']} : 0 ?>"
+								/>
 						<?php
 							}
 						?>
@@ -274,7 +312,6 @@
   </div>
 </div>
 
-
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalImg" id="modal_laucher_img" style="visibility:hidden;">
 
 </button>
@@ -301,8 +338,62 @@
 <?php //debugg($numero_elementos);?>
 <script>
 
+var addToCar = (idProduct,quantity=1) => {
+	return new Promise((resolve,reject) => {
+		$.ajax({
+			url     : '<?php echo site_url();?>/carrito/add_carrito/' + idProduct + '/' + quantity,
+			type    : 'POST',
+			success : (html)=>{resolve(html)},
+			error   : (error)=>{reject(error)}
+		});
+	});
+}
+var currentProduct       = null;
+var currentProducId      = 0;
+var currentQuantity      = 0;
+var newValidatedQuantity = 0;
+var carrito              = <?php echo  !empty($carrito)? json_encode($carrito):'{}'?>
+
+function isPositiveInt(s)
+{
+	if (s == null || s==='0' || s==='')
+		return true
+	if (typeof s ==='number' && s.toString()==='0')
+		return true
+	return /^[1-9]+[0-9]*$/.test(s);
+}
+
+var validateQuantity = (source) =>{
+	if (source.val()==='' || source.val() === 0 || source.val() === null)
+		newQuantity = 0
+	else
+		newQuantity = source.val()
+	if (currentQuantity && !newValidatedQuantity)
+		newValidatedQuantity = currentQuantity
+	if (source.hasClass('input-control-show') && isPositiveInt(newQuantity))
+		newValidatedQuantity = newQuantity
+	else
+		source.val(newValidatedQuantity)
+}
+
+var showChip = () => {
+	$(".car_chip").html('')
+	let carritoKeys = Object.keys(carrito)
+	for (let i=0; i<carritoKeys.length; i++){
+		if (carrito[carritoKeys[i]]>0)
+			$('#car_chip_id_' + carritoKeys[i]).html(
+				`<div class="icon- bno-button tooltip_panel" title="" data-original-title="Carrito de compras" style="cursor:default;">
+					
+				</div>
+				<span class="chip">` + carrito[carritoKeys[i]] + `</span>
+				`
+			)
+	}
+}
+
 $(document).ready(function()
 {
+	showChip(carrito)
 	$(".basic-filter").change(function(event){
 		basicFilter.name=$(this).attr("name");
 		basicFilter.value=$(this).val();
@@ -443,23 +534,56 @@ function marcar_ultimo(elemento)
 		if( $this->centinela->is_logged_in() )
 		{
 	?>
-	function agregar_carrito(id_producto)
-	{
-		$.ajax(
-		{
-			url : '<?php echo site_url();?>/carrito/add_carrito/' + id_producto,
-			type: 'POST',
-			success : function(html)
-			{
-					if(html=='correcto')
-						alertify.success('Producto agregado al carrito');
-					if(html=='already')
-						alertify.error('Este producto ya estaba en el carrito');
-					if(html=='error')
-						alertify.error('Producto invalido');
-			}
-		});
+
+	persistProduct = (source) => {
+		if (!$("#product_quantity_id_"+currentProducId).hasClass('input-control-show'))
+			return false
+    	currentQuantity = newValidatedQuantity
+    	addToCar(currentProducId,source.val()).then(()=>{
+    		carrito[currentProducId] = currentQuantity
+    		showChip()
+			hideProductInput()
+    	}).catch(()=>{
+			hideProductInput()
+    	})
 	}
+
+	toggleProductInput = (productId) => {
+		if ($('#product_quantity_id_' + productId).hasClass('input-control-hide'))
+			showProductInput(productId)
+		else
+			hideProductInput(productId)
+	}
+
+	showProductInput = (productId=0) => {
+		if ($("#product_quantity_id_"+productId).hasClass("input-control-show"))
+			return false
+		var e     = $.Event("keyup");
+		e.keyCode = 27;
+		$('.input-control-show').trigger(e)
+		newValidatedQuantity = currentQuantity = $("#product_quantity_id_"+productId).val()
+		currentProducId      = productId
+		currentProduct       = inventory[productId]
+		$("#product_quantity_id_"+productId).focus()
+		$("#product_quantity_id_"+productId).removeClass("input-control-hide")
+		$("#product_quantity_id_"+productId).addClass("input-control-show")
+	}
+
+	hideProductInput = ()=> {
+		if ( $("#product_quantity_id_"+currentProducId).hasClass('input-control-show')){
+			newValidatedQuantity = currentQuantity
+	    	$("#product_quantity_id_"+currentProducId).val(currentQuantity)
+		}
+		$("#product_quantity_id_"+currentProducId).removeClass("input-control-show")
+		$("#product_quantity_id_"+currentProducId).addClass("input-control-hide")
+	}
+
+	$('.product-input').keyup(function(e){
+	    if(e.keyCode == 13)
+	    	persistProduct($(e.currentTarget))
+	    if (e.keyCode == 27)
+			hideProductInput()
+	});
 	<?php
 		}
 	?>
