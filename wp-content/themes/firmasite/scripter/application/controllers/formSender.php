@@ -143,10 +143,10 @@ class FormSender extends CI_Controller
 			$this->Usuario_model->setCar($this->centinela->get("id_usuario"),$this->carro->getProductos());
 		}
 	}
-
+	
 	function almenosUna($numeroProductos=0,$productIds)
 	{
-		for($i=1;$i<=$numeroProductos;$i++)
+		for($i=0;$i<$numeroProductos;$i++)
 		{
 			if(isset($_POST['Cantidad'.$productIds[$i]]))
 			{
