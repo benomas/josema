@@ -86,7 +86,7 @@ class Imagination
 				{
 					foreach($this->imgFiles[$this->defaultSize] AS $imgFile)
 					{
-						if(!is_file($this->newFileName($imgFile,$imgSize)))
+						if(!is_file($this->newFileName($imgFile,$imgSize)) || 1)
 						{
 							$this->image = $this->openImage($this->imgSizes[$this->defaultSize]['path'].$imgFile);
 							$this->width  = imagesx($this->image);
@@ -175,6 +175,10 @@ class Imagination
 				$img = false;
 				break;
 		}
+		/*
+		if($img===false){
+			echo $fileName; die();
+		}*/
 		return $img;
 	}
 
@@ -333,6 +337,10 @@ class Imagination
 			case '.jpeg':
 				if (imagetypes() & IMG_JPG)
 				{
+					if($this->imageResized && is_file($imgSize['path'].$fileName.$imgSize['alias'].$this->imgExtensionForSave)){
+						unlink($imgSize['path'].$fileName.$imgSize['alias'].$this->imgExtensionForSave);
+						break;
+					}
 					if(isset($this->imgExtensionForSave) && $this->imgExtensionForSave==='.jpg')
 						imagejpeg($this->imageResized, $imgSize['path'].$fileName.$imgSize['alias'].$this->imgExtensionForSave, $imgSize['quality']);
 					else
@@ -343,6 +351,10 @@ class Imagination
 			case '.gif':
 				if (imagetypes() & IMG_GIF)
 				{
+					if($this->imageResized && is_file($imgSize['path'].$fileName.$imgSize['alias'].$this->imgExtensionForSave)){
+						unlink($imgSize['path'].$fileName.$imgSize['alias'].$this->imgExtensionForSave);
+						break;
+					}
 					if(isset($this->imgExtensionForSave) && $this->imgExtensionForSave==='.jpg')
 						imagejpeg($this->imageResized, $imgSize['path'].$fileName.$imgSize['alias'].$this->imgExtensionForSave, $imgSize['quality']);
 					else
@@ -359,6 +371,10 @@ class Imagination
 
 				if (imagetypes() & IMG_PNG)
 				{
+					if($this->imageResized && is_file($imgSize['path'].$fileName.$imgSize['alias'].$this->imgExtensionForSave)){
+						unlink($imgSize['path'].$fileName.$imgSize['alias'].$this->imgExtensionForSave);
+						break;
+					}
 					if(isset($this->imgExtensionForSave) && $this->imgExtensionForSave==='.jpg')
 						imagejpeg($this->imageResized, $imgSize['path'].$fileName.$imgSize['alias'].$this->imgExtensionForSave, $imgSize['quality']);
 					else

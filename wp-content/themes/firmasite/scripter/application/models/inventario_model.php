@@ -574,6 +574,12 @@ class Inventario_model extends CI_Model
 	public function getCatalog($column){
 		$query=	"	SELECT DISTINCT(".$column.") 
 					FROM ci_resumen_inventario
+					WHERE 
+						NOT ".$column." IS NULL AND
+						".$column." <> '0' AND
+						".$column." <> '' AND
+						".$column." <> '-'
+					ORDER BY ".$column." ASC
 				";
 		return $this->db->query($query)->result_array();
 	}

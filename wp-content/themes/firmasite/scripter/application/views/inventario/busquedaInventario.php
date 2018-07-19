@@ -47,17 +47,16 @@
 	<div style="padding:5px 20px;">
 		<div class="row" style="color:#97310e;">
 			<div class="col-xs-12 col-sm-6 col-md-3">
-				Tipo de componente
-				<select title="Tipo de componente" id="marca_componente" name="marca_componente" class="basic-filter">
+				Armadora
+				<select title="Armadora" id="marca" name="marca" class="basic-filter">
 					<?php
 						echo "<option value=''></option>";
-						foreach ($selects["selectMarcaComponente"] as $key => $value)
+						foreach ($selects["selectMarca"] as $key => $value)
 							echo "
 								<option 
-									value='".$value["marca_componente"]."'
-									".( !empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca_componente' && $_GET["basic_filter_value"]===$value["marca_componente"]?'selected':'')."
-								>
-										".$value["marca_componente"]."
+									value='".$value["marca"]."' 
+									".(!empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca' && $_GET["basic_filter_value"]===$value["marca"]?'selected':'').">
+										".$value["marca"]."
 								</option>
 							";
 					?>
@@ -80,22 +79,6 @@
 				</select>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-3">
-				Armadora
-				<select title="Armadora" id="marca" name="marca" class="basic-filter">
-					<?php
-						echo "<option value=''></option>";
-						foreach ($selects["selectMarca"] as $key => $value)
-							echo "
-								<option 
-									value='".$value["marca"]."' 
-									".(!empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca' && $_GET["basic_filter_value"]===$value["marca"]?'selected':'').">
-										".$value["marca"]."
-								</option>
-							";
-					?>
-				</select>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-3">
 				Marca
 				<select title="Marca" id="marca_refaccion" name="marca_refaccion" class="basic-filter">
 					<?php
@@ -106,6 +89,23 @@
 									value='".$value["marca_refaccion"]."' 
 									".(!empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca_refaccion' && $_GET["basic_filter_value"]===$value["marca_refaccion"]?'selected':'').">
 										".$value["marca_refaccion"]."
+								</option>
+							";
+					?>
+				</select>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-3">
+				Tipo de componente
+				<select title="Tipo de componente" id="marca_componente" name="marca_componente" class="basic-filter">
+					<?php
+						echo "<option value=''></option>";
+						foreach ($selects["selectMarcaComponente"] as $key => $value)
+							echo "
+								<option 
+									value='".$value["marca_componente"]."'
+									".( !empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca_componente' && $_GET["basic_filter_value"]===$value["marca_componente"]?'selected':'')."
+								>
+										".$value["marca_componente"]."
 								</option>
 							";
 					?>

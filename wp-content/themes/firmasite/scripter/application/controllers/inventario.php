@@ -41,7 +41,8 @@ class Inventario extends CI_Controller
 			"selectMarca"           =>$this->Inventario_model->catMarca(),
 			"selectMarcaRefaccion"  =>$this->Inventario_model->catMarcaRefaccion()
 		];
-		//echo json_encode($data); die();
+		//debugg($data['selects']["selectMarcaRefaccion"]);
+		//echo json_encode($data['selects']); die();
 		$this->load->view('inventario/busquedaInventario',$data);
 	}
 
