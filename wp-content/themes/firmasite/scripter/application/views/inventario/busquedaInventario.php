@@ -125,7 +125,7 @@
 ?>
 <br>
 <br>
-<form id="catFinder" name="catFinder" style="padding:10px;">
+<div id="catFinder" name="catFinder" style="padding:10px;">
 <div class="row">
 <script>
 	var inventory = [];
@@ -252,6 +252,7 @@
 							&#xe702
 							</div>
 							<input  
+								type       = "text"
 								class      = "form-control numeric input-transition product-input input-control-hide"
 								style      = "float:right; margin-left: 5px;" 
 								name       = "product_quantity_id_<? echo $row_array['id_inventario'] ?>" 
@@ -276,7 +277,7 @@
 		}
 ?>
 </div>
-</form>
+</div>
 
 <div>total de resultados:<?php echo $numero_elementos;?></div>
 <?php
