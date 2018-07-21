@@ -22,8 +22,8 @@
 	width   : 0;
  }
  .chip{
-	margin-left: -19px;
-	margin-top: -3px;
+	margin-left: -20px;
+	margin-top: 0px;
 	z-index: 1000;
 	position: absolute;
 	background-color: #0D8D74;
@@ -151,7 +151,7 @@
 
 					<div class="tittle_marco tooltip_class" title="<?php echo $row_array['npc']; ?>" data-original-title="<?php echo $row_array['npc']; ?>"><?php echo $row_array['npc']; ?>
 					</div>
-					<div style="float:right; display:inline-block; padding:3px;" class="car_chip" id="car_chip_id_<?php echo $row_array['id_inventario']?>">
+					<div style="float:right; display:inline-table; padding:3px;" class="car_chip" id="car_chip_id_<?php echo $row_array['id_inventario']?>">
 					</div>
 						<?php
 							if( !empty($row_array['promocion']) )
