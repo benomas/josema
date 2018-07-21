@@ -146,7 +146,7 @@
 				<div 
 					class="shadow_marco <?php if( !empty($row_array['promocion']) ) {?> promocion_container<?php }?>" 
 					id="shadow_marco_<?php echo $row_array['id_inventario'];?>" 
-					ondblclick ="showProductInput('<? echo $row_array['id_inventario'] ?>')"
+					ondblclick="showProductInput('<? echo $row_array['id_inventario'] ?>')"
 					>
 
 					<div class="tittle_marco tooltip_class" title="<?php echo $row_array['npc']; ?>" data-original-title="<?php echo $row_array['npc']; ?>"><?php echo $row_array['npc']; ?>
@@ -259,7 +259,7 @@
 								onkeyup    = "validateQuantity($('#product_quantity_id_<? echo $row_array['id_inventario'] ?>'))"
 								onchange   = "validateQuantity($('#product_quantity_id_<? echo $row_array['id_inventario'] ?>'))"
 								ondblclick = "persistProduct($('#product_quantity_id_<? echo $row_array['id_inventario'] ?>'))"
-								value      = "<?php echo !empty($carrito->{$row_array['id_inventario']}) ? $carrito->{$row_array['id_inventario']} : 0 ?>"
+								value      = "<?php echo !empty($carrito->{$row_array['id_inventario']}) ? $carrito->{$row_array['id_inventario']} : '' ?>"
 								/>
 						<?php
 							}
@@ -350,8 +350,8 @@ var addToCar = (idProduct,quantity=1) => {
 }
 var currentProduct       = null;
 var currentProducId      = 0;
-var currentQuantity      = 0;
-var newValidatedQuantity = 0;
+var currentQuantity      = '';
+var newValidatedQuantity = '';
 var carrito              = <?php echo  !empty($carrito)? json_encode($carrito):'{}'?>
 
 function isPositiveInt(s)
@@ -561,6 +561,8 @@ function marcar_ultimo(elemento)
 		var e     = $.Event("keyup");
 		e.keyCode = 27;
 		$('.input-control-show').trigger(e)
+		if($("#product_quantity_id_"+productId).val()==0)
+			$("#product_quantity_id_"+productId).val('')
 		newValidatedQuantity = currentQuantity = $("#product_quantity_id_"+productId).val()
 		currentProducId      = productId
 		currentProduct       = inventory[productId]
@@ -572,6 +574,8 @@ function marcar_ultimo(elemento)
 	hideProductInput = ()=> {
 		if ( $("#product_quantity_id_"+currentProducId).hasClass('input-control-show')){
 			newValidatedQuantity = currentQuantity
+			if(currentQuantity==0)
+				currentQuantity=''
 	    	$("#product_quantity_id_"+currentProducId).val(currentQuantity)
 		}
 		$("#product_quantity_id_"+currentProducId).removeClass("input-control-show")
