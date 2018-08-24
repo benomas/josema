@@ -1,11 +1,13 @@
 <h3 class="titulo">Contacto telefonico</h3>
 <div class="form-block">
 	<table>
-		<tr>
-			<td class="td_clean">
-				Nancy Almazan Contreras
-			</td>
-		</tr>
+		<!--
+			<tr>
+				<td class="td_clean">
+					Nancy Almazan Contreras
+				</td>
+			</tr>
+		-->
 		<tr>
 			<td class="td_clean">
 				Telefono:01 444 8209597
