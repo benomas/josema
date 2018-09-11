@@ -19,6 +19,9 @@
 			</td>
 		</tr>
 	</table>
+	<div style="width:100%; text-align: center; background-color: #DF4916; border-radius:3px;">
+		<img src="<?php echo base_url().'images/template/contacto.jpg'; ?>" alt="" style="margin:auto;">
+	</div>
 </div>
 <h3 class="titulo">Contacto electrónico</h3>
 <div class="form-block">
