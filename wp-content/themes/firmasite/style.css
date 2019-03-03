@@ -226,7 +226,13 @@ td.mceIframeContainer{padding:0!important}
 .custom_td{padding: 4px !important; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;}
 .expanded_celda_marco {display: inline-block;height: 30%;max-height: 600px;max-width: 1050px;min-height: 270px;min-width: 230px;padding: 5%;width: 100%;}
 .contenedor_imagen_middle{text-align:center;background-color:#FFFFFF;border-radius: 10px;border: 1px solid #AE3910;margin:2% 2%;width:96%;cursor:pointer;}
-.contenedor_info{background-color:#FFFFFF;margin:2%;width:96%;}
+.contenedor_info{
+	background-color:#FFFFFF;
+	margin:2%;
+	width:96%;
+	height: 180px;
+	overflow-x: hidden;
+}
 .imagen_middle
 {
 	height:250px;
