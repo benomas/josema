@@ -79,6 +79,8 @@ class Usuario_model extends CI_Model
 							usuario.apellido_materno,
 							usuario.nick,
 							usuario.telefono,
+							usuario.rfc,
+							usuario.domicilio,
 							usuario.email,
 							rol_usuario.nombre AS rol,
 							tipo_cliente.nombre AS tipo_negocio,

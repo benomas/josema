@@ -9,8 +9,9 @@
 		</td>
 		<td class="no_essencial">
 		</td>
-		<td >
-		</td>
+		<!--
+		<td class="no_essencial">
+		</td>-->
 		<td class="no_essencial2">
 		</td>
 		<td class="no_essencial2">
@@ -37,9 +38,9 @@
 		<td class="no_essencial"><b>Apellido paterno:</b>
 		</td>
 		<td class="no_essencial"><b>Apellido materno:</b>
-		</td>
-		<td><b>Nick:</b>
-		</td>
+		</td><!--
+		<td class="no_essencial"><b>Nick:</b>
+		</td>-->
 		<td class="no_essencial2"><b>Telefono:</b>
 		</td>
 		<td class="no_essencial2"><b>correo:</b>
@@ -68,10 +69,10 @@
 			</td>
 			<td class="no_essencial">
 				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['apellido_materno']; if($usuario['activo']==='No') echo '</s>';?>
-			</td>
-			<td>
+			</td><!--
+			<td class="no_essencial">
 				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['nick']; if($usuario['activo']==='No') echo '</s>';?>
-			</td>
+			</td>-->
 			<td class="no_essencial2">
 				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['telefono']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
