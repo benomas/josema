@@ -325,7 +325,7 @@ class Inventario_model extends CI_Model
         $mapa_db_cvs['sub_tipo']=array('cvs_nombre_columna'=>'SUB TIPO','cvs_posicion_columna'=>'');
         $mapa_db_cvs['embalaje']=array('cvs_nombre_columna'=>'EMBALAJE','cvs_posicion_columna'=>'');
         $mapa_db_cvs['marca_componente']=array('cvs_nombre_columna'=>'TIPO DE COMPONENTE','cvs_posicion_columna'=>'');
-        $mapa_db_cvs['componente']=array('cvs_nombre_columna'=>'TIPO DE COMPONENTE GENERAL','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['componente']=array('cvs_nombre_columna'=>'LINEA','cvs_posicion_columna'=>'');
         $mapa_db_cvs['marca']=array('cvs_nombre_columna'=>'ARMADORA','cvs_posicion_columna'=>'');
         $mapa_db_cvs['marca_refaccion']=array('cvs_nombre_columna'=>'','cvs_posicion_columna'=>'27');
         $mapa_db_cvs['proveedor']=array('cvs_nombre_columna'=>'PROVEEDOR','cvs_posicion_columna'=>'');
