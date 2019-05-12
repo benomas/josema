@@ -30,8 +30,9 @@ class Inventario_model extends CI_Model
 			{ 
 				$consulta=$this->getConsultaConstante($id_usuario)." WHERE cri.busqueda LIKE '%".$busqueda."%' ";
 
-				if(!empty($_GET["basic_filter_name"]) && !empty($_GET["basic_filter_value"]))
-					$consulta=$consulta." AND ".$_GET["basic_filter_name"]."='".$_GET["basic_filter_value"]."'";
+				for($i=1;$i<5;$i++)
+					if(!empty($_GET["basic_filter_name$i"]) && !empty($_GET["basic_filter_value$i"]))
+						$consulta=$consulta." AND ".$_GET["basic_filter_name$i"]."='".$_GET["basic_filter_value$i"]."'";
 
 				$combinacionesTokens=$this->getCombinaciones($busqueda);
 				foreach ($combinacionesTokens as $combinacionesTokensKey => $combinacionesTokensValue)
@@ -44,15 +45,17 @@ class Inventario_model extends CI_Model
 						{
 							$consulta=$consulta." AND cri.busqueda LIKE '%".$filtroValue."%' ";
 						}
-						if(!empty($_GET["basic_filter_name"]) && !empty($_GET["basic_filter_value"]))
-							$consulta=$consulta." AND ".$_GET["basic_filter_name"]."='".$_GET["basic_filter_value"]."'";
+						for($i=1;$i<5;$i++)
+							if(!empty($_GET["basic_filter_name$i"]) && !empty($_GET["basic_filter_value$i"]))
+								$consulta=$consulta." AND ".$_GET["basic_filter_name$i"]."='".$_GET["basic_filter_value$i"]."'";
 					}
 				}
 			}
 			else{
-				$consulta=$this->getConsultaConstante($id_usuario);
-				if(!empty($_GET["basic_filter_name"]) && !empty($_GET["basic_filter_value"]))
-					$consulta=$consulta." WHERE ".$_GET["basic_filter_name"]."='".$_GET["basic_filter_value"]."'";
+				$consulta=$this->getConsultaConstante($id_usuario).'WHERE 1';
+				for($i=1;$i<5;$i++)
+					if(!empty($_GET["basic_filter_name$i"]) && !empty($_GET["basic_filter_value$i"]))
+						$consulta=$consulta." AND ".$_GET["basic_filter_name$i"]."='".$_GET["basic_filter_value$i"]."'";
 			}
 		}
 		else

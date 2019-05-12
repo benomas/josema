@@ -36,8 +36,14 @@
 
 <script>
 	var basicFilter={
-		name:'<?php echo !empty($_GET["basic_filter_name"])?$_GET["basic_filter_name"]:"" ?>',
-		value:'<?php echo !empty($_GET["basic_filter_value"])?$_GET["basic_filter_value"]:"" ?>'
+		name1:'<?php echo !empty($_GET["basic_filter_name1"])?$_GET["basic_filter_name1"]:"" ?>',
+		value1:'<?php echo !empty($_GET["basic_filter_value1"])?$_GET["basic_filter_value1"]:"" ?>',
+		name2:'<?php echo !empty($_GET["basic_filter_name2"])?$_GET["basic_filter_name2"]:"" ?>',
+		value2:'<?php echo !empty($_GET["basic_filter_value2"])?$_GET["basic_filter_value2"]:"" ?>',
+		name3:'<?php echo !empty($_GET["basic_filter_name3"])?$_GET["basic_filter_name3"]:"" ?>',
+		value3:'<?php echo !empty($_GET["basic_filter_value3"])?$_GET["basic_filter_value3"]:"" ?>',
+		name4:'<?php echo !empty($_GET["basic_filter_name4"])?$_GET["basic_filter_name4"]:"" ?>',
+		value4:'<?php echo !empty($_GET["basic_filter_value4"])?$_GET["basic_filter_value4"]:"" ?>'
 	};
 </script>
 <div class="perimeter" style="padding:10px;">
@@ -48,14 +54,14 @@
 		<div class="row" style="color:#97310e;">
 			<div class="col-xs-12 col-sm-6 col-md-3">
 				Armadora
-				<select title="Armadora" id="marca" name="marca" class="basic-filter">
+				<select title="Armadora" id="marca" name="marca" class="basic-filter" filter="1">
 					<?php
 						echo "<option value=''></option>";
 						foreach ($selects["selectMarca"] as $key => $value)
 							echo "
 								<option 
 									value='".$value["marca"]."' 
-									".(!empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca' && $_GET["basic_filter_value"]===$value["marca"]?'selected':'').">
+									".(!empty($_GET["basic_filter_name1"]) && $_GET["basic_filter_name1"]==='marca' && $_GET["basic_filter_value1"]===$value["marca"]?'selected':'').">
 										".$value["marca"]."
 								</option>
 							";
@@ -64,14 +70,14 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-3">
 				Linea
-				<select title="Linea" id="componente" name="componente" class="basic-filter">
+				<select title="Linea" id="componente" name="componente" class="basic-filter" filter="2">
 					<?php
 						echo "<option value=''></option>";
 						foreach ($selects["selectComponente"] as $key => $value)
 							echo "
 								<option 
 									value='".$value["componente"]."' 
-									".(!empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='componente' && $_GET["basic_filter_value"]===$value["componente"]?'selected':'').">
+									".(!empty($_GET["basic_filter_name2"]) && $_GET["basic_filter_name2"]==='componente' && $_GET["basic_filter_value2"]===$value["componente"]?'selected':'').">
 										".$value["componente"]."
 								</option>
 							";
@@ -80,14 +86,14 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-3">
 				Marca
-				<select title="Marca" id="marca_refaccion" name="marca_refaccion" class="basic-filter">
+				<select title="Marca" id="marca_refaccion" name="marca_refaccion" class="basic-filter" filter="3">
 					<?php
 						echo "<option value=''></option>";
 						foreach ($selects["selectMarcaRefaccion"] as $key => $value)
 							echo "
 								<option 
 									value='".$value["marca_refaccion"]."' 
-									".(!empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca_refaccion' && $_GET["basic_filter_value"]===$value["marca_refaccion"]?'selected':'').">
+									".(!empty($_GET["basic_filter_name3"]) && $_GET["basic_filter_name3"]==='marca_refaccion' && $_GET["basic_filter_value3"]===$value["marca_refaccion"]?'selected':'').">
 										".$value["marca_refaccion"]."
 								</option>
 							";
@@ -96,14 +102,14 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-3">
 				Tipo de componente
-				<select title="Tipo de componente" id="marca_componente" name="marca_componente" class="basic-filter">
+				<select title="Tipo de componente" id="marca_componente" name="marca_componente" class="basic-filter" filter="4">
 					<?php
 						echo "<option value=''></option>";
 						foreach ($selects["selectMarcaComponente"] as $key => $value)
 							echo "
 								<option 
 									value='".$value["marca_componente"]."'
-									".( !empty($_GET["basic_filter_name"]) && $_GET["basic_filter_name"]==='marca_componente' && $_GET["basic_filter_value"]===$value["marca_componente"]?'selected':'')."
+									".( !empty($_GET["basic_filter_name4"]) && $_GET["basic_filter_name4"]==='marca_componente' && $_GET["basic_filter_value4"]===$value["marca_componente"]?'selected':'')."
 								>
 										".$value["marca_componente"]."
 								</option>
@@ -396,9 +402,10 @@ $(document).ready(function()
 {
 	showChip(carrito)
 	$(".basic-filter").change(function(event){
-		basicFilter.name=$(this).attr("name");
-		basicFilter.value=$(this).val();
-		$(".basic-filter").val('');
+		let filter = $(this).attr('filter')
+		basicFilter['name' + filter] =$(this).attr("name");
+		basicFilter['value' + filter]=$(this).val();
+		//$(".basic-filter").val('');
 		paginar(0);
 	});
 
@@ -514,9 +521,22 @@ function abrir_dialogo(id_producto)
 
 function paginar(numero_pagina)
 {
+	let queryFilter = '?'
+	for (let i = 1; i < 5; i++)
+		if (
+			basicFilter['name' + i] != null && 
+			basicFilter['name' + i] !== '' && 
+			basicFilter['value' + i] != null && 
+			basicFilter['value' + i] !== ''
+		){
+			if (queryFilter !== '?')
+				queryFilter = queryFilter + '&'
+			queryFilter = queryFilter + 'basic_filter_name' + i + '=' + basicFilter['name' + i] + '&basic_filter_value' + i + '=' + basicFilter['value' + i]
+		}
+
 	$('#form_container').html('<div style="width:100%; text-align:center;"><label > Cargando...</label><br><br><br><img src="<?php echo base_url();?>images/loading.gif"></div>');
 	$.ajax({
-			url : '<?php echo site_url().'/inventario/buscar/';?>' + numero_pagina + "?basic_filter_name=" +basicFilter.name + "&basic_filter_value="+ basicFilter.value,
+			url : '<?php echo site_url().'/inventario/buscar/';?>' + numero_pagina + queryFilter,
 			type: 'POST',
 			success : function(html)
 			{
