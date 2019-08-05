@@ -2,7 +2,8 @@
 
 		.main_panel
 		{
-			background-color:#FFFFFF;
+			/*background-color:#FFFFFF;*/
+			background-color:#9AD9EA;
 			width:100%;
 			height:45px;
 			margin-bottom:5px;"
@@ -12,7 +13,7 @@
 			font-weight:bold;
 			display: inline-block;
 			height:100%;
-			color:#FFFFFF;
+			color:#4049C0;
 			padding-top:10px;
 		}
 		.text_name
@@ -20,7 +21,7 @@
 			font-weight:normal;
 			display: inline-block;
 			height:100%;
-			color:#FFFFFF;
+			color:#4049C0;
 			padding-top:10px;
 		}
 
@@ -90,7 +91,7 @@
 
 			background-color: #DD4814;
 			border-color: #DD4814;
-			color: #FFFFFF;
+			color:#4049C0;
 
 			font-size: 14px;
 			font-weight: normal;
@@ -104,7 +105,7 @@
 		{
 			background-color: #B83C11;
 			border-color: #A5360F;
-			color: #FFFFFF;
+			color:#4049C0;
 		}
 
 		.bloque_user_data
@@ -154,7 +155,7 @@
 		}
 		.bno-button
 		{
-			color:#772954;
+			color:#4049C0;
 			/*background-color:#f1f1f1;*/
 			font-size:28px;
 			cursor:pointer;
@@ -167,7 +168,7 @@
 		.bno-button:hover
 		{
 			/*background-color:#FFFFFF;*/
-			color:#AE3910;
+			color:#4049C0;
 		}
 
 

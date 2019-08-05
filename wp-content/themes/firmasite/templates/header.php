@@ -25,8 +25,19 @@
 			.tittle_spot {margin-top:0;}
 			.logo_spot {text-align:center;}
 		}
-		
-		
+		body{
+			background-color:#9AD9EA;
+			color:#4049C0 !important;
+		}
+		.panel{
+		    background-color: #9AD9EA;
+		}
+		.navbar-default .navbar-nav li a {
+			color:#4049C0 !important;
+		}
+		.panel-footer{
+		    background-color: #9AD9EA;
+		}
 	</style>
     <div id="logo" class="row show-grid" style="width:100%;">   
 
@@ -35,7 +46,7 @@
 				<?php if (isset($firmasite_settings["logo"]) && !empty($firmasite_settings["logo"])) 
 				{?>
 				<div style="display:inline-block; max-width:250px; width:100%;">
-					<img src="<?php echo site_url();?>/wp-includes/images/logo.jpg" alt="<?php bloginfo( 'description' ); ?>" title="<?php bloginfo( 'name' ); ?>" id="logo-img" />
+					<img src="<?php echo site_url();?>/wp-includes/images/logo.png" alt="<?php bloginfo( 'description' ); ?>" title="<?php bloginfo( 'name' ); ?>" id="logo-img" />
 				</div>
 				<?php 
 				} else

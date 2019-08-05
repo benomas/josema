@@ -202,10 +202,10 @@ td.mceIframeContainer{padding:0!important}
     background-repeat: no-repeat;
 }
 .loading{text-align:center;}
-.concepto_field{font-weight: normal;color:#3d3d3d;}
-.concepto_value{color:#3d3d3d; font-weight:normal;}
-.important_concepto_field{font-weight: normal;color:#3d3d3d;}
-.important_concepto_value{font-weight: normal;color:#3d3d3d;}
+.concepto_field{font-weight: normal;color:#4049C0;}
+.concepto_value{color:#4049C0; font-weight:normal;}
+.important_concepto_field{font-weight: normal;color:#4049C0;}
+.important_concepto_value{font-weight: normal;color:#4049C0;}
 .fields_area{}
 
 
@@ -373,7 +373,7 @@ table .promocion_container
 	height:100%;
 	cursor: inherit;
 	margin-bottom: auto;
-	color:#FFFFFF;
+	color:#4049C0;
 }
 .page-header
 {
