@@ -33,7 +33,7 @@
 		    background-color: #9AD9EA;
 		}
 		.navbar-default .navbar-nav li a {
-			color:#4049C0 !important;
+			color:#FFFFFF !important;
 		}
 		.panel-footer{
 		    background-color: #9AD9EA;

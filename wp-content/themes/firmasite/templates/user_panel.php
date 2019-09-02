@@ -13,7 +13,7 @@
 			font-weight:bold;
 			display: inline-block;
 			height:100%;
-			color:#4049C0;
+			color:#FFFFFF;
 			padding-top:10px;
 		}
 		.text_name
@@ -21,7 +21,7 @@
 			font-weight:normal;
 			display: inline-block;
 			height:100%;
-			color:#4049C0;
+			color:#FFFFFF;
 			padding-top:10px;
 		}
 
@@ -91,7 +91,7 @@
 
 			background-color: #DD4814;
 			border-color: #DD4814;
-			color:#4049C0;
+			color:#FFFFFF;
 
 			font-size: 14px;
 			font-weight: normal;
