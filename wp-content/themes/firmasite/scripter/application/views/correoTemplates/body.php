@@ -5,11 +5,22 @@
 {
 	border:2px dotted #0D8D74;
 }
+.negative{
+	color:red;
+	padding:20px;
+	font-size: 20px;
+	font-weight: bold;
+}
 </style>
 <p>
 	<h1>Nuevo pedido generado desde el sistema <b>JOSEMA</b></h1>
 </p>
 <br>
+<?php if($userData->suspended){?>
+	<div class="negative" style="color:red; padding:20px; font-size: 20px; font-weight: bold;">
+		Cliente suspendido
+	</div>
+<?php }?>
 
 <table class="table table-bordered table-striped table-responsive table-hover success" style="width:800px; "><?php
 	if($vendedor){

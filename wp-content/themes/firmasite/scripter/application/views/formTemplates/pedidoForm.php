@@ -4,8 +4,19 @@
 	background:none;
 	background-color:#DD4814;
 }
+.negative{
+	color:red;
+	padding:20px;
+	font-size: 20px;
+	font-weight: bold;
+}
 </style>
 <div id="container">
+	<?php if($userData->suspended){?>
+		<div class="negative">
+			Cliente suspendido
+		</div>
+	<?php }?>
 	<form id="formularioPedido">
 	<input type="hidden" name="numeroFilas" id="numeroFilas" value="<?php echo set_value('numeroFilas',$numeroFilas); ?>">
 	<input type="hidden" name="productIds" id="productIds" value="<?php echo json_encode($productosValidosCarrito); ?>">
@@ -28,8 +39,8 @@
 		<?php
 		}
 		?>
-		<tr>
-			<td >
+		<tr >
+			<td>
 				Nombre del Cliente:
 			</td>
 			<td colspan="2">

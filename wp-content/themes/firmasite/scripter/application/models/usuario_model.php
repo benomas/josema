@@ -90,7 +90,8 @@ class Usuario_model extends CI_Model
 								) AS activo,
 							usuario.id_rol_usuario,
 							usuario.id_tipo_cliente,
-							usuario.id_vendedor
+							usuario.id_vendedor,
+							usuario.suspended
 					FROM 	usuario AS usuario
 					JOIN	rol_usuario AS rol_usuario ON rol_usuario.id_rol_usuario = usuario.id_rol_usuario
 					LEFT JOIN	tipo_cliente AS tipo_cliente ON tipo_cliente.id_tipo_cliente = usuario.id_tipo_cliente
@@ -108,15 +109,16 @@ class Usuario_model extends CI_Model
 		$id_tipo_cliente  = $this->input->post('id_tipo_cliente');
 		$id_vendedor      = $this->input->post('id_vendedor');
 		$data = array	(
-							'nombre'						=> $this->input->post('nombre'),
-							'apellido_paterno'				=> $this->input->post('apellido_paterno'),
-							'nick'							=> $this->input->post('nick'),
-							'clave'							=> md5($this->input->post('clave')),
-							'telefono'						=> $this->input->post('telefono'),
-							'email'							=> $this->input->post('email'),
-							'id_rol_usuario'				=> $this->input->post('id_rol'),
-							'fecha_registro' 				=> date("Y-m-d H:i:s"),
-							'ultima_conexion' 				=> date("Y-m-d H:i:s")
+							'nombre'           => $this->input->post('nombre'),
+							'apellido_paterno' => $this->input->post('apellido_paterno'),
+							'nick'             => $this->input->post('nick'),
+							'clave'            => md5($this->input->post('clave')),
+							'telefono'         => $this->input->post('telefono'),
+							'email'            => $this->input->post('email'),
+							'id_rol_usuario'   => $this->input->post('id_rol'),
+							'suspended'        => $this->input->post('suspended'),
+							'fecha_registro'   => date("Y-m-d H:i:s"),
+							'ultima_conexion'  => date("Y-m-d H:i:s")
 						);
 		if(!empty($apellido_materno))
 			$data['apellido_materno']=$apellido_materno;
@@ -140,14 +142,15 @@ class Usuario_model extends CI_Model
 		$id_tipo_cliente = $this->input->post('id_tipo_cliente');
 		$id_vendedor      = $this->input->post('id_vendedor');
 		$data = array	(
-							'nombre'						=> $this->input->post('nombre'),
-							'apellido_paterno'				=> $this->input->post('apellido_paterno'),
-							'nick'							=> $this->input->post('nick'),
-							'telefono'						=> $this->input->post('telefono'),
-							'email'							=> $this->input->post('email'),
-							'id_rol_usuario'				=> $this->input->post('id_rol'),
-							'fecha_registro' 				=> date("Y-m-d H:i:s"),
-							'ultima_conexion' 				=> date("Y-m-d H:i:s")
+							'nombre'           => $this->input->post('nombre'),
+							'apellido_paterno' => $this->input->post('apellido_paterno'),
+							'nick'             => $this->input->post('nick'),
+							'telefono'         => $this->input->post('telefono'),
+							'email'            => $this->input->post('email'),
+							'id_rol_usuario'   => $this->input->post('id_rol'),
+							'suspended'        => $this->input->post('suspended'),
+							'fecha_registro'   => date("Y-m-d H:i:s"),
+							'ultima_conexion'  => date("Y-m-d H:i:s")
 						);
 		if(!empty($apellido_materno))
 			$data['apellido_materno']=$apellido_materno;

@@ -135,6 +135,7 @@ class Usuario extends baseController
 		$this->form_validation->set_rules('id_rol', 'Rol', 'trim|required|valid_select');
 		$this->form_validation->set_rules('id_tipo_cliente');
 		$this->form_validation->set_rules('id_vendedor');
+		$this->form_validation->set_rules('suspended');
 
 		$this->form_validation->set_rules('cambiar_clave');
 

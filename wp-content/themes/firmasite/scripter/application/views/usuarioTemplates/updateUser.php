@@ -244,7 +244,22 @@
 			</td>
 		</tr>
 		<?php echo form_error('vendor_id');?>
-		
+		<tr>
+			<td >
+				Suspendido:
+			</td>
+			<td >
+				<?php echo form_checkbox(
+											array(	'id' 		=> 'suspended',
+													'name' 		=> 'suspended',
+													'checked' 	=> set_value('suspended')?1:$usuario->suspended,
+													'class' 	=> 'form-control',
+													'value' 	=> 1
+													)
+									); 
+				?>
+			</td>
+		</tr>
 		
 	</table>
 	</form>
