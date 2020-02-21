@@ -38,6 +38,12 @@
 		.panel-footer{
 		    background-color: #9AD9EA;
 		}
+		.dropdown-menu{
+		    background-color: #dd4814;
+		}
+		.dropdown-menu > li > a:hover {
+		    background-color: #ae3910;
+		}
 	</style>
     <div id="logo" class="row show-grid" style="width:100%;">   
 

@@ -73,6 +73,8 @@
 		</td>
 		<td style="background-color:#DFF0D8;"><b>DESCRIPCION</b>
 		</td>
+		<td style="background-color:#DFF0D8;"><b>PRECIO</b>
+		</td>
 		<td style="background-color:#DFF0D8;"><b>CANTIDAD</b>
 		</td>
 		<td style="background-color:#DFF0D8;"><b>SUBTOTAL</b>
@@ -175,6 +177,8 @@
 					</td>
 					<td ><?php echo $info['row'.$info['productIds'][$i]]->descripcion/*$info['Descripcion'.$info['productIds'][$i]]*/;?>
 					</td>
+					<td >$<?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio)),2);?>
+					</td>
 					<td ><?php echo $info['Cantidad'.$info['productIds'][$i]];?>
 					</td>
 					<td >$<?php echo $subtotal;?><?php if (!empty($info['row'.$info['productIds'][$i]]->promocion)){ ?> (Promoción) <?php }?>
@@ -204,30 +208,35 @@
     <tr>
         <td style="background-color:#F2DEDE;" colspan="3"><b>GRAN SUB TOTAL:</b>
         </td>
+		<td style="background-color:#F2DEDE;"></td>
         <td style="background-color:#F2DEDE;"><b>$<?php echo $gran_sub_total;?></b>
         </td>
     </tr>
     <tr>
         <td style="background-color:#F2DEDE;" colspan="3"><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $1500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
         </td>
+		<td style="background-color:#F2DEDE;"></td>
         <td style="background-color:#F2DEDE;"><b>$<?php echo $descuento_adicional;?></b>
         </td>
     </tr>
     <tr>
         <td style="background-color:#F2DEDE;" colspan="3"><b>IVA:</b>
         </td>
+		<td style="background-color:#F2DEDE;"></td>
         <td style="background-color:#F2DEDE;"><b>$<?php echo $iva;?></b>
         </td>
     </tr>
     <tr>
         <td style="background-color:#F2DEDE;" colspan="3"><b>Gastos de envio:</b>
         </td>
+		<td style="background-color:#F2DEDE;"></td>
         <td style="background-color:#F2DEDE;"><b>$<?php echo $gastos_envio;?></b>
         </td>
     </tr>
 	<tr>
 		<td style="background-color:#F2DEDE;" colspan="3"><b>GRAN TOTAL:</b>
 		</td>
+		<td style="background-color:#F2DEDE;"></td>
 		<td style="background-color:#F2DEDE;"><b>$<?php echo $total;?></b>
 		</td>
 	</tr>
