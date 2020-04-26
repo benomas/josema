@@ -10,6 +10,11 @@
 	font-size: 20px;
 	font-weight: bold;
 }
+
+.btn-default{
+	background-color:#B83C11;
+}
+#B83C11
 </style>
 <div id="container">
 	<?php if($userData->suspended){?>
@@ -241,7 +246,20 @@
 	</form>
 	<div>
 		<div id="boton_limpiar" class="btn btn-default"  name="boton_limpiar">Borrar</div>
-		<div id="boton_enviar" class="btn btn-default"   name="boton_enviar">Enviar </div>
+		<?php
+		if(!$clientSelected){
+		?>
+			<div style="background-color:#F2DEDE; margin-top:10px; height:50px; padding:10px;">
+				Pedido inhabilitado, Es obligatorio que selecciones un cliente
+			</div>
+		<?php
+		}
+		else{
+		?>
+			<div id="boton_enviar" class="btn btn-default"   name="boton_enviar">Enviar </div>
+		<?php
+		}
+		?>
 	</div>
 </div>
 <div class="celda_marco">

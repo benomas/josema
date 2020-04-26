@@ -44,6 +44,12 @@ class FormSender extends CI_Controller
 		$data[]                          = array();
 		$data["vendedor"]                = in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
 		$data['userData']                = $this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
+		
+		if($data["vendedor"] && $data["vendedor"]->id_usuario === $data['userData']->id_usuario)
+			$data['clientSelected'] = false;
+		else
+			$data['clientSelected'] = true;
+
 		$data['traerCarrito']            = $traerCarrito;
 		$data['carrito']                 = $productos = $this->carro->getProductos();
 		$data['productosValidosCarrito'] = [];
