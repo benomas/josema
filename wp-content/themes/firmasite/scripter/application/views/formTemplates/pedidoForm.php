@@ -95,6 +95,15 @@
 			<td class="no_essencial">
 				<b>DESCRIPCION</b>
 			</td>
+			<?php
+				if($promociones_habilitadas && $vendedor){
+			?>
+			<td class="col-md-1">
+				<b>PRECIO PROMOCIÓN</b>
+			</td>
+			<?php
+				}
+			?>
 			<td class="col-md-1">
 				<b>PRECIO</b>
 			</td>
@@ -129,6 +138,26 @@
 							<input class="form-control" id="descripcion<?php echo $producto->id_inventario;?>" name="Descripcion<?php echo $producto->id_inventario;?>" size="50" type="hidden"  value="<?php echo $producto->descripcion;?>">
 							<?php echo $producto->descripcion;?>
 						</td>
+						<?php
+							if($promociones_habilitadas && $vendedor){
+						?>
+						<td class="col-md-1">
+						<?php
+							if(isset($producto->precio_promocion) && $producto->precio_promocion > 0){
+						?>
+				 			<input 
+							 	type="checkbox"
+								id="precio_promocion_<?php echo $producto->id_inventario;?>"
+								name="precio_promocion_<?php echo $producto->id_inventario;?>"
+								value="precio_promocion" 
+								onclick="cambiarPrecioPromocion('<?php echo $producto->id_inventario;?>')"/>
+						<?php
+							}
+						?>
+						</td>
+						<?php
+							}
+						?>
 						<td class="col-md-1">
 							$<label class="precio_producto" id="producto_precio_<?php echo $producto->id_inventario;?>" ><?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$producto->precio)),2); ?></label>
 						</td>
@@ -136,6 +165,9 @@
 							<div>
 								<script>
 									var jsonProducto<?php echo ($producto->id_inventario);?>=<?php echo json_encode(($producto));?>;
+									if (window.jsonProductos == null)
+										window.jsonProductos = [];
+									window.jsonProductos['<?php echo ($producto->id_inventario);?>'] = jsonProducto<?php echo ($producto->id_inventario);?>;
 								</script>
 							</div>
 							<input class="form-control numeric" id="cantidad<?php echo $producto->id_inventario;?>" name="Cantidad<?php echo $producto->id_inventario;?>" value="<?php echo !empty($carrito->{$producto->id_inventario}) ? $carrito->{$producto->id_inventario} : 0 ?>"
@@ -709,5 +741,31 @@ function reducir(id_producto)
 	$('.celda_marco').addClass('hidden_class');
 	$('.celda_marco').removeClass('expanded_celda_marco');
 	$('.celda_marco').hide('fast');
+}
+
+function cambiarPrecioPromocion (valor) {
+	
+	if (window.jsonProductos[valor] ==  null)
+		return
+
+	var se_aplica_promocion = $('[name=precio_promocion_' + valor + ']').prop('checked');
+	
+	if (se_aplica_promocion){
+		if(window.jsonProductos[valor].originalPrice == null)
+			window.jsonProductos[valor].originalPrice = rounded(window.jsonProductos[valor].precio);
+		
+		window.jsonProductos[valor].precio = rounded(window.jsonProductos[valor].precio_promocion);
+	}else{
+		if(window.jsonProductos[valor].originalPrice != null)
+			window.jsonProductos[valor].precio = window.jsonProductos[valor].originalPrice
+	}
+
+	let cantidad  = $('#cantidad'+valor).val();
+	$('#producto_precio_' + valor).text(window.jsonProductos[valor].precio);
+	updateSubtotal(cantidad,window.jsonProductos[valor],valor,true)
+}
+
+function rounded (valor){
+	return Math.round(valor * 100)/100
 }
 </script>

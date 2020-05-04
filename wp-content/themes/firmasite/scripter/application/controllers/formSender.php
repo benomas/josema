@@ -44,6 +44,7 @@ class FormSender extends CI_Controller
 		$data[]                          = array();
 		$data["vendedor"]                = in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
 		$data['userData']                = $this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
+		$data['promociones_habilitadas'] = false;
 		
 		if($data["vendedor"] && $data["vendedor"]->id_usuario === $data['userData']->id_usuario)
 			$data['clientSelected'] = false;
@@ -97,9 +98,13 @@ class FormSender extends CI_Controller
 				if($data['info']['Cantidad'.$productId]>0)
 				{
 					$data['info']['row'.$productId]=$this->Inventario_model->getProductByNpc($data['info']['NPC'.$productId]);
+					if(isset($data['info']["precio_promocion_$productId"]) && in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"]))
+						$data['info']['row'.$productId]->precio = $data['info']['row'.$productId]->precio_promocion;
 				}
 			}
 		}
+		debugg($data);
+		die();
 		$data["vendedor"]=in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
 		$data['userData']=$this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
 		$nombre= $data['userData']->nombre.' '.$data['userData']->apellido_paterno.' '.$data['userData']->apellido_materno;

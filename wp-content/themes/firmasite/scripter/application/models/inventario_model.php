@@ -230,6 +230,7 @@ class Inventario_model extends CI_Model
 								cri.descripcion,
 								'' AS origen,
 								IF( '".$tarifa."'!='precio_lista', REPLACE(cri.".$tarifa.", '$', ''),NULL)AS precio,
+								cri.k AS precio_promocion,
 								cri.referencias
 						FROM ci_resumen_inventario AS cri
 						WHERE	cri.id_resumen_inventario='".$id_producto."'
@@ -261,6 +262,7 @@ class Inventario_model extends CI_Model
 								cri.descripcion,
 								'' AS origen,
 								IF( '".$tarifa."'!='precio_lista', REPLACE(cri.".$tarifa.", '$', ''),NULL)AS precio,
+								cri.k AS precio_promocion,
 								cri.referencias
 						FROM ci_resumen_inventario AS cri
 						WHERE	cri.npc='".$npc."'
