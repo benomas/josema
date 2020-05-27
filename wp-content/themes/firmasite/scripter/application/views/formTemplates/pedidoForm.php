@@ -491,7 +491,8 @@ function updateTotal()
 	var descuento_adicional=0;
 	var iva=0;
 	var tipo_envio = $('[name=tipo_envio]').prop('checked');
-	var gastos_envio = 180.00 * (!tipo_envio);
+	//var gastos_envio = 180.00 * (!tipo_envio);
+	var gastos_envio = 0;
 
 	for(i=0;i<num_elementos;i++)
 	{
@@ -504,11 +505,10 @@ function updateTotal()
 	}
 
 	total_antes_de_iva = Math.round(total_antes_de_iva*100)/100;
-
-	if(total_antes_de_iva>2500 && 0)
+	if(total_antes_de_iva>(2500/1.16))
 	{
-		descuento_adicional	= Math.round(total_antes_de_iva*100*0.02)/100;
-		total 				= Math.round(total_antes_de_iva*100*0.98)/100;
+		//descuento_adicional	= Math.round(total_antes_de_iva*100*0.02)/100;
+		total 					= total_antes_de_iva;
 		gastos_envio=0;
 	}
 	else
