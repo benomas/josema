@@ -209,7 +209,7 @@
         $iva                    =0;
         $gastos_envio           =180.00;
 
-        if($total>2500)
+        if($total>2500 &&  0)
         {
             $descuento_adicional    = round($total*0.02, 2, PHP_ROUND_HALF_UP);
             $total                  = round($total*0.98, 2, PHP_ROUND_HALF_UP);
@@ -229,7 +229,7 @@
         </td>
     </tr>
     <tr>
-        <td style="background-color:#F2DEDE;" colspan="3"><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
+        <td style="background-color:#F2DEDE;" colspan="3"><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 &&  0 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
         </td>
 		<td style="background-color:#F2DEDE;"></td>
         <td style="background-color:#F2DEDE;"><b>$<?php echo $descuento_adicional;?></b>

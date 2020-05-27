@@ -212,6 +212,7 @@
 					<td>
 					</td>
 				</tr>
+				<!--
 				<tr >
 					<td colspan="2" ><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
 					</td>
@@ -224,7 +225,7 @@
 					</td>
 					<td>
 					</td>
-				</tr>
+				</tr>-->
 				<tr >
 					<td colspan="2"><b>IVA:</b>
 					</td>
@@ -289,6 +290,9 @@
 		else{
 		?>
 			<div id="boton_enviar" class="btn btn-default"   name="boton_enviar">Enviar </div>
+			<div id="mensaje_monto_minimo" style="background-color:#F2DEDE; margin-top:10px; height:50px; padding:10px;">
+				El monto del pedido debe ser de almenos $2500 pesos
+			</div>
 		<?php
 		}
 		?>
@@ -501,7 +505,7 @@ function updateTotal()
 
 	total_antes_de_iva = Math.round(total_antes_de_iva*100)/100;
 
-	if(total_antes_de_iva>2500)
+	if(total_antes_de_iva>2500 && 0)
 	{
 		descuento_adicional	= Math.round(total_antes_de_iva*100*0.02)/100;
 		total 				= Math.round(total_antes_de_iva*100*0.98)/100;
@@ -529,6 +533,14 @@ function updateTotal()
 	$('#descuento_adicional').text(descuento_adicional);
 	$('#iva').text(iva);
 	$('#gastos_envio').text(gastos_envio);
+
+	$('#boton_enviar').hide();
+	$('#mensaje_monto_minimo').show();
+
+	if(total > 2500){
+		$('#boton_enviar').show();
+		$('#mensaje_monto_minimo').hide();
+	}
 
 	$('#total').text(total);
 }
