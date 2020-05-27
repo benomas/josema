@@ -213,7 +213,7 @@
 					</td>
 				</tr>
 				<tr >
-					<td colspan="2" ><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $1500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
+					<td colspan="2" ><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
 					</td>
 					<td>
 					</td>
@@ -501,7 +501,7 @@ function updateTotal()
 
 	total_antes_de_iva = Math.round(total_antes_de_iva*100)/100;
 
-	if(total_antes_de_iva>1500)
+	if(total_antes_de_iva>2500)
 	{
 		descuento_adicional	= Math.round(total_antes_de_iva*100*0.02)/100;
 		total 				= Math.round(total_antes_de_iva*100*0.98)/100;

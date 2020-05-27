@@ -73,6 +73,8 @@
 		</td>
 		<td style="background-color:#DFF0D8;"><b>DESCRIPCION</b>
 		</td>
+		<td style="background-color:#DFF0D8;"><b>TIENE PROMOCÍON</b>
+		</td>
 		<td style="background-color:#DFF0D8;"><b>PRECIO</b>
 		</td>
 		<td style="background-color:#DFF0D8;"><b>CANTIDAD</b>
@@ -172,16 +174,30 @@
 					}
 					$total+=$subtotal;
 			?>
-				<tr <?php if (!empty($info['row'.$info['productIds'][$i]]->promocion)) { ?> class="promocion_container" <?php }?> >
+				<tr <?php if (!empty($info['row'.$info['productIds'][$i]]->esPromocion) && $info['row'.$info['productIds'][$i]]->esPromocion) { ?> class="promocion_container" <?php }?> >
 					<td ><?php echo $info['NPC'.$info['productIds'][$i]];?>
 					</td>
 					<td ><?php echo $info['row'.$info['productIds'][$i]]->descripcion/*$info['Descripcion'.$info['productIds'][$i]]*/;?>
 					</td>
-					<td >$<?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio)),2);?>
+					<td style="text-align: center;">
+						<?php if (!empty($info['row'.$info['productIds'][$i]]->esPromocion) && $info['row'.$info['productIds'][$i]]->esPromocion) { 
+						?> SI 
+						<?php 
+						}else{
+						?> 
+						NO 
+						<?php
+						}
+						?>
 					</td>
-					<td ><?php echo $info['Cantidad'.$info['productIds'][$i]];?>
+					
+					<td style="text-align: center;">$<?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio)),2);?>
 					</td>
-					<td >$<?php echo $subtotal;?><?php if (!empty($info['row'.$info['productIds'][$i]]->promocion)){ ?> (Promoción) <?php }?>
+					
+					<td style="text-align: center;"><?php echo $info['Cantidad'.$info['productIds'][$i]];?>
+					</td>
+					
+					<td style="text-align: center;">$<?php echo $subtotal;?><?php if (!empty($info['row'.$info['productIds'][$i]]->promocion)){ ?> (Promoción) <?php }?>
 					</td>
 				</tr>
 				<?php
@@ -193,7 +209,7 @@
         $iva                    =0;
         $gastos_envio           =180.00;
 
-        if($total>1500)
+        if($total>2500)
         {
             $descuento_adicional    = round($total*0.02, 2, PHP_ROUND_HALF_UP);
             $total                  = round($total*0.98, 2, PHP_ROUND_HALF_UP);
@@ -213,7 +229,7 @@
         </td>
     </tr>
     <tr>
-        <td style="background-color:#F2DEDE;" colspan="3"><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $1500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
+        <td style="background-color:#F2DEDE;" colspan="3"><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
         </td>
 		<td style="background-color:#F2DEDE;"></td>
         <td style="background-color:#F2DEDE;"><b>$<?php echo $descuento_adicional;?></b>
