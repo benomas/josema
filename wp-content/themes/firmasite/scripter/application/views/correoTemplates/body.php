@@ -207,7 +207,8 @@
         $gran_sub_total         =$total;
         $descuento_adicional    =0;
         $iva                    =0;
-        $gastos_envio           =180.00;
+        //$gastos_envio           =180.00;
+        $gastos_envio           =0;
 
         if($total>2500)
         {
