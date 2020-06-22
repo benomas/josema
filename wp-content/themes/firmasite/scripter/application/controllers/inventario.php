@@ -106,4 +106,22 @@ class Inventario extends CI_Controller
         else
         	echo 'Error en el proceso de importación';
 	}
+
+	function sin_imagen () {
+		if(!$this->centinela->is_logged_in())
+			echo 'Se te perdio algo?';
+		else{
+			$npcs = $this->Inventario_model->getNpcs();
+			echo 'Total de codigos: '.count($npcs).'<br>';
+			foreach($npcs as $position=>$row){
+				if(file_exists('images/inventario/tiny_size/'.$row['npc'].'.jpg'))
+					unset($npcs[$position]);
+			}
+			echo 'codigos sin imagen: '.count($npcs).'<br>';
+			foreach($npcs as $row){
+				echo $row['npc'].'<br>';
+			}
+			die('<br> script finalizado');
+		}
+	}
 }

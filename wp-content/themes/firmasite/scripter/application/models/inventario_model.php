@@ -17,6 +17,13 @@ class Inventario_model extends CI_Model
 		return $query->result_array();
 	}
 
+	function getNpcs()
+	{
+		$query = $this->db->query("	SELECT npc FROM ci_resumen_inventario ");
+		return $query->result_array();
+	}
+
+
 	function get_inventario($contar=false,$posicion='0',$limite='0')
 	{
 		$id_usuario=$this->centinela->getDinamicIdUser();
