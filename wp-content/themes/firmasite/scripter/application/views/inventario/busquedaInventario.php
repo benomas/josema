@@ -389,7 +389,6 @@ $(document).ready(function()
 	showChip(carrito)
 	$(".basic-filter").change(function(event){
 		let filter = $(this).attr('filter')
-		basicFilter = {}
 		basicFilter['name' + filter] =$(this).attr("name");
 		basicFilter['value' + filter]=$(this).val();
 		//$(".basic-filter").val('');
