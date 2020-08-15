@@ -315,7 +315,7 @@
 	<div class="main_panel">
 		<div class="sub_panel sub1" >
 			<div class="bloque_input_buscador">
-				<input id="grid_searsh_g" class="input_buscador" type="text" name="grid_searsh_g">
+				<input id="grid_searsh_g" class="input_buscador" type="text" name="grid_searsh_g" value="<?php echo !empty($_GET["grid_searsh"])?$_GET["grid_searsh"]:"" ?>">
 			</div>
 			<div class="bloque_botton_buscador" >
 				<div id="boton_buscar_g" class="botton_buscador" name="boton_buscar_g" onclick="searsh_redirect();">Buscar</div>

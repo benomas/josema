@@ -27,9 +27,24 @@ global $firmasite_settings;
 <script>
 function searsh_redirect()
 {
+	let extraQueryFilter = ''
+	
+	if( typeof basicFilter !== 'undefined')
+		for (let i = 1; i < 5; i++)
+			if (
+				basicFilter['name' + i] != null && 
+				basicFilter['name' + i] !== '' && 
+				basicFilter['value' + i] != null && 
+				basicFilter['value' + i] !== ''
+			){
+				if (extraQueryFilter !== '?')
+					extraQueryFilter = extraQueryFilter + '&'
+				extraQueryFilter = extraQueryFilter + 'basic_filter_name' + i + '=' + basicFilter['name' + i] + '&basic_filter_value' + i + '=' + basicFilter['value' + i]
+			}
+			
 	searsh_value=document.getElementById('grid_searsh_g').value;
 	searsh_value=encodeURIComponent(searsh_value);
-	window.location = '<?php echo home_url().'/?page_id=23';?>&grid_searsh=' + searsh_value;
+	window.location = '<?php echo home_url().'/?page_id=23';?>&grid_searsh=' + searsh_value + extraQueryFilter;
 }
 
 jQuery('#grid_searsh_g').keydown(function (e)

@@ -139,8 +139,7 @@
 				<div 
 					class="shadow_marco <?php if( !empty($row_array['promocion']) ) {?> promocion_container<?php }?>" 
 					id="shadow_marco_<?php echo $row_array['id_inventario'];?>" 
-					ondblclick="showProductInput('<? echo $row_array['id_inventario'] ?>')"
-					>
+					ondblclick="<?php if( $this->centinela->is_logged_in() ){?>showProductInput('<? echo $row_array['id_inventario'] ?>')<?php } ?>">
 
 					<div class="tittle_marco tooltip_class" title="<?php echo $row_array['npc']; ?>" data-original-title="<?php echo $row_array['npc']; ?>"><?php echo $row_array['npc']; ?>
 					</div>
@@ -390,6 +389,7 @@ $(document).ready(function()
 	showChip(carrito)
 	$(".basic-filter").change(function(event){
 		let filter = $(this).attr('filter')
+		basicFilter = {}
 		basicFilter['name' + filter] =$(this).attr("name");
 		basicFilter['value' + filter]=$(this).val();
 		//$(".basic-filter").val('');
@@ -526,7 +526,7 @@ function paginar(numero_pagina)
 			url : '<?php echo site_url().'/inventario/buscar/';?>' + numero_pagina + queryFilter,
 			type: 'POST',
 			success : function(html)
-			{console.log(basicFilter)
+			{
 				$('#form_container').html(html);
 			}
 		});

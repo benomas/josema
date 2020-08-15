@@ -46,7 +46,6 @@
 	}
 	var oldQueryString = getUrlVars()
 	url = url + '0' + queryFilter
-	console.log(url)
 	
 	$.ajax({
 			url,
