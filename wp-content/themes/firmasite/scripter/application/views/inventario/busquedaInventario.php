@@ -33,19 +33,6 @@
 	color: #FFFFFF;
  }
 </style>
-
-<script>
-	var basicFilter={
-		name1:'<?php echo !empty($_GET["basic_filter_name1"])?$_GET["basic_filter_name1"]:"" ?>',
-		value1:'<?php echo !empty($_GET["basic_filter_value1"])?$_GET["basic_filter_value1"]:"" ?>',
-		name2:'<?php echo !empty($_GET["basic_filter_name2"])?$_GET["basic_filter_name2"]:"" ?>',
-		value2:'<?php echo !empty($_GET["basic_filter_value2"])?$_GET["basic_filter_value2"]:"" ?>',
-		name3:'<?php echo !empty($_GET["basic_filter_name3"])?$_GET["basic_filter_name3"]:"" ?>',
-		value3:'<?php echo !empty($_GET["basic_filter_value3"])?$_GET["basic_filter_value3"]:"" ?>',
-		name4:'<?php echo !empty($_GET["basic_filter_name4"])?$_GET["basic_filter_name4"]:"" ?>',
-		value4:'<?php echo !empty($_GET["basic_filter_value4"])?$_GET["basic_filter_value4"]:"" ?>'
-	};
-</script>
 <div class="perimeter" style="padding:10px;">
 	<h3 style="color:#772953; font-weight: bold;">
 		Filtros
@@ -539,7 +526,7 @@ function paginar(numero_pagina)
 			url : '<?php echo site_url().'/inventario/buscar/';?>' + numero_pagina + queryFilter,
 			type: 'POST',
 			success : function(html)
-			{
+			{console.log(basicFilter)
 				$('#form_container').html(html);
 			}
 		});
