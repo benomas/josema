@@ -49,7 +49,7 @@ class GridManajer extends CI_Controller
 												"bodyLogicalContainer"					=>array(	"open"		=>"<table class=\"table table-bordered table-striped table-responsive table-hover\">
 																														<tr >
 																															<td colspan=\"12\">
-																																<b>Busqueda simple: <label style=\"color:#772953;\" >".$this->input->post('grid_searsh')."</label></b>
+																																<b>Busqueda simple: <label style=\"color:#FF4031;\" >".$this->input->post('grid_searsh')."</label></b>
 																															</td>
 																														</tr>",
 																									"close"		=>"</table>"
@@ -65,7 +65,7 @@ class GridManajer extends CI_Controller
 																								)
 											);
 		$prueba= new Interdata($data);
-		$data['dataUniverse'] = str_ireplace( $this->input->post('grid_searsh') , '<label style="color:#772953;" >'.$this->input->post('grid_searsh').'</label>' , $prueba->ensambleStructure() );
+		$data['dataUniverse'] = str_ireplace( $this->input->post('grid_searsh') , '<label style="color:#FF4031;" >'.$this->input->post('grid_searsh').'</label>' , $prueba->ensambleStructure() );
 		$this->load->view('catalogos/cat_Injektion.php',$data);
 	}
 		

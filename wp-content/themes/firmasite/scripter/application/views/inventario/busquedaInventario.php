@@ -2,7 +2,7 @@
 .ui-widget-header
 {
 	background:none;
-	background-color:#DD4814;
+	background-color:#3F47CC;
 }
 .bno-accions{
 	display:inline-block;
@@ -26,7 +26,7 @@
 	margin-top: 0px;
 	z-index: 1000;
 	position: absolute;
-	background-color: #0D8D74;
+	background-color: #878CE5;
 	font-size: 11px;
 	padding: 1px 7px;
 	border-radius: 10px;
@@ -34,11 +34,11 @@
  }
 </style>
 <div class="perimeter" style="padding:10px;">
-	<h3 style="color:#772953; font-weight: bold;">
+	<h3 style="color:#FF4031; font-weight: bold;">
 		Filtros
 	</h3>
 	<div style="padding:5px 20px;">
-		<div class="row" style="color:#97310e;">
+		<div class="row" style="color:#121895;">
 			<div class="col-xs-12 col-sm-6 col-md-3">
 				Armadora
 				<select title="Armadora" id="marca" name="marca" class="basic-filter" filter="1">
@@ -293,13 +293,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel" style="color:#DD4814;">Vista completa</h4>
+        <h4 class="modal-title" id="myModalLabel" style="color:#3F47CC;">Vista completa</h4>
       </div>
       <div class="modal-body" id="modal-info-data">
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#AE3910;">Cerrar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#FF4031;">Cerrar</button>
       </div>
     </div>
   </div>
@@ -315,13 +315,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel" style="color:#DD4814;">Imagen Maximizada</h4>
+        <h4 class="modal-title" id="myModalLabel" style="color:#3F47CC;">Imagen Maximizada</h4>
       </div>
       <div class="modal-body" id="modal-info-img">
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#AE3910;">Cerrar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#FF4031;">Cerrar</button>
       </div>
     </div>
   </div>

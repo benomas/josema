@@ -181,14 +181,14 @@ td.mceIframeContainer{padding:0!important}
 
 .perimeter{display:inline-block;width:100%;}
 .shadow_marco{background-color: #FFFFFF;border: 2px solid #ccaabd;border-radius: 5px;box-shadow: 0 0 12px 6px #CCCCCC;width:100%;height:100%;margin-bottom: 21px;}
-.expanded{background-color: #FFFFFF;border: 4px double #AE3910;border-radius: 5px;box-shadow: 0 0 12px 6px #CCCCCC;}
+.expanded{background-color: #FFFFFF;border: 4px double #FF4031;border-radius: 5px;box-shadow: 0 0 12px 6px #CCCCCC;}
 .last_selected{border: 4px double #145E8D;box-shadow: 0 0 12px 6px #662D4C;}
 .hidden_class{display:none;}
 .fila_marco{display:inline-block;}
 .celda_marco{display:inline-block;width:24%;max-width:300px;min-width:230px;height:21%;max-height:400px;min-height:270px;padding:2%; font-size: 12px !important;}
-.field_marco{display:inline-block;width:100%;color:#DD4814;margin-left:10px;}
-.tittle_marco{	color:#FFFFFF;background-color:#772953;font-size:20px;text-transform:uppercase;text-align:center;width:50%;border-bottom-right-radius:5px;
-				display:inline-block;border-bottom:3px groove #AE3910;border-right:3px groove #AE3910;border-top:1px solid #CCCCCC;border-left:1px solid #CCCCCC;
+.field_marco{display:inline-block;width:100%;color:#3F47CC;margin-left:10px;}
+.tittle_marco{	color:#FFFFFF;background-color:#FF4031;font-size:20px;text-transform:uppercase;text-align:center;width:50%;border-bottom-right-radius:5px;
+				display:inline-block;border-bottom:3px groove #FF4031;border-right:3px groove #FF4031;border-top:1px solid #CCCCCC;border-left:1px solid #CCCCCC;
 				overflow:hidden; white-space:nowrap;text-overflow: ellipsis;
 			}
 .contenedor_imagen_marco{text-align:center;margin-top:3px;margin-bottom:3px;cursor:pointer;}
@@ -211,7 +211,7 @@ td.mceIframeContainer{padding:0!important}
 
 .table .acciones{width:auto;border:none;text-align: center;}
 
-.acciones{width:96%;display:inline-block;border:1px solid #772953;margin:2%;border-radius:8px;/*background-color: #BCAE72;*/}
+.acciones{width:96%;display:inline-block;border:1px solid #FF4031;margin:2%;border-radius:8px;/*background-color: #BCAE72;*/}
 
 .accionesInvenatario{width:28%;height:40px;display:inline-block;margin:0 3px;border-radius:4px;}
 /*
@@ -225,7 +225,7 @@ td.mceIframeContainer{padding:0!important}
 .table_expanded {font-size: 13px;}
 .custom_td{padding: 4px !important; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;}
 .expanded_celda_marco {display: inline-block;height: 30%;max-height: 600px;max-width: 1050px;min-height: 270px;min-width: 230px;padding: 5%;width: 100%;}
-.contenedor_imagen_middle{text-align:center;background-color:#FFFFFF;border-radius: 10px;border: 1px solid #AE3910;margin:2% 2%;width:96%;cursor:pointer;}
+.contenedor_imagen_middle{text-align:center;background-color:#FFFFFF;border-radius: 10px;border: 1px solid #FF4031;margin:2% 2%;width:96%;cursor:pointer;}
 .contenedor_info{
 	background-color:#FFFFFF;
 	margin:2%;
@@ -246,7 +246,7 @@ td.mceIframeContainer{padding:0!important}
 
 
 
-.contenedor_imagen_original{text-align:center;background-color:#FFFFFF;border-radius: 10px;border: 1px solid #AE3910;margin:2% 2%;width:96%;}
+.contenedor_imagen_original{text-align:center;background-color:#FFFFFF;border-radius: 10px;border: 1px solid #FF4031;margin:2% 2%;width:96%;}
 .imagen_original
 {
 	/*background-image:url('scripter/images/inventario/original_size/INJETECH.jpg');*/
@@ -274,18 +274,18 @@ td.mceIframeContainer{padding:0!important}
 .user_remove_button{background-image:url('scripter/images/accion/quit.png');}
 .user_button{background-image:url('scripter/images/template/user.png');}
 
-.button_class:hover{background-color:#AE3910;}
+.button_class:hover{background-color:#FF4031;}
 .button_class
 {
 	background-repeat: no-repeat;
 	background-position: center;
-	background-color:#DD4814;
+	background-color:#3F47CC;
 	background-size:32px;
 	border-radius: 5px;
 	width:100%;
 	height:100%;
 	cursor:pointer;
-	border:solid 1px #772953;
+	border:solid 1px #FF4031;
 }
 
 .promocion_div
@@ -308,7 +308,7 @@ td.mceIframeContainer{padding:0!important}
 
 .promocion_container
 {
-	border:2px solid #0D8D74;
+	border:2px solid #878CE5;
 }
 
 table .promocion_container
@@ -345,23 +345,22 @@ table .promocion_container
 .numero_pagina
 {
 	display:inline-block;
-	margin:1px .5px 0 0;
+	margin:1px 1px 1px 1px;
 	padding:auto;
 	width:25px;
-	background-color:#0D8D74;
-	border:solid 1px #772953;
+	background-color:#4049C0;
 	cursor:pointer;
 	border-radius: 2.5px;
 }
 
 .numero_pagina:hover
 {
-	background-color:#AE3910;
+	background-color:#FF4031;
 }
 
 .current_numero_pagina
 {
-	background-color:#AE3910;
+	background-color:#FF4031;
 	cursor: inherit;
 }
 
@@ -373,7 +372,8 @@ table .promocion_container
 	height:100%;
 	cursor: inherit;
 	margin-bottom: auto;
-	color:#4049C0;
+	color:#FFFFFF;
+	font-weight:400;
 }
 .page-header
 {
@@ -397,7 +397,7 @@ table .promocion_container
 	margin-right:auto;
 	padding:10px;
 	border-radius:4px;
-	border-bottom:3px solid #DD4814;
+	border-bottom:3px solid #3F47CC;
 }
 
 .titulo
@@ -406,7 +406,7 @@ table .promocion_container
 }
 
 .metaslider .caption-wrap {
-    background: #AE3910 none repeat scroll 0 0 !important;
+    background: #FF4031 none repeat scroll 0 0 !important;
     border-radius: 0 0 10px 10px;
     color: #FFFFFF !important;
     font-weight: bold;
@@ -416,7 +416,7 @@ table .promocion_container
 .leyenda-cambios
 {
 	font-size:13px;
-	background-color: #0d8d74;
+	background-color: #878CE5;
     border-radius: 0 5px 0 0;
     color: #ffffff;
     padding: 2px 5px;

@@ -28,12 +28,12 @@
 	.tittle_marco_
 	{
 		color:#FFFFFF;
-		background-color:#AE3910;
+		background-color:#FF4031;
 		font-size:20px;
 		text-transform:uppercase;
 		text-align:center;
-		border-bottom:3px solid #772953;
-		border-top:3px solid #772953;
+		border-bottom:3px solid #FF4031;
+		border-top:3px solid #FF4031;
 		margin-top:-11px;
 		/*margin-left:-16px;*/
 		/*margin-right:-16px;*/
@@ -46,7 +46,7 @@
    <div class="panel-body">
     <header class="entry-header">
         <h1 class="page-header page-title" style="text-align:center;">
-            <strong><a style="color:#772953; text-transform:uppercase;" href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'firmasite' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark">Productos de linea</a></strong>
+            <strong><a style="color:#FF4031; text-transform:uppercase;" href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'firmasite' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark">Productos de linea</a></strong>
             <?php if (!empty($post->post_excerpt)){ ?>
                 <small><?php the_excerpt(); ?></small>
             <?php } ?>

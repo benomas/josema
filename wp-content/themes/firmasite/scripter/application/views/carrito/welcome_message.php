@@ -9,7 +9,7 @@
 	.shadow_marco
 	{
 		background-color: #FFFFFF;
-		border: 4px double #AE3910;
+		border: 4px double #FF4031;
 		border-radius: 5px;
 		box-shadow: 0 0 12px 6px #CCCCCC;
 		width:100%;
@@ -22,7 +22,7 @@
 	.expanded
 	{
 		background-color: #FFFFFF;
-		border: 4px double #AE3910;
+		border: 4px double #FF4031;
 		border-radius: 5px;
 		box-shadow: 0 0 12px 6px #CCCCCC;
 	}
@@ -59,22 +59,22 @@
 	{
 		display:inline-block;
 		width:100%;
-		color:#DD4814;
+		color:#3F47CC;
 		margin-left:10px;
 	}
 	
 	.tittle_marco
 	{
 		color:#FFFFFF;
-		background-color:#772953;
+		background-color:#FF4031;
 		font-size:20px;
 		text-transform:uppercase;
 		text-align:center;
 		width:50%;
 		border-bottom-right-radius:5px;
 		display:inline-block;
-		border-bottom:3px groove #AE3910;
-		border-right:3px groove #AE3910;
+		border-bottom:3px groove #FF4031;
+		border-right:3px groove #FF4031;
 		border-top:1px solid #CCCCCC;
 		border-left:1px solid #CCCCCC;
 	}
@@ -99,17 +99,17 @@
 	.concepto_field
 	{
 		font-weight: bold;
-		color:#DD4814;
+		color:#3F47CC;
 	}
 	.concepto_value
 	{
-		color:#772953;
+		color:#FF4031;
 	}
 	
 	.important_concepto_field
 	{
 		font-weight: bold;
-		color:#0D8D74;
+		color:#878CE5;
 	}
 	
 	.important_concepto_value
@@ -127,10 +127,10 @@
 	{
 		width:96%;
 		display:inline-block;
-		border:1px solid #772953;
+		border:1px solid #FF4031;
 		margin:2%;
 		border-radius:8px;
-		background-color: #DD4814;
+		background-color: #3F47CC;
 	}
 	
 	.bloque_expandir_button
@@ -143,7 +143,7 @@
 	}
 	.bloque_expandir_button:hover
 	{
-		background-color: #AE3910;
+		background-color: #FF4031;
 	}
 	.img_expandir
 	{
@@ -163,7 +163,7 @@
 	}
 	.bloque_expandir_aniadir_carrito:hover
 	{
-		background-color: #AE3910;
+		background-color: #FF4031;
 	}
 	.img_expandir_aniadir_carrito
 	{
@@ -184,7 +184,7 @@
 	}
 	.bloque_contraer_button:hover
 	{
-		background-color: #AE3910;
+		background-color: #FF4031;
 	}
 	
 	.img_contraer
@@ -206,7 +206,7 @@
 	}
 	.bloque_contraer_aniadir_carrito:hover
 	{
-		background-color: #AE3910;
+		background-color: #FF4031;
 	}
 	
 	.img_contraer_aniadir_carrito
@@ -249,7 +249,7 @@
 		text-align:center;
 		background-color:#FFFFFF;
 		border-radius: 10px;
-		border: 1px solid #AE3910;
+		border: 1px solid #FF4031;
 		margin:0 2%;
 		width:96%;
 	}

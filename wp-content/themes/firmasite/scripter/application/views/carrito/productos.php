@@ -93,13 +93,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel" style="color:#DD4814;">Vista completa</h4>
+        <h4 class="modal-title" id="myModalLabel" style="color:#3F47CC;">Vista completa</h4>
       </div>
       <div class="modal-body" id="modal-info-data">
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#AE3910;">Cerrar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#FF4031;">Cerrar</button>
       </div>
     </div>
   </div>
@@ -116,13 +116,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel" style="color:#DD4814;">Imagen Maximizada</h4>
+        <h4 class="modal-title" id="myModalLabel" style="color:#3F47CC;">Imagen Maximizada</h4>
       </div>
       <div class="modal-body" id="modal-info-img">
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#AE3910;">Cerrar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#FF4031;">Cerrar</button>
       </div>
     </div>
   </div>

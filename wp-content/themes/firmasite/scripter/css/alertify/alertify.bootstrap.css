@@ -136,7 +136,7 @@
 }
 
 .alertify-log-success {
-    background: #0D8D74 none repeat scroll 0 0;
+    background: #878CE5 none repeat scroll 0 0;
     border: 1px solid #d6e9c6;
     color: #FFFFFF;
     min-height: 70px;
@@ -144,7 +144,7 @@
 }
 
 .alertify-log-error {
-    background: #DD4814 none repeat scroll 0 0;
+    background: #3F47CC none repeat scroll 0 0;
     border: 1px solid #eed3d7;
     color: #FFFFFF;
     min-height: 70px;
@@ -159,7 +159,7 @@
 
 .alertify-button-ok, .alertify-button-ok:hover, .alertify-button-ok:focus, .alertify-button-ok:active
 {
-	background-color: #0D8D74;
+	background-color: #878CE5;
 }
 
 .alertify-buttons

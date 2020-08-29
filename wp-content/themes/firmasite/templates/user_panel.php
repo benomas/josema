@@ -3,7 +3,7 @@
 		.main_panel
 		{
 			/*background-color:#FFFFFF;*/
-			background-color:#9AD9EA;
+			background-color:#FFFFFF;
 			width:100%;
 			height:45px;
 			margin-bottom:5px;"
@@ -33,8 +33,8 @@
 		.sub_panel
 		{
 			display:inline-block;
-			background-color:#772953;
-			border: 2px solid #DD4814;
+			background-color:#FF4031;
+			border: 2px solid #FF4031;
 			width:28%;
 			max-width:350px;
 			height:50px;
@@ -89,9 +89,8 @@
 			padding-right: 0;
 			padding-top:5px;
 
-			background-color: #DD4814;
-			border-color: #DD4814;
-			color:#FFFFFF;
+			background-color: #FFC931;
+			color:#FF4031;
 
 			font-size: 14px;
 			font-weight: normal;
@@ -103,9 +102,8 @@
 
 		.botton_buscador:hover
 		{
-			background-color: #B83C11;
-			border-color: #A5360F;
-			color:#4049C0;
+			background-color: #FFD358;
+			color:#FF1401;
 		}
 
 		.bloque_user_data
@@ -155,7 +153,7 @@
 		}
 		.bno-button
 		{
-			color:#4049C0;
+			color:#FFC931;
 			/*background-color:#f1f1f1;*/
 			font-size:28px;
 			cursor:pointer;
@@ -168,7 +166,7 @@
 		.bno-button:hover
 		{
 			/*background-color:#FFFFFF;*/
-			color:#4049C0;
+			color:#D79F00;
 		}
 
 
@@ -326,7 +324,7 @@
 		{
 		?>
 
-		<div class="sub_panel sub2" style="float:right; background-color:#DD4814;">
+		<div class="sub_panel sub2" style="float:right; background-color:#3F47CC;  border-top:0; border-left:0; border-right:0; border-bottom-width:1px; border-color:#CCCCCC;">
 			<div class="bloque_user_data" >
 				<label class="text_tittle" >Bienvenido: </label>
 				<label class="text_name" ><?php echo get_codeigniter_session_var('nombre');?></label>

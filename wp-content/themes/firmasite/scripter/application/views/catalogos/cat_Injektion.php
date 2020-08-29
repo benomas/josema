@@ -5,7 +5,7 @@
 <table class="table table-bordered table-striped table-responsive table-hover">
 	<tr >
 		<td colspan="3">
-			<b>Busqueda simple: <label style="color:#772953;" ><?php echo $this->input->post('grid_searsh');?> </label></b>
+			<b>Busqueda simple: <label style="color:#FF4031;" ><?php echo $this->input->post('grid_searsh');?> </label></b>
 		</td>
 		<td colspan="3">
 			<b><input class="form-control input-lg" id="grid_searsh" name="grid_searsh"  type="text"></b>
@@ -77,7 +77,7 @@
 				<b>'.$injektion['precio3'].'</b>
 			</td>
 		</tr>';
-		echo str_ireplace( $this->input->post('grid_searsh') , '<label style="color:#772953;" >'.$this->input->post('grid_searsh').'</label>' , $temp );
+		echo str_ireplace( $this->input->post('grid_searsh') , '<label style="color:#FF4031;" >'.$this->input->post('grid_searsh').'</label>' , $temp );
 	}
 ?>
 </table>

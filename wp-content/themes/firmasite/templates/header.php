@@ -1,5 +1,98 @@
 <?php global $firmasite_settings; ?>
 <header id="masthead" class="site-header" role="banner">
+	<div id="logo" class="show-grid w-100">   
+		<div class="row col-sm-6 col-md-3 logo_spot m-auto h-100 d-flex">
+			<div class="w-100 m-auto">
+				<a 
+					href="<?php echo esc_url( home_url( '/' ) ); ?>" 
+					title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" 
+					rel="home" 
+					id="logo-link" 
+					class="logo" 
+					data-section="body"
+				>
+					<?php if (isset($firmasite_settings["logo"]) && !empty($firmasite_settings["logo"])) 
+					{?>
+					<div class="row h-100 w-100 m-auto" style="display:inline-block;">
+						<img class="m-auto" style="max-width:220px; display:block;" src="<?php echo site_url();?>/wp-includes/images/logo.png" alt="<?php bloginfo( 'description' ); ?>" title="<?php bloginfo( 'name' ); ?>" id="logo-img" />
+					</div>
+					<?php 
+					} else
+					{?>
+						<div style="display: inline-block;" ><?php bloginfo( 'name' ); ?></div>
+					<?php
+						}
+					?>
+				</a>
+			</div>
+		</div>
+
+		<div class="hidden-xs hidden-md hidden-lg hidden-xl col-sm-6">
+			<?/*php bloginfo( 'name' ); */?>
+			<div class="tittle_spot" style="font-weight:bold; margin-left:150px;">
+				<label style="text-align:center; margin-top:10px;">
+					<?php bloginfo( 'name' ); ?><?php /*JOSEMA DISTRIBUIDOR*/?>
+				</label>			
+				<ul style=" margin-top:5px;">
+					<li>
+						EXPERIENCIA
+					</li>
+					<li>
+						CALIDAD
+					</li>
+					<li>
+						SERVICIO
+					</li>
+					<li>
+						INNOVACIÓN
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="hidden-xs hidden-sm col-sm-4 col-md-3 h-100 list1-container-large">
+			<?/*php bloginfo( 'name' ); */?>
+			<div class="tittle_spot" style="font-weight:bold;">
+				<label style="text-align:center; margin-top:10px;">
+					<?php bloginfo( 'name' ); ?><?php /*JOSEMA DISTRIBUIDOR*/?>
+				</label>			
+				<ul style="margin-top:5px;">
+					<li>
+						EXPERIENCIA
+					</li>
+					<li>
+						CALIDAD
+					</li>
+					<li>
+						SERVICIO
+					</li>
+					<li>
+						INNOVACIÓN
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="hidden-xs hidden-sm col-md-6 propiertis_spot h-100" style="font-size:11px; color:#FFFFFF; padding-left:17%; margin-top:20px;">
+			<div class="m-auto" style="min-width:350px;">
+				<div>
+					ESPECIALISTAS EN AUTOPARTES ELÉCTRICAS Y FUEL INJECTION
+				</div>
+				<ul style="margin-top:10px;">
+					<li>RECONSTRUCCIÓN DE BOMBAS DE GASOLINA
+					</li>
+					<li>LAVADO Y RECONSTRUCCIÓN DE INYECTORES DE GASOLINA
+					</li>
+					<li>DIAGNOSTICO Y VENTA DE SENSORES; MÓDULOS Y VÁLVULAS
+					</li>
+					<li>ESCANEO AUTOMITRIZ
+					</li>
+				</ul>
+			</div>
+		</div>
+	<?php if (get_bloginfo( 'description' )) {?>
+	<?php } ?>
+	</div>
   <div id="masthead-inner" class="<?php echo $firmasite_settings["layout_container_class"]; ?>">
 
    <?php do_action( 'open_header' ); ?>
@@ -15,81 +108,100 @@
 	*/?>
 	<style>
 		.tittle_spot 
-		{
-			margin-top:40px;
+		{ 
+			font-size:16px;
+			color:#FF4031; 
 		}
 		
 		@media (max-width:992px)
 		{ 
 			.propiertis_spot {display:none;}
-			.tittle_spot {margin-top:0;}
+			/*.tittle_spot {margin-top:0;}*/
 			.logo_spot {text-align:center;}
 		}
 		body{
-			background-color:#9AD9EA;
+			background-color:#FFFFFF;
 			color:#4049C0 !important;
 		}
 		.panel{
-		    background-color: #9AD9EA;
+		    background-color: #FFFFFF;
 		}
 		.navbar-default .navbar-nav li a {
 			color:#FFFFFF !important;
 		}
 		.panel-footer{
-		    background-color: #9AD9EA;
+		    background-color: #FFFFFF;
 		}
 		.dropdown-menu{
-		    background-color: #dd4814;
+		    background-color: #3F47CC;
 		}
 		.dropdown-menu > li > a:hover {
-		    background-color: #ae3910;
+		    background-color: #FF4031;
+		}
+
+		#logo {
+			/*margin: auto;*/
+			height:150px;
+			vertical-align: middle;
+			background-position: center center;
+			background-repeat: no-repeat;
+			background-image: url("<?php echo site_url();?>/wp-content/themes/firmasite/scripter/images/header.jpg");
+			background-size:cover;
+			font-family: Arial, sans-serif !important;
+			margin-bottom:30px;
+			padding-left:10%;
+			padding-right:10%;
+		}
+
+		#masthead{padding-top:0}
+		.d-flex{
+			display:flex;
+		}
+		.w-100{
+			width:100%; 
+		}
+		.h-100{
+			height:100%;
+		}
+		.m-auto{
+			margin:auto;
+		}
+		.list1-container-large{
+			padding-left:2%;
+		}
+		
+		@media (max-width:768px) {
+			#logo {
+				background-image: none;
+				margin-bottom:0;
+				padding-left:0;
+				padding-right:0;
+			}
+		}
+		
+		@media (max-width:991px) {
+			#logo {
+				padding-left:0;
+				padding-right:0;
+			}
+			.tittle_spot{
+				color:#FFFFFF; 
+			}
+		}
+		
+		@media (max-width:1200px) {
+			#logo {
+				padding-left:5%;
+				padding-right:5%;
+			}
+			.tittle_spot label{
+				font-size:16px;
+			}
+			.tittle_spot ul{
+				font-size:13px;
+			}
 		}
 	</style>
-    <div id="logo" class="row show-grid" style="width:100%;">   
-
-		<div class="col-md-4 logo_spot">	
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home" id="logo-link" class="logo" data-section="body">
-				<?php if (isset($firmasite_settings["logo"]) && !empty($firmasite_settings["logo"])) 
-				{?>
-				<div style="display:inline-block; max-width:250px; width:100%;">
-					<img src="<?php echo site_url();?>/wp-includes/images/logo.png" alt="<?php bloginfo( 'description' ); ?>" title="<?php bloginfo( 'name' ); ?>" id="logo-img" />
-				</div>
-				<?php 
-				} else
-				{?>
-					<div style="display: inline-block;" ><?php bloginfo( 'name' ); ?></div>
-				<?php
-					}
-				?>
-			</a>
-		</div>
-		<div class="col-md-4">
-			<?/*php bloginfo( 'name' ); */?>
-			<div class="tittle_spot">
-				<label class="titulo1" style="width:100%; text-align:center; font-size:24px; color:#14A9DD;">
-					<?php bloginfo( 'name' ); ?><?php /*JOSEMA DISTRIBUIDOR*/?>
-				</label>				
-				<br>
-				<label class="titulo2"  style="width:100%; text-align:center; font-size:16px; text-transform:uppercase; color:#AE3910;">
-					<?php bloginfo( 'description' ); ?><?php/*ESPECIALISTAS EN FULLINJECTION Y ELECTRICO*/?>
-				</label>	
-			</div>
-		</div>
-		<div class="col-md-4 propiertis_spot" >
-			<ul style="text-align:left; float:right; margin-top:20px; font-size:20px; color:#EF784E;">
-				<li>Experiencia
-				</li>
-				<li>Servicio
-				</li>
-				<li>Calidad
-				</li>
-				<li>Innovación
-				</li>
-			</ul>
-		</div>
-       <?php if (get_bloginfo( 'description' )) {?>
-       <?php } ?>
-    </div>
     <?php do_action( 'logo_side_before' ); ?>
     
     
@@ -109,7 +221,7 @@
                         <b class="caret"></b>
                       </a>
                   </div>                 
-                  <nav id="mainmenu" class="collapse navbar-collapse main-menu-collapse" role="navigation">
+                  <nav id="mainmenu" style="" class="collapse navbar-collapse main-menu-collapse" role="navigation">
                     <?php  wp_nav_menu(array('theme_location' => 'main_menu', 'menu_class' => 'nav nav-pills')); ?>
                   </nav>
            <?php
@@ -119,7 +231,7 @@
                 case "alternative":
                 default:
            ?>
-            <nav id="mainmenu" role="navigation" class="site-navigation main-navigation navbar <?php if ((isset($firmasite_settings["alternative"]) && !empty($firmasite_settings["alternative"])) || "alternative" == $firmasite_settings["menu-style"]){ echo " navbar-inverse";} else { echo " navbar-default"; } ?>">          
+            <nav id="mainmenu" style="border-top-left-radius: 0; border-top-right-radius: 0; border:none; font-weight:500; " role="navigation" class="site-navigation main-navigation navbar <?php if ((isset($firmasite_settings["alternative"]) && !empty($firmasite_settings["alternative"])) || "alternative" == $firmasite_settings["menu-style"]){ echo " navbar-inverse";} else { echo " navbar-default"; } ?>">          
               <div class="navbar-header">
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".main-menu-collapse">
                     <span class="sr-only"><?php _e("Toggle navigation", 'firmasite' );?></span>

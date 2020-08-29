@@ -14,7 +14,7 @@
 
 	.shadow_marco:hover
 	{
-		/*border: 2px solid #DD4814;*/
+		/*border: 2px solid #3F47CC;*/
 		box-shadow: 15px 15px 0 rgba(0, 0, 0, 0.1);
 		margin-top: -20px;
 		margin-left: -20px;
@@ -23,12 +23,12 @@
 	.tittle_marco
 	{
 		color:#FFFFFF;
-		background-color:#AE3910;
+		background-color:#FF4031;
 		font-size:20px;
 		text-transform:uppercase;
 		text-align:center;
-		border-bottom:3px solid #772953;
-		border-top:3px solid #772953;
+		border-bottom:3px solid #FF4031;
+		border-top:3px solid #FF4031;
 		margin-top:-11px;
 		border-top-left-radius:5px;
 		border-top-right-radius:5px;
