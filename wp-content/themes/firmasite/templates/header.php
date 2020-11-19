@@ -1,8 +1,8 @@
 <?php global $firmasite_settings; ?>
 <header id="masthead" class="site-header" role="banner">
-	<div id="logo" class="show-grid w-100">   
+	<div id="logo" class="show-grid w-100"style="min-width:1140px;">   
 		<div class="row col-sm-6 col-md-3 logo_spot m-auto h-100 d-flex">
-			<div class="w-100 m-auto">
+			<div class="w-100 m-auto" >
 				<a 
 					href="<?php echo esc_url( home_url( '/' ) ); ?>" 
 					title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" 
@@ -73,7 +73,7 @@
 			</div>
 		</div>
 		
-		<div class="hidden-xs hidden-sm col-md-6 propiertis_spot h-100" style="font-size:11px; color:#FFFFFF; padding-left:17%; margin-top:20px;">
+		<div class="hidden-xs hidden-sm col-md-6 propiertis_spot h-100" style="font-size:10px; color:#FFFFFF; padding-left:17%; margin-top:20px;">
 			<div class="m-auto" style="min-width:350px;">
 				<div>
 					ESPECIALISTAS EN AUTOPARTES ELÉCTRICAS Y FUEL INJECTION
@@ -107,13 +107,16 @@
 	<br>
 	*/?>
 	<style>
+		#masthead-inner{
+			min-width:1140px !important;
+		}
 		.tittle_spot 
 		{ 
 			font-size:16px;
 			color:#FF4031; 
 		}
 		
-		@media (max-width:992px)
+		@media (max-width:53px)
 		{ 
 			.propiertis_spot {display:none;}
 			/*.tittle_spot {margin-top:0;}*/
@@ -170,7 +173,7 @@
 			padding-left:2%;
 		}
 		
-		@media (max-width:768px) {
+		@media (max-width:50px) {
 			#logo {
 				background-image: none;
 				margin-bottom:0;
@@ -179,7 +182,7 @@
 			}
 		}
 		
-		@media (max-width:991px) {
+		@media (max-width:52px) {
 			#logo {
 				padding-left:0;
 				padding-right:0;
@@ -189,7 +192,7 @@
 			}
 		}
 		
-		@media (max-width:1200px) {
+		@media (max-width:6000px) {
 			#logo {
 				padding-left:5%;
 				padding-right:5%;
@@ -240,7 +243,7 @@
                     <span class="icon-bar"></span>
                   </button>
               </div>                
-              <div id="nav-main" class="collapse navbar-collapse main-menu-collapse" role="navigation">
+              <div id="nav-main" class="collapse navbar-collapse main-menu-collapse" role="navigation">aaaa
                 <?php  wp_nav_menu(array('theme_location' => 'main_menu', 'menu_class' => 'nav navbar-nav')); ?>
               </div>
             </nav>    <!-- .site-navigation .main-navigation --> 

@@ -18,6 +18,8 @@
 		</td>
 		<td >
 		</td>
+		<td >
+		</td>
 		<td class="no_essencial2">
 		</td>
 		<td class="no_essencial2">
@@ -47,7 +49,7 @@
 		</td>
 		<td><b>Rol usuario:</b>
 		</td>
-		<td class="no_essencial2"><b>Tipo cliente:</b>
+		<td class="no_essencial"><b>Tipo cliente:</b>
 		</td>
 		<td class="no_essencial2"><b>Vendedor:</b>
 		</td>
@@ -82,7 +84,7 @@
 			<td>
 				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['rol']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
-			<td class="no_essencial2">
+			<td class="no_essencial">
 				<?php if($usuario['activo']==='No') echo '<s>'; echo $usuario['tipo_negocio']; if($usuario['activo']==='No') echo '</s>';?>
 			</td>
 			<td class="no_essencial2">

@@ -89,6 +89,14 @@ class FormSender extends CI_Controller
 		}
 		$data['info']               = $_POST;
 		$data['info']["productIds"] = $productIds;
+		$data["vendedor"]=in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
+		$data['userData']=$this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
+		$nombre= $data['userData']->nombre.' '.$data['userData']->apellido_paterno.' '.$data['userData']->apellido_materno;
+		if(empty($nombre))
+			$nombre=$data['userData']->nick;
+		$data['nombreUsuario']=	$nombre;
+		$data['id_usuario']=$this->centinela->getDinamicIdUser();
+
 		if($data['info']['numeroFilas']>0 && $data['info']['numeroFilas'] < 100)
 		for($i=0;$i<$data['info']['numeroFilas'];$i++)
 		{
@@ -99,21 +107,21 @@ class FormSender extends CI_Controller
 				{
 					$data['info']['row'.$productId]=$this->Inventario_model->getProductByNpc($data['info']['NPC'.$productId]);
 					$data['info']['row'.$productId]->esPromocion = false;
+					$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio;
 					if(isset($data['info']["precio_promocion_$productId"]) && in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])){
 						$data['info']['row'.$productId]->precio = $data['info']['row'.$productId]->precio_promocion;
 						$data['info']['row'.$productId]->esPromocion = true;
 					}
+					if(!in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])){
+						$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio * .9;
+					}
 				}
 			}
 		}
-		$data["vendedor"]=in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
-		$data['userData']=$this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
-		$nombre= $data['userData']->nombre.' '.$data['userData']->apellido_paterno.' '.$data['userData']->apellido_materno;
-		if(empty($nombre))
-			$nombre=$data['userData']->nick;
-		$data['nombreUsuario']=	$nombre;
-		$data['id_usuario']=$this->centinela->getDinamicIdUser();
 		$mensaje= $this->load->view('correoTemplates/body',$data,true);
+
+		//print_r($mensaje);
+		//die();
 		$list=array();
 		$list[]=$data['userData']->email;
 		$this->email->from('pedidos@josema.com.mx', 'JOSEMA');

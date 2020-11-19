@@ -171,7 +171,7 @@
 
 
 		/*size9*/
-		@media (min-width:3200px)
+		@media (min-width:6000px)
 		{
 			.sub_panel{width:50%;max-width:540px; }
 		}
@@ -179,7 +179,7 @@
 
 		/*size8*/
 
-		@media (min-width:1200px)	AND  (max-width:1900px)
+		@media (min-width:6000px)	AND  (max-width:1900px)
 		{	.sub_panel{width:28%;}
 			.vista_carrito{ margin-left:18px; width:40px;}
 			.bloque_vista_carrito{ margin-left: 0; width: 80px;}
@@ -187,7 +187,7 @@
 
 		/*size7*/
 
-		@media (min-width:992px)	AND  (max-width:1199px)
+		@media (min-width:53px)	AND  (max-width:3000px)
 		{
 			.sub_panel{width:32%;}
 			.vista_carrito{ margin-left:14px; width:40px;}
@@ -198,7 +198,7 @@
 
 		/*size6*/
 
-		@media (min-width:768px)	AND  (max-width:992px)
+		@media (min-width:51px)	AND  (max-width:52px)
 		{
 			.sub_panel{width:42%;}
 			.vista_carrito{ margin-left:8px; width:40px;}
@@ -209,7 +209,7 @@
 
 		/*size5*/
 
-		@media (min-width:690px)	AND  (max-width:768px)
+		@media (min-width:50px)	AND  (max-width:51px)
 		{
 			.sub_panel{width:45%;}
 			.vista_carrito{ margin-left: 8px; width: 40px;}
@@ -220,7 +220,7 @@
 
 		/*size4*/
 
-		@media (min-width:559px)	AND  (max-width:690px)
+		@media (min-width:49px)	AND  (max-width:50px)
 		{
 			.sub_panel{width:100%; max-width:689px;}
 			.bloque_botton_buscador{width:35%;}
@@ -237,7 +237,7 @@
 
 		/*size3*/
 
-		@media (min-width:400px)	AND	(max-width:559px)
+		@media (min-width:48px)	AND	(max-width:49px)
 		{
 			.sub_panel{width:100%; max-width:559px;}
 			.bloque_botton_buscador{width:30%;}
@@ -259,7 +259,7 @@
 		}
 
 		/*size2*/
-		@media (min-width:300px)	AND	(max-width:400px)
+		@media (min-width:47px)	AND	(max-width:48px)
 		{
 			.sub_panel{width:100%; max-width:400px;}
 			.bloque_botton_buscador{width:28%;}
@@ -281,7 +281,7 @@
 		}
 
 		/*size1*/
-		@media (min-width:150px)	AND	(max-width:300px)
+		@media (min-width:46px)	AND	(max-width:47px)
 		{
 			.sub_panel{width:100%; max-width:300px;}
 			.bloque_botton_buscador{width:28%;}
@@ -306,7 +306,7 @@
 			if(codeigniter_is_login())
 			{
 				if(in_array(get_codeigniter_session_var('rolName'),["Super Administrador","Administrador","Super Vendedor","Vendedor"])) //echo '.main_panel{height:90px;}';
-					echo '@media (min-width:150px)	AND  (max-width:690px)	{.main_panel{height:90px;}}';
+					echo '@media (min-width:49px)	AND  (max-width:50px)	{.main_panel{height:90px;}}';
 			}
 			?>
 	</style>

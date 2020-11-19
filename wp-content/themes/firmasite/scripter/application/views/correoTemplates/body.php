@@ -16,6 +16,8 @@
 	<h1>Nuevo pedido generado desde el sistema <b>JOSEMA</b></h1>
 </p>
 <br>
+<?php
+?>
 <?php if($userData->suspended){?>
 	<div class="negative" style="color:red; padding:20px; font-size: 20px; font-weight: bold;">
 		Cliente suspendido
@@ -75,8 +77,16 @@
 		</td>
 		<td style="background-color:#DFF0D8;"><b>TIENE PROMOCÍON</b>
 		</td>
-		<td style="background-color:#DFF0D8;"><b>PRECIO</b>
+		<td style="background-color:#DFF0D8;"><b>PRECIO UNITARIO</b>
 		</td>
+		<?php
+			if(!$vendedor){
+		?>
+		<td style="background-color:#DFF0D8;"><b>PRECIO UNITARIO CON DESCUENTO</b>
+		</td>
+		<?php
+			}
+		?>
 		<td style="background-color:#DFF0D8;"><b>CANTIDAD</b>
 		</td>
 		<td style="background-color:#DFF0D8;"><b>SUBTOTAL</b>
@@ -86,6 +96,7 @@
 		if($info['numeroFilas']>0 && $info['numeroFilas'] < 100)
 		{
 			$total=0;
+			$totalDescuento=0;
 			for($i=0;$i<$info['numeroFilas'];$i++)
 			{
 				if(isset($info['Cantidad'.$info['productIds'][$i]]))
@@ -94,6 +105,11 @@
 
 					//calcular precio
 					$subtotal= $info['Cantidad'.$info['productIds'][$i]] * round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio)),2);
+					if($info['row'.$info['productIds'][$i]]->descuento_10_cliente === 'S')
+						$subtotalDescuento= $info['Cantidad'.$info['productIds'][$i]] * round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio_descuento)),2);
+					else
+						$subtotalDescuento= $info['Cantidad'.$info['productIds'][$i]] * round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio)),2);
+
 					if(!empty($info['row'.$info['productIds'][$i]]->promocion))
 					{
 						$cantidad = $info['Cantidad'.$info['productIds'][$i]];
@@ -173,6 +189,7 @@
 						}
 					}
 					$total+=$subtotal;
+					$totalDescuento+=$subtotalDescuento;
 			?>
 				<tr <?php if (!empty($info['row'.$info['productIds'][$i]]->esPromocion) && $info['row'.$info['productIds'][$i]]->esPromocion) { ?> class="promocion_container" <?php }?> >
 					<td ><?php echo $info['NPC'.$info['productIds'][$i]];?>
@@ -193,6 +210,23 @@
 					
 					<td style="text-align: center;">$<?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio)),2);?>
 					</td>
+
+					<?php
+						if(!$vendedor){
+							if($info['row'.$info['productIds'][$i]]->descuento_10_cliente === 'S'){
+					?>
+						<td style="text-align: center;">$<?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio_descuento)),2);?>
+						</td>
+					<?php
+								
+							}else{
+					?>
+						<td style="text-align: center;">$<?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$info['row'.$info['productIds'][$i]]->precio)),2);?>
+						</td>
+					<?php
+							}
+						}
+					?>
 					
 					<td style="text-align: center;"><?php echo $info['Cantidad'.$info['productIds'][$i]];?>
 					</td>
@@ -204,16 +238,17 @@
 				}
 			}
 		}
-        $gran_sub_total         =$total;
+        $gran_sub_total         	=$total;
+        $gran_sub_total_descuento	=$totalDescuento;
         $descuento_adicional    =0;
         $iva                    =0;
         //$gastos_envio           =180.00;
         $gastos_envio           =0;
 
-        if($total>2500)
+        if($total>2500 && !$vendedor)
         {
             //$descuento_adicional    = round($total*0.02, 2, PHP_ROUND_HALF_UP);
-            //$total                  = round($total*1, 2, PHP_ROUND_HALF_UP);
+            $total                  = round($totalDescuento*1, 2, PHP_ROUND_HALF_UP);
             $gastos_envio = 0;
         }
         if($total===0)
@@ -223,37 +258,52 @@
         $total                      = $total + $iva + $gastos_envio;
 	?>
     <tr>
-        <td style="background-color:#F2DEDE;" colspan="3"><b>GRAN SUB TOTAL:</b>
+        <td style="background-color:#F2DEDE;" colspan="3"><b>GRAN SUB TOTAL (ya incluye posibles descuentos):</b>
         </td>
 		<td style="background-color:#F2DEDE;"></td>
-        <td style="background-color:#F2DEDE;"><b>$<?php echo $gran_sub_total;?></b>
+		<td style="background-color:#F2DEDE;"></td>
+		<td style="background-color:#F2DEDE;"></td>
+        <td style="background-color:#F2DEDE;"><b>$<?php echo $gran_sub_total_descuento ;?></b>
         </td>
     </tr>
-	<!--
+
+	<?php
+		if(!$vendedor && 0){
+	?>
     <tr>
-        <td style="background-color:#F2DEDE;" colspan="3"><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 &&  0 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
+        <td style="background-color:#F2DEDE;" colspan="3"><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 pesos o más, recibe un descuento adicional de %10</span style="">
         </td>
 		<td style="background-color:#F2DEDE;"></td>
-        <td style="background-color:#F2DEDE;"><b>$<?php echo $descuento_adicional;?></b>
+		<td style="background-color:#F2DEDE;"></td>
+		<td style="background-color:#F2DEDE;"></td>
+        <td style="background-color:#F2DEDE;"><b>$<?php echo round($gran_sub_total - $gran_sub_total_descuento, 2, PHP_ROUND_HALF_UP);?></b>
         </td>
-    </tr>-->
+    </tr>
+	<?php
+		}
+	?>
     <tr>
         <td style="background-color:#F2DEDE;" colspan="3"><b>IVA:</b>
         </td>
 		<td style="background-color:#F2DEDE;"></td>
+		<td style="background-color:#F2DEDE;"></td>
+		<td style="background-color:#F2DEDE;"></td>
         <td style="background-color:#F2DEDE;"><b>$<?php echo $iva;?></b>
         </td>
     </tr>
+	<!--
     <tr>
         <td style="background-color:#F2DEDE;" colspan="3"><b>Gastos de envio:</b>
         </td>
 		<td style="background-color:#F2DEDE;"></td>
         <td style="background-color:#F2DEDE;"><b>$<?php echo $gastos_envio;?></b>
         </td>
-    </tr>
+    </tr>-->
 	<tr>
 		<td style="background-color:#F2DEDE;" colspan="3"><b>GRAN TOTAL:</b>
 		</td>
+		<td style="background-color:#F2DEDE;"></td>
+		<td style="background-color:#F2DEDE;"></td>
 		<td style="background-color:#F2DEDE;"></td>
 		<td style="background-color:#F2DEDE;"><b>$<?php echo $total;?></b>
 		</td>

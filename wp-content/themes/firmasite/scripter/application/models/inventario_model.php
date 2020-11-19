@@ -238,7 +238,8 @@ class Inventario_model extends CI_Model
 								'' AS origen,
 								IF( '".$tarifa."'!='precio_lista', REPLACE(cri.".$tarifa.", '$', ''),NULL)AS precio,
 								cri.k AS precio_promocion,
-								cri.referencias
+								cri.referencias,
+								cri.descuento_10_cliente
 						FROM ci_resumen_inventario AS cri
 						WHERE	cri.id_resumen_inventario='".$id_producto."'
 					";
@@ -270,7 +271,8 @@ class Inventario_model extends CI_Model
 								'' AS origen,
 								IF( '".$tarifa."'!='precio_lista', REPLACE(cri.".$tarifa.", '$', ''),NULL)AS precio,
 								cri.k AS precio_promocion,
-								cri.referencias
+								cri.referencias,
+								cri.descuento_10_cliente
 						FROM ci_resumen_inventario AS cri
 						WHERE	cri.npc='".$npc."'
 					";
@@ -376,6 +378,7 @@ class Inventario_model extends CI_Model
         $mapa_db_cvs['interfil']=array('cvs_nombre_columna'=>'INTERFIL','cvs_posicion_columna'=>'');
         $mapa_db_cvs['valeo']=array('cvs_nombre_columna'=>'VALEO','cvs_posicion_columna'=>'');
         $mapa_db_cvs['oe_otro']=array('cvs_nombre_columna'=>'OE / OTRO','cvs_posicion_columna'=>'');
+        $mapa_db_cvs['descuento_10_cliente']=array('cvs_nombre_columna'=>'','cvs_posicion_columna'=>'46');
 
 		$this->db->trans_start();
 		$this->db->query('TRUNCATE `ci_resumen_inventario`;');

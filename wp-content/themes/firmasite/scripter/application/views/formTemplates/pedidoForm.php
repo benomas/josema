@@ -105,14 +105,27 @@
 				}
 			?>
 			<td class="col-md-1">
-				<b>PRECIO</b>
+				<b>PRECIO UNITARIO</b>
 			</td>
+
+			<?php
+				if(!$vendedor && $clientSelected){
+			?>
+				<td class="col-md-1">
+					<b>PRECIO UNITARIO CON DESCUENTO</b>
+				</td>
+			<?php
+				}
+			?>
+
 			<td class="col-md-1">
 				<b>CANTIDAD</b>
 			</td>
+
 			<td>
 				<b>SUBTOTAL</b>
 			</td>
+
 			<td class="col-md-2" style="text-align:center;">
 				<b>ACCIÓN</b>
 			</td>
@@ -161,6 +174,18 @@
 						<td class="col-md-1">
 							$<label class="precio_producto" id="producto_precio_<?php echo $producto->id_inventario;?>" ><?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$producto->precio)),2); ?></label>
 						</td>
+
+
+						<?php
+							if(!$vendedor && $clientSelected){
+						?>
+							<td class="col-md-1">
+								$<label class="precio_descuento" id="precio_descuento_<?php echo $producto->id_inventario;?>"><?php echo round(floatval(preg_replace("/[^-0-9\.]/","",$producto->precio)),2); ?></label>
+							</td>
+						<?php
+							}
+						?>
+						
 						<td class="col-md-1">
 							<div>
 								<script>
@@ -200,7 +225,9 @@
 
 		?>
 				<tr >
-					<td colspan="2" ><b>GRAN SUB TOTAL:</b>
+					<td colspan="2" ><b>GRAN SUB TOTAL (ya incluye posibles descuentos):</b>
+					</td>
+					<td>
 					</td>
 					<td>
 					</td>
@@ -212,22 +239,32 @@
 					<td>
 					</td>
 				</tr>
-				<!--
-				<tr >
-					<td colspan="2" ><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
-					</td>
-					<td>
-					</td>
-					<td>
-					</td>
-					<td>
-						<label class="moneda" >$</label><label id="descuento_adicional">0</label>
-					</td>
-					<td>
-					</td>
-				</tr>-->
+				<?php 
+					if(!$vendedor && $clientSelected && 0){
+						?>
+						<tr >
+							<!--
+							<td colspan="2" ><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 pesos o más, recibe un descuento adicional de %2 y envió gratis</span style="">
+							</td>--><!--
+							<td colspan="2" ><b>DESCUENTO ADICIONAL:</b><span style="font-size:12px; padding-left:3px;">En la compra de $2500 pesos o más, recibe un descuento adicional de %10</span style="">
+							</td>-->
+							<td>
+							</td>
+							<td>
+							</td>
+							<td>
+								<label class="moneda" >$</label><label id="descuento_adicional">0</label>
+							</td>
+							<td>
+							</td>
+						</tr>
+				<?php 
+					}
+				?>
 				<tr >
 					<td colspan="2"><b>IVA:</b>
+					</td>
+					<td>
 					</td>
 					<td>
 					</td>
@@ -239,8 +276,11 @@
 					<td>
 					</td>
 				</tr>
+				<!--
 				<tr >
 					<td colspan="2"><b>Gastos de envio:</b>
+					</td>
+					<td>
 					</td>
 					<td>
 					</td>
@@ -251,9 +291,11 @@
 					</td>
 					<td>
 					</td>
-				</tr>
+				</tr>-->
 				<tr >
 					<td colspan="2"><b>GRAN TOTAL:</b>
+					</td>
+					<td>
 					</td>
 					<td>
 					</td>
@@ -505,14 +547,35 @@ function updateTotal()
 	}
 
 	total_antes_de_iva = Math.round(total_antes_de_iva*100)/100;
+	let jsonProductosKeys = Object.keys(jsonProductos)
 	if(total_antes_de_iva>(2500/1.16))
 	{
-		//descuento_adicional	= Math.round(total_antes_de_iva*100*0.02)/100;
-		total 					= total_antes_de_iva;
-		gastos_envio=0;
+		<?php
+			if(!$vendedor && $clientSelected){
+				?>
+				let precioProductoActual = 0
+				for(let i=0; i<jsonProductosKeys.length; i++){
+					precioProductoActual = (jsonProductos[jsonProductosKeys[i]].precio).toString().replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1')
+
+					if(jsonProductos[jsonProductosKeys[i]]['descuento_10_cliente'] === 'S'){
+						$('#precio_descuento_' + jsonProductosKeys[i]).text(Math.round(precioProductoActual * 100  *0.9)/100)
+						descuento_adicional = descuento_adicional * 1 + precioProductoActual * 0.1 * $('#cantidad' + jsonProductos[jsonProductosKeys[i]]['id_inventario']).attr('value')
+					}
+				}
+				<?php
+			}
+		?>
+		total 		= total_antes_de_iva;
+		gastos_envio= 0;
 	}
-	else
-		total 				=total_antes_de_iva;
+	else{
+		for(let i=0; i<jsonProductosKeys.length; i++)
+			$('#precio_descuento_' + jsonProductosKeys[i]).text(jsonProductos[jsonProductosKeys[i]].precio.toString().replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1'))
+			
+		total =total_antes_de_iva;
+	}
+
+	total = total - descuento_adicional;
 
 	if(total_antes_de_iva===0)
 		gastos_envio=0;
@@ -529,8 +592,8 @@ function updateTotal()
 	res 				= total.toString();
 	total 				= res.replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1');
 
-	$('#gran_sub_total').text(total_antes_de_iva);
-	$('#descuento_adicional').text(descuento_adicional);
+	$('#gran_sub_total').text((total_antes_de_iva * 1  - descuento_adicional * 1).toString().replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1'));
+	//$('#descuento_adicional').text(descuento_adicional);
 	$('#iva').text(iva);
 	$('#gastos_envio').text(gastos_envio);
 
@@ -665,16 +728,21 @@ function isNumber(s)
 
 $('#boton_enviar').click(function()
 {
-	$("#numeroFilas").val(productosValidosCarrito.length)
-	$('.form-control').prop('disabled', false);
+	$('.form-control').attr('disabled', false);
+	$("#numeroFilas").val(productosValidosCarrito.length);
+	let data = $('#formularioPedido').serialize();
+	$('.form-control').attr('disabled', true);
+	$('#boton_enviar').attr('disabled', true);
 	$.ajax(
 	{
 		url : '<?php echo site_url();?>/formSender/sendPedido',
 		type: 'POST',
-		data: $('#formularioPedido').serialize(),
+		data,
 		success : function(html)
 		{
-				$('#form_container').html(html);
+			$('.form-control').attr('disabled', false);
+			$('#boton_enviar').attr('disabled', false);
+			$('#form_container').html(html);
 		}
 	});
 });

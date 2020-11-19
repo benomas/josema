@@ -221,3 +221,6 @@ ADD COLUMN `h` VARCHAR(45) NULL AFTER `g`,
 ADD COLUMN `i` VARCHAR(45) NULL AFTER `h`,
 ADD COLUMN `j` VARCHAR(45) NULL AFTER `i`;
 -- checkPoint:{User:Benomas,From:homePc}
+ALTER TABLE `josemaco_wp_store`.`ci_resumen_inventario`
+ADD COLUMN `descuento_10_cliente` VARCHAR(10) NULL AFTER `referencias`,
+-- checkPoint:{User:Benomas,From:homePc}
