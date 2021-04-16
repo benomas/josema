@@ -87,12 +87,16 @@ class Imagination
 					foreach($this->imgFiles[$this->defaultSize] AS $imgFile)
 					{
 						if(!is_file($this->newFileName($imgFile,$imgSize)) || 1)
-						{
+						{	
 							$this->image = $this->openImage($this->imgSizes[$this->defaultSize]['path'].$imgFile);
-							$this->width  = imagesx($this->image);
-							$this->height = imagesy($this->image);
-							$this->resizeImage($imgSize);
-							$this->saveImage($imgSize,$imgFile);
+							if($this->image){
+								$this->width  = imagesx($this->image);
+								$this->height = imagesy($this->image);
+								$this->resizeImage($imgSize);
+								$this->saveImage($imgSize,$imgFile);
+							}else{
+								echo "\n<br> error with ".$this->imgSizes[$this->defaultSize]['path'].$imgFile." ".json_encode($imgSize;
+							}
 						}
 					}
 				}
@@ -159,6 +163,7 @@ class Imagination
 
 		$search= '/(.+)?\.([0-9a-zA-Z]+)$/';
 		$extension =  preg_replace($search,'.${2}',$fileName);
+		$img =  null;
 		switch($extension)
 		{
 			case '.jpg':
