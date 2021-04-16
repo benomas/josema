@@ -12,10 +12,30 @@ class Catalogos_model extends CI_Model
 	
 	function getUserData($user_id)
 	{
-		$query = $this->db->query	(	"	SELECT	u.*,
-													tc.nombre AS tipo_cliente
+		$query = $this->db->query	(	"	SELECT	
+													u.id_usuario,
+													u.nombre,
+													u.apellido_paterno,
+													u.apellido_materno,
+													u.nick,
+													u.domicilio,
+													u.telefono,
+													u.rfc,
+													u.email,
+													u.fecha_registro,
+													u.ultima_conexion,
+													u.ultima_ip,
+													u.id_rol_usuario,
+													u.id_tipo_cliente,
+													u.id_vendedor,
+													u.activo,
+													u.suspended,
+													u.carrito,
+													tc.nombre AS tipo_cliente,
+													ru.nombre AS rol
 											FROM	usuario AS u
 											LEFT JOIN	tipo_cliente AS tc ON tc.id_tipo_cliente = u.id_tipo_cliente
+											LEFT JOIN	rol_usuario AS ru ON ru.id_rol_usuario = u.id_rol_usuario
 											WHERE 	u.id_usuario = '".$user_id."'
 										"
 									);

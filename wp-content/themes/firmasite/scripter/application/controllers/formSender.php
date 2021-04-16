@@ -9,6 +9,7 @@ class FormSender extends CI_Controller
 		$this->load->model('Catalogos_model');
 		$this->load->model('Inventario_model');
 		$this->load->model('Usuario_model');
+		$this->load->model('Pedido_model');
 
 		$this->load->library('phpsession');
 		$this->load->library('centinela');
@@ -80,48 +81,51 @@ class FormSender extends CI_Controller
 	public function sendPedido()
 	{
 		$productIds = json_decode(stripslashes($_POST["productIds"]));
-		if(!$this->almenosUna($_POST['numeroFilas'],$productIds))
-		{
+
+		if(!$this->almenosUna($_POST['numeroFilas'],$productIds)){
 			echo '	<div class="contenedor_info">
 						<label class="concepto_field" style="font-size:16px;">Debes indicar almenos una cantidad</label>
 					</div>';
 			return false;
 		}
+
 		$data['info']               = $_POST;
 		$data['info']["productIds"] = $productIds;
 		$data["vendedor"]=in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])?$this->centinela->get_usuario():null;
 		$data['userData']=$this->Catalogos_model->getUserData($this->centinela->getDinamicIdUser());
 		$nombre= $data['userData']->nombre.' '.$data['userData']->apellido_paterno.' '.$data['userData']->apellido_materno;
+
 		if(empty($nombre))
 			$nombre=$data['userData']->nick;
+
 		$data['nombreUsuario']=	$nombre;
 		$data['id_usuario']=$this->centinela->getDinamicIdUser();
+		$products = [];
 
 		if($data['info']['numeroFilas']>0 && $data['info']['numeroFilas'] < 100)
-		for($i=0;$i<$data['info']['numeroFilas'];$i++)
-		{
-			$productId=$data['info']["productIds"][$i];
-			if(isset($data['info']['Cantidad'.$productId]))
-			{
-				if($data['info']['Cantidad'.$productId]>0)
+			for($i=0;$i<$data['info']['numeroFilas'];$i++){
+				$productId=$data['info']["productIds"][$i];
+				if(isset($data['info']['Cantidad'.$productId]))
 				{
-					$data['info']['row'.$productId]=$this->Inventario_model->getProductByNpc($data['info']['NPC'.$productId]);
-					$data['info']['row'.$productId]->esPromocion = false;
-					$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio;
-					if(isset($data['info']["precio_promocion_$productId"]) && in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])){
-						$data['info']['row'.$productId]->precio = $data['info']['row'.$productId]->precio_promocion;
-						$data['info']['row'.$productId]->esPromocion = true;
-					}
-					if(!in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])){
-						$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio * .9;
+					if($data['info']['Cantidad'.$productId]>0)
+					{
+						$data['info']['row'.$productId]=$this->Inventario_model->getProductByNpc($data['info']['NPC'.$productId]);
+						$data['info']['row'.$productId]->esPromocion = false;
+						$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio;
+						$data['info']['row'.$productId]->cantidad = $data['info']['Cantidad'.$productId];
+						if(isset($data['info']["precio_promocion_$productId"]) && in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])){
+							$data['info']['row'.$productId]->precio = $data['info']['row'.$productId]->precio_promocion;
+							$data['info']['row'.$productId]->esPromocion = true;
+						}
+						if(!in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])){
+							$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio * .9;
+						}
+						$products[$productId] = $data['info']['row'.$productId];
 					}
 				}
 			}
-		}
-		$mensaje= $this->load->view('correoTemplates/body',$data,true);
 
-		//print_r($mensaje);
-		//die();
+		$mensaje= $this->load->view('correoTemplates/body',$data,true);
 		$list=array();
 		$list[]=$data['userData']->email;
 		$this->email->from('pedidos@josema.com.mx', 'JOSEMA');
@@ -129,8 +133,9 @@ class FormSender extends CI_Controller
 		$this->email->reply_to('', 'Este correo a sido generado electronicamente, no responda a este correo');
 		$this->email->subject('Pedido electronico JOSEMA');
 		$this->email->message($mensaje);
-		if($this->email->send())
-		{
+		
+		if(($folio=$this->guardaPedido($data,$products)) && 1 /*$this->email->send()*/){
+			$this->pedidoSolicitado($folio);
 			echo '	<div class="contenedor_info">
 						<label class="concepto_field" style="font-size:16px;">Pedido enviado</label>
 					</div>';
@@ -188,6 +193,14 @@ class FormSender extends CI_Controller
 			}
 		}
 		return FALSE;
+	}
+
+	function guardaPedido($data,$products){
+		return $this->Pedido_model->creaPedido($data,$products);
+	}
+
+	function pedidoSolicitado($folio){
+		return $this->Pedido_model->pedidoSolicitado($folio);
 	}
 
 // Example
