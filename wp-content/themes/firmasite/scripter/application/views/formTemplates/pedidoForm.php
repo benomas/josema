@@ -331,7 +331,10 @@
 		}
 		else{
 		?>
-			<div id="boton_enviar" class="btn btn-default"   name="boton_enviar">Enviar </div>
+			<div id="boton_enviar" class="btn btn-default"   name="boton_enviar">
+				<span>Enviar</span>
+				<img src="wp-content/themes/firmasite/scripter/images/loading.gif" style="width:18px;"> </img>
+			</div>
 			<div id="mensaje_monto_minimo" style="background-color:#F2DEDE; margin-top:10px; height:50px; padding:10px;">
 				El monto del pedido debe ser de almenos $2500 pesos
 			</div>
@@ -339,7 +342,7 @@
 		}
 		?>
 	</div>
-	<div style="margin-top:40px; margin-bottom:-110px; padding:8px; font-size:12px; font-weight:bold;">
+	<div style="margin-top:80px; margin-bottom:-110px; padding:8px; font-size:12px; font-weight:bold;">
 		Si su pedido supera los $5000, se hará acreedor a un descuento adicional del 10%. No aplica para clientes con convenio, ni clientes con  precio especial.
 	</div>
 </div>
@@ -394,6 +397,7 @@
 var productosValidosCarrito = <?php echo json_encode($productosValidosCarrito)?>;
 $(document).ready(function()
 {
+	$('#boton_enviar img').hide()
 	$('.celda_marco').hide('fast');
 	var limit=<?php echo $filasDefault;?>;
 	var temp=$('#numeroFilas').val();
@@ -756,6 +760,8 @@ $('#boton_enviar').click(function()
 	let data = $('#formularioPedido').serialize();
 	$('.form-control').attr('disabled', true);
 	$('#boton_enviar').attr('disabled', true);
+	$('#boton_enviar span').hide();
+	$('#boton_enviar img').show();
 	$.ajax(
 	{
 		url : '<?php echo site_url();?>/formSender/sendPedido',
@@ -765,6 +771,9 @@ $('#boton_enviar').click(function()
 		{
 			$('.form-control').attr('disabled', false);
 			$('#boton_enviar').attr('disabled', false);
+			$('#boton_enviar').text('Enviar');
+			$('#boton_enviar span').show();
+			$('#boton_enviar img').hide();
 			$('#form_container').html(html);
 		}
 	});

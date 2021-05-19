@@ -30,7 +30,7 @@ class Pedido_model extends CI_Model {
 		}
 
 		$generadorId = isset($data['vendedor'])?
-			$data['vendedor']['id_usuario']:
+			$data['vendedor']->id_usuario:
 			$clienteId;
 
 		$generador = isset($data['vendedor'])?

@@ -184,7 +184,6 @@ class FormSender extends CI_Controller
 		$this->email->reply_to('', 'Este correo a sido generado electronicamente, no responda a este correo');
 		$this->email->subject('Pedido electronico JOSEMA');
 		$this->email->message($mensaje);
-		
 		if(($folio=$this->guardaPedido($data,$products)) && $this->email->send()){
 			$this->pedidoSolicitado($folio);
 			echo '	<div class="contenedor_info">
