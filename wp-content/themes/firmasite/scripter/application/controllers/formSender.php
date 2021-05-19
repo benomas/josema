@@ -102,7 +102,7 @@ class FormSender extends CI_Controller
 		$data['id_usuario']=$this->centinela->getDinamicIdUser();
 		$products = [];
 
-		if($data['info']['numeroFilas']>0 && $data['info']['numeroFilas'] < 100)
+		if($data['info']['numeroFilas']>0 && $data['info']['numeroFilas'] < 100){
 			for($i=0;$i<$data['info']['numeroFilas'];$i++){
 				$productId=$data['info']["productIds"][$i];
 				if(isset($data['info']['Cantidad'.$productId]))
@@ -117,13 +117,64 @@ class FormSender extends CI_Controller
 							$data['info']['row'.$productId]->precio = $data['info']['row'.$productId]->precio_promocion;
 							$data['info']['row'.$productId]->esPromocion = true;
 						}
-						if(!in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])){
+						if(!in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"]) && $data['info']['row'.$productId]->descuento_10_cliente === 'S'){
 							$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio * .9;
 						}
 						$products[$productId] = $data['info']['row'.$productId];
 					}
 				}
 			}
+			$calculedTotal = 0;
+			for($i=0;$i<$data['info']['numeroFilas'];$i++){
+				$productId=$data['info']["productIds"][$i];
+				if(isset($data['info']['Cantidad'.$productId]))
+				{
+					if($data['info']['Cantidad'.$productId]>0)
+					{
+						$calculedTotal += $data['info']['row'.$productId]->precio_descuento * $data['info']['Cantidad'.$productId];
+					}
+				}
+			}
+			
+			if( $data['userData']->tipo_cliente ==='C' && $calculedTotal > (5000/1.16)){
+				for($i=0;$i<$data['info']['numeroFilas'];$i++){
+					$productId=$data['info']["productIds"][$i];
+					if(isset($data['info']['Cantidad'.$productId]))
+					{
+						if($data['info']['Cantidad'.$productId]>0)
+						{
+							$data['info']['row'.$productId]=$this->Inventario_model->getProductByNpc($data['info']['NPC'.$productId]);
+							$data['info']['row'.$productId]->esPromocion = false;
+							$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio;
+							$data['info']['row'.$productId]->cantidad = $data['info']['Cantidad'.$productId];
+							if(isset($data['info']["precio_promocion_$productId"]) && in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])){
+								$data['info']['row'.$productId]->precio = $data['info']['row'.$productId]->precio_promocion;
+								$data['info']['row'.$productId]->esPromocion = true;
+							}
+							if(!in_array($this->centinela->get("rolName"),["Super Vendedor","Vendedor"])){
+								if($data['info']['row'.$productId]->descuento_10_cliente === 'S'){
+									$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio * .81;
+								}else{
+									$data['info']['row'.$productId]->precio_descuento = $data['info']['row'.$productId]->precio * .9;
+								}
+							}
+							$products[$productId] = $data['info']['row'.$productId];
+						}
+					}
+				}
+			}
+			$calculedTotal = 0;
+			for($i=0;$i<$data['info']['numeroFilas'];$i++){
+				$productId=$data['info']["productIds"][$i];
+				if(isset($data['info']['Cantidad'.$productId]))
+				{
+					if($data['info']['Cantidad'.$productId]>0)
+					{
+						$calculedTotal += $data['info']['row'.$productId]->precio_descuento * $data['info']['Cantidad'.$productId];
+					}
+				}
+			}
+		}
 
 		$mensaje= $this->load->view('correoTemplates/body',$data,true);
 		$list=array();
@@ -134,7 +185,7 @@ class FormSender extends CI_Controller
 		$this->email->subject('Pedido electronico JOSEMA');
 		$this->email->message($mensaje);
 		
-		if(($folio=$this->guardaPedido($data,$products)) && 1 /*$this->email->send()*/){
+		if(($folio=$this->guardaPedido($data,$products)) && $this->email->send()){
 			$this->pedidoSolicitado($folio);
 			echo '	<div class="contenedor_info">
 						<label class="concepto_field" style="font-size:16px;">Pedido enviado</label>

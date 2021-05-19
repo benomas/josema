@@ -563,6 +563,26 @@ function updateTotal()
 					}
 				}
 				<?php
+				if($userData->tipo_cliente === 'C'){
+				?>
+					if((total_antes_de_iva - descuento_adicional)>(5000/1.16))
+					{
+						let precioProductoActual = 0
+						descuento_adicional = 0
+						for(let i=0; i<jsonProductosKeys.length; i++){
+							precioProductoActual = (jsonProductos[jsonProductosKeys[i]].precio).toString().replace(/([0-9]*\.[0-9]{2})(.*?)$/,'$1')
+
+							if(jsonProductos[jsonProductosKeys[i]]['descuento_10_cliente'] === 'S'){
+								$('#precio_descuento_' + jsonProductosKeys[i]).text(Math.round(precioProductoActual * 100  *0.81)/100)
+								descuento_adicional = descuento_adicional * 1 + precioProductoActual * 0.19 * $('#cantidad' + jsonProductos[jsonProductosKeys[i]]['id_inventario']).attr('value')
+							}else{
+								$('#precio_descuento_' + jsonProductosKeys[i]).text(Math.round(precioProductoActual * 100  *0.9)/100)
+								descuento_adicional = descuento_adicional * 1 + precioProductoActual * 0.1 * $('#cantidad' + jsonProductos[jsonProductosKeys[i]]['id_inventario']).attr('value')
+							}
+						}
+					}
+				<?php
+				}
 			}
 		?>
 		total 		= total_antes_de_iva;
