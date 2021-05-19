@@ -339,6 +339,9 @@
 		}
 		?>
 	</div>
+	<div style="margin-top:40px; margin-bottom:-110px; padding:8px; font-size:12px; font-weight:bold;">
+		Si su pedido supera los $5000, se hará acreedor a un descuento adicional del 10%. No aplica para clientes con convenio, ni clientes con  precio especial.
+	</div>
 </div>
 <div class="celda_marco">
 </div>
